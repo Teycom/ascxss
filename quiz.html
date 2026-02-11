@@ -583,7 +583,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       for (let i = 2; i <= 15; i++) {
         const step = document.getElementById('step-' + i);
-        if (step) step.style.display = 'none';
+        if (step) step.classList.add('hidden');
       }
       initSignatureCanvas();
       updateProgress(1);
@@ -592,10 +592,10 @@
     function goToStep(stepNum) {
       if (stepNum < 1 || stepNum > 15) return;
       const currentEl = document.getElementById('step-' + currentStep);
-      if (currentEl) currentEl.style.display = 'none';
+      if (currentEl) currentEl.classList.add('hidden');
       const nextEl = document.getElementById('step-' + stepNum);
       if (nextEl) {
-        nextEl.style.display = 'block';
+        nextEl.classList.remove('hidden');
         nextEl.classList.add('animate-fade-in');
       }
       currentStep = stepNum;
@@ -854,10 +854,10 @@
       localStorage.setItem('atestado_dias', userData.dias);
       const quizContainer = document.querySelector('.quiz-container');
       const progressWrapper = document.querySelector('.progress-wrapper');
-      if (quizContainer) quizContainer.style.display = 'none';
-      if (progressWrapper) progressWrapper.style.display = 'none';
+      if (quizContainer) quizContainer.classList.add('hidden');
+      if (progressWrapper) progressWrapper.classList.add('hidden');
       const loading = document.getElementById('loadingScreen');
-      if (loading) loading.style.display = 'flex';
+      if (loading) loading.classList.remove('hidden');
       const steps = [
         { pct: 15, text: 'Analisando padroes de sintomas...', delay: 700 },
         { pct: 30, text: 'Verificando historico clinico...', delay: 600 },
