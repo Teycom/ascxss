@@ -3,630 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Avaliação Médica | MedDigital</title>
+  <title>Avaliacao Medica | MedDigital</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; min-height: 100vh; color: #1e293b; }
+    .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 0 16px; }
     
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f8fafc;
-      min-height: 100vh;
-      color: #1e293b;
-      -webkit-font-smoothing: antialiased;
-    }
+    .header { background: linear-gradient(135deg, #059669 0%, #0891b2 100%); padding: 16px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 10px; color: white; font-weight: 800; font-size: 18px; }
+    .brand-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .header-badge { background: rgba(255,255,255,0.15); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
     
-    .container {
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
+    .progress-wrapper { background: white; padding: 16px 0; border-bottom: 1px solid #e2e8f0; }
+    .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); border-radius: 4px; transition: width 0.5s ease; width: 20%; }
+    .progress-text { font-size: 12px; color: #64748b; text-align: center; margin-top: 8px; font-weight: 500; }
     
-    /* Header */
-    .header {
-      background: linear-gradient(135deg, #059669 0%, #0891b2 100%);
-      padding: 16px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .header-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: white;
-      font-weight: 800;
-      font-size: 18px;
-    }
-    
-    .brand-icon {
-      width: 36px;
-      height: 36px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-    
-    .header-badge {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    
-    /* Progress */
-    .progress-wrapper {
-      background: white;
-      padding: 16px 0;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    
-    .progress-bar {
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
-      border-radius: 4px;
-      transition: width 0.5s ease;
-      width: 20%;
-    }
-    
-    .progress-text {
-      font-size: 12px;
-      color: #64748b;
-      text-align: center;
-      margin-top: 8px;
-      font-weight: 500;
-    }
-    
-    /* Cards */
-    .quiz-container {
-      padding: 20px 0 40px;
-    }
-    
-    .step-card {
-      background: white;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
-      border: 1px solid #f1f5f9;
-    }
-    
-    .step-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-    
-    .step-subtitle {
-      font-size: 14px;
-      color: #64748b;
-      margin-bottom: 20px;
-    }
-    
+    .quiz-container { padding: 20px 0 40px; }
+    .step-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid #f1f5f9; }
+    .step-title { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 8px; line-height: 1.3; }
+    .step-subtitle { font-size: 14px; color: #64748b; margin-bottom: 20px; }
     .urgent { color: #dc2626; }
     
-    /* Options */
-    .options-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    
-    .option-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px;
-      background: white;
-      border: 2px solid #e2e8f0;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    .option-item:hover {
-      border-color: #10b981;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    
-    .option-item.selected {
-      border-color: #10b981;
-      background: #ecfdf5;
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
-    }
-    
-    .option-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      flex-shrink: 0;
-    }
-    
+    .options-list { display: flex; flex-direction: column; gap: 12px; }
+    .option-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+    .option-item:hover { border-color: #10b981; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .option-item.selected { border-color: #10b981; background: #ecfdf5; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+    .option-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
     .option-icon.gripe { background: #fef3c7; }
     .option-icon.dor { background: #fce7f3; }
     .option-icon.cabeca { background: #dbeafe; }
     .option-icon.estomago { background: #d1fae5; }
     .option-icon.ansiedade { background: #f3e8ff; }
     .option-icon.tempo { background: #fef3c7; }
-    
     .option-content { flex: 1; }
+    .option-title { font-weight: 600; font-size: 15px; color: #1e293b; margin-bottom: 2px; }
+    .option-desc { font-size: 13px; color: #64748b; }
+    .option-check { width: 28px; height: 28px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; opacity: 0; transform: scale(0); transition: all 0.2s ease; }
+    .option-item.selected .option-check { opacity: 1; transform: scale(1); }
     
-    .option-title {
-      font-weight: 600;
-      font-size: 15px;
-      color: #1e293b;
-      margin-bottom: 2px;
-    }
+    .checkbox-item { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+    .checkbox-item.selected { border-color: #10b981; background: #ecfdf5; }
+    .checkbox-box { width: 24px; height: 24px; border: 2px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .checkbox-item.selected .checkbox-box { background: #10b981; border-color: #10b981; }
+    .checkbox-box::after { content: '✓'; color: white; font-size: 14px; font-weight: bold; opacity: 0; }
+    .checkbox-item.selected .checkbox-box::after { opacity: 1; }
+    .checkbox-text { font-size: 14px; color: #334155; line-height: 1.4; }
     
-    .option-desc {
-      font-size: 13px;
-      color: #64748b;
-    }
+    .slider-container { padding: 20px 0; }
+    .slider { width: 100%; height: 10px; border-radius: 5px; background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%); -webkit-appearance: none; outline: none; }
+    .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: white; border: 4px solid #10b981; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .slider-labels { display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: #64748b; }
+    .slider-value { text-align: center; margin-top: 20px; padding: 16px; background: #ecfdf5; border-radius: 12px; font-weight: 600; color: #059669; border: 2px solid #d1fae5; }
+    .slider-value.critical { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
     
-    .option-check {
-      width: 28px;
-      height: 28px;
-      background: #10b981;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      opacity: 0;
-      transform: scale(0);
-      transition: all 0.2s ease;
-    }
-    
-    .option-item.selected .option-check {
-      opacity: 1;
-      transform: scale(1);
-    }
-    
-    /* Checkboxes */
-    .checkbox-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 16px;
-      background: white;
-      border: 2px solid #e2e8f0;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    .checkbox-item.selected {
-      border-color: #10b981;
-      background: #ecfdf5;
-    }
-    
-    .checkbox-box {
-      width: 24px;
-      height: 24px;
-      border: 2px solid #cbd5e1;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    
-    .checkbox-item.selected .checkbox-box {
-      background: #10b981;
-      border-color: #10b981;
-    }
-    
-    .checkbox-box::after {
-      content: '✓';
-      color: white;
-      font-size: 14px;
-      font-weight: bold;
-      opacity: 0;
-    }
-    
-    .checkbox-item.selected .checkbox-box::after {
-      opacity: 1;
-    }
-    
-    .checkbox-text {
-      font-size: 14px;
-      color: #334155;
-      line-height: 1.4;
-    }
-    
-    /* Slider */
-    .slider-container {
-      padding: 20px 0;
-    }
-    
-    .slider {
-      width: 100%;
-      height: 10px;
-      border-radius: 5px;
-      background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
-      -webkit-appearance: none;
-      outline: none;
-    }
-    
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: white;
-      border: 4px solid #10b981;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 12px;
-      font-size: 13px;
-      color: #64748b;
-    }
-    
-    .slider-value {
-      text-align: center;
-      margin-top: 20px;
-      padding: 16px;
-      background: #ecfdf5;
-      border-radius: 12px;
-      font-weight: 600;
-      color: #059669;
-      border: 2px solid #d1fae5;
-    }
-    
-    .slider-value.critical {
-      background: #fef2f2;
-      color: #dc2626;
-      border-color: #fecaca;
-    }
-    
-    /* Inputs */
     .input-group { margin-bottom: 16px; }
-    
-    .input-field {
-      width: 100%;
-      padding: 16px;
-      font-size: 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 16px;
-      transition: all 0.2s ease;
-      font-family: inherit;
-    }
-    
-    .input-field:focus {
-      outline: none;
-      border-color: #10b981;
-      box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
-    }
-    
-    .input-feedback {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      margin-top: 8px;
-    }
-    
+    .input-field { width: 100%; padding: 16px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 16px; transition: all 0.2s ease; font-family: inherit; }
+    .input-field:focus { outline: none; border-color: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,0.1); }
+    .input-feedback { display: flex; align-items: center; gap: 6px; font-size: 13px; margin-top: 8px; }
     .input-feedback.success { color: #10b981; }
     .input-feedback.error { color: #ef4444; }
-    
-    .input-preview {
-      background: #ecfdf5;
-      border: 2px dashed #10b981;
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 16px;
-      display: none;
-    }
-    
+    .input-preview { background: #ecfdf5; border: 2px dashed #10b981; border-radius: 12px; padding: 16px; margin-top: 16px; display: none; }
     .input-preview.show { display: block; }
+    .input-preview-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .input-preview-value { font-weight: 700; color: #059669; font-size: 16px; }
     
-    .input-preview-label {
-      font-size: 12px;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 16px 24px; font-size: 16px; font-weight: 700; border: none; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; margin-top: 16px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; box-shadow: 0 4px 16px rgba(16,185,129,0.3); }
+    .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
     
-    .input-preview-value {
-      font-weight: 700;
-      color: #059669;
-      font-size: 16px;
-    }
+    .signature-wrapper { background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 16px; text-align: center; }
+    .signature-canvas { width: 100%; height: 200px; background: white; border-radius: 12px; cursor: crosshair; touch-action: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .signature-clear { background: none; border: none; color: #64748b; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 12px; padding: 8px; }
     
-    /* Buttons */
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 16px 24px;
-      font-size: 16px;
-      font-weight: 700;
-      border: none;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      margin-top: 16px;
-    }
-    
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      box-shadow: 0 4px 16px rgba(16,185,129,0.3);
-    }
-    
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16,185,129,0.4);
-    }
-    
-    /* Signature */
-    .signature-wrapper {
-      background: #f8fafc;
-      border: 2px dashed #cbd5e1;
-      border-radius: 16px;
-      padding: 16px;
-      text-align: center;
-    }
-    
-    .signature-canvas {
-      width: 100%;
-      height: 200px;
-      background: white;
-      border-radius: 12px;
-      cursor: crosshair;
-      touch-action: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-    
-    .signature-clear {
-      background: none;
-      border: none;
-      color: #64748b;
-      font-size: 14px;
-      cursor: pointer;
-      text-decoration: underline;
-      margin-top: 12px;
-      padding: 8px;
-    }
-    
-    /* Alerts */
-    .alert {
-      padding: 16px;
-      border-radius: 12px;
-      margin-top: 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      animation: fadeIn 0.4s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
+    .alert { padding: 16px; border-radius: 12px; margin-top: 16px; display: none; align-items: flex-start; gap: 12px; animation: fadeIn 0.4s ease; }
+    .alert[style*="flex"] { display: flex !important; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     .alert-icon { font-size: 20px; }
     .alert-content { font-size: 14px; line-height: 1.5; }
+    .alert-warning { background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; }
+    .alert-danger { background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; }
+    .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
     
-    .alert-warning {
-      background: #fef3c7;
-      border-left: 4px solid #f59e0b;
-      color: #92400e;
-    }
+    .loading-overlay { position: fixed; inset: 0; background: #0f172a; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 32px; z-index: 1000; padding: 24px; }
+    .loading-overlay[style*="flex"] { display: flex !important; }
+    .loading-icon { width: 80px; height: 80px; position: relative; }
+    .loading-spinner { width: 100%; height: 100%; border: 4px solid rgba(255,255,255,0.1); border-top-color: #10b981; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-icon-inner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; }
+    .loading-title { color: white; font-size: 20px; font-weight: 700; text-align: center; }
+    .loading-status { color: #94a3b8; font-size: 14px; text-align: center; }
+    .loading-bar { width: 280px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+    .loading-progress { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); border-radius: 3px; transition: width 0.5s ease; width: 0%; }
     
-    .alert-danger {
-      background: #fef2f2;
-      border-left: 4px solid #ef4444;
-      color: #991b1b;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+    .modal-overlay[style*="flex"] { display: flex !important; }
+    .modal { background: white; border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; animation: modalIn 0.3s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: #0f172a; }
+    .modal-text { font-size: 14px; color: #64748b; margin-bottom: 20px; line-height: 1.5; }
+    .modal-buttons { display: flex; gap: 12px; }
+    .modal-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .modal-btn-secondary { background: #f1f5f9; color: #475569; }
+    .modal-btn-primary { background: #10b981; color: white; }
     
-    .alert-info {
-      background: #eff6ff;
-      border-left: 4px solid #3b82f6;
-      color: #1e40af;
-    }
-    
-    /* Loading */
-    .loading-overlay {
-      position: fixed;
-      inset: 0;
-      background: #0f172a;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      z-index: 1000;
-      padding: 24px;
-    }
-    
-    .loading-overlay[style*="flex"] {
-      display: flex !important;
-    }
-    
-    .loading-icon {
-      width: 80px;
-      height: 80px;
-      position: relative;
-    }
-    
-    .loading-spinner {
-      width: 100%;
-      height: 100%;
-      border: 4px solid rgba(255,255,255,0.1);
-      border-top-color: #10b981;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    .loading-icon-inner {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 32px;
-    }
-    
-    .loading-title {
-      color: white;
-      font-size: 20px;
-      font-weight: 700;
-      text-align: center;
-    }
-    
-    .loading-status {
-      color: #94a3b8;
-      font-size: 14px;
-      text-align: center;
-    }
-    
-    .loading-bar {
-      width: 280px;
-      height: 6px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    
-    .loading-progress {
-      height: 100%;
-      background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
-      border-radius: 3px;
-      transition: width 0.5s ease;
-      width: 0%;
-    }
-    
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      padding: 20px;
-    }
-    
-    .modal-overlay[style*="flex"] {
-      display: flex !important;
-    }
-    
-    .modal {
-      background: white;
-      border-radius: 20px;
-      padding: 24px;
-      width: 100%;
-      max-width: 400px;
-      animation: modalIn 0.3s ease;
-    }
-    
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    
-    .modal-title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #0f172a;
-    }
-    
-    .modal-text {
-      font-size: 14px;
-      color: #64748b;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-    
-    .modal-buttons {
-      display: flex;
-      gap: 12px;
-    }
-    
-    .modal-btn {
-      flex: 1;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    
-    .modal-btn-secondary {
-      background: #f1f5f9;
-      color: #475569;
-    }
-    
-    .modal-btn-primary {
-      background: #10b981;
-      color: white;
-    }
-    
-    /* Hidden */
     .hidden { display: none !important; }
-    
-    /* Animation */
-    .animate-fade-in {
-      animation: fadeIn 0.5s ease;
-    }
+    .animate-fade-in { animation: fadeIn 0.5s ease; }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header class="header">
     <div class="container">
       <div class="header-content">
@@ -639,23 +129,20 @@
     </div>
   </header>
 
-  <!-- Progress -->
   <div class="progress-wrapper">
     <div class="container">
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
       </div>
-      <p class="progress-text" id="progressText">Iniciando avaliação...</p>
+      <p class="progress-text" id="progressText">Iniciando avaliacao...</p>
     </div>
   </div>
 
-  <!-- Quiz -->
   <main class="quiz-container">
     <div class="container">
       
-      <!-- STEP 1 -->
       <div class="step-card" id="step-1">
-        <h2 class="step-title">Qual sintoma está dominando seu corpo <span class="urgent">AGORA</span>?</h2>
+        <h2 class="step-title">Qual sintoma esta dominando seu corpo <span class="urgent">AGORA</span>?</h2>
         <p class="step-subtitle">Selecione o sintoma mais intenso no momento</p>
         
         <div class="options-list">
@@ -672,7 +159,7 @@
             <div class="option-icon dor">💪</div>
             <div class="option-content">
               <div class="option-title">Dor Muscular / Articular</div>
-              <div class="option-desc">Dores no corpo, limitação de movimento</div>
+              <div class="option-desc">Dores no corpo, limitacao de movimento</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -681,16 +168,16 @@
             <div class="option-icon cabeca">🧠</div>
             <div class="option-content">
               <div class="option-title">Enxaqueca / Tontura</div>
-              <div class="option-desc">Dor de cabeça intensa, vertigem</div>
+              <div class="option-desc">Dor de cabeca intensa, vertigem</div>
             </div>
             <div class="option-check">✓</div>
           </div>
           
-          <div class="option-item" data-value="estomago" onclick="selectOption(1, 'estomago', 'Mal-estar Gástrico')">
+          <div class="option-item" data-value="estomago" onclick="selectOption(1, 'estomago', 'Mal-estar Gastrico')">
             <div class="option-icon estomago">🤢</div>
             <div class="option-content">
-              <div class="option-title">Mal-estar Gástrico</div>
-              <div class="option-desc">Náuseas, azia, cólicas abdominais</div>
+              <div class="option-title">Mal-estar Gastrico</div>
+              <div class="option-desc">Nauseas, azia, colicas abdominais</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -699,25 +186,24 @@
             <div class="option-icon ansiedade">💭</div>
             <div class="option-content">
               <div class="option-title">Crise de Ansiedade / Estresse</div>
-              <div class="option-desc">Aperto no peito, insônia, nervosismo</div>
+              <div class="option-desc">Aperto no peito, insonia, nervosismo</div>
             </div>
             <div class="option-check">✓</div>
           </div>
         </div>
         
-        <div class="alert alert-info hidden" id="alert-sintoma"></div>
+        <div class="alert alert-info" id="alert-sintoma"></div>
       </div>
 
-      <!-- STEP 2 -->
       <div class="step-card hidden" id="step-2">
-        <h2 class="step-title">Há quanto tempo seu organismo pede socorro?</h2>
+        <h2 class="step-title">Ha quanto tempo seu organismo pede socorro?</h2>
         <p class="step-subtitle">Isso ajuda a determinar a necessidade de repouso</p>
         
         <div class="options-list">
-          <div class="option-item" data-value="hoje" onclick="selectOption(2, 'hoje', 'Começou hoje')">
+          <div class="option-item" data-value="hoje" onclick="selectOption(2, 'hoje', 'Comecou hoje')">
             <div class="option-icon tempo">⏰</div>
             <div class="option-content">
-              <div class="option-title">Começou hoje (agora há pouco)</div>
+              <div class="option-title">Comecou hoje (agora ha pouco)</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -740,9 +226,8 @@
         </div>
       </div>
 
-      <!-- STEP 3 -->
       <div class="step-card hidden" id="step-3">
-        <h2 class="step-title">Em uma escala de 1 a 10, seu corpo está pedindo para parar?</h2>
+        <h2 class="step-title">Em uma escala de 1 a 10, seu corpo esta pedindo para parar?</h2>
         <p class="step-subtitle">Avalie a intensidade dos seus sintomas</p>
         
         <div class="slider-container">
@@ -752,15 +237,14 @@
             <span>Moderado (5)</span>
             <span>Intenso (10)</span>
           </div>
-          <div class="slider-value" id="painValue">Nível 5: Desconforto significativo</div>
+          <div class="slider-value" id="painValue">Nivel 5: Desconforto significativo</div>
         </div>
         
         <button class="btn btn-primary" onclick="submitPainLevel(3)">Continuar →</button>
       </div>
 
-      <!-- STEP 4 -->
       <div class="step-card hidden" id="step-4">
-        <h2 class="step-title">Você apresenta algum desses sinais de alerta?</h2>
+        <h2 class="step-title">Voce apresenta algum desses sinais de alerta?</h2>
         <p class="step-subtitle">Marque todos que se aplicam ao seu caso</p>
         
         <div class="options-list">
@@ -776,7 +260,7 @@
           
           <label class="checkbox-item" onclick="toggleCheckbox(this, 'vomito')">
             <div class="checkbox-box"></div>
-            <div class="checkbox-text">Vômitos ou náuseas persistentes</div>
+            <div class="checkbox-text">Vomitos ou nauseas persistentes</div>
           </label>
           
           <label class="checkbox-item" onclick="toggleCheckbox(this, 'dor_intensa')">
@@ -791,27 +275,26 @@
         </div>
         
         <button class="btn btn-primary" onclick="submitCheckboxes(4)">Continuar →</button>
-        <div class="alert alert-warning hidden" id="alert-checkboxes"></div>
+        <div class="alert alert-warning" id="alert-checkboxes"></div>
       </div>
 
-      <!-- STEP 5 -->
       <div class="step-card hidden" id="step-5">
-        <h2 class="step-title">Já tentou "aguentar" tomando remédio caseiro?</h2>
-        <p class="step-subtitle">Informe se já fez alguma tentativa de alívio</p>
+        <h2 class="step-title">Ja tentou "aguentar" tomando remedio caseiro?</h2>
+        <p class="step-subtitle">Informe se ja fez alguma tentativa de alivio</p>
         
         <div class="options-list">
-          <div class="option-item" data-value="nao_resolveu" onclick="selectOption(5, 'nao_resolveu', 'Remédio não resolveu')">
+          <div class="option-item" data-value="nao_resolveu" onclick="selectOption(5, 'nao_resolveu', 'Remedio nao resolveu')">
             <div class="option-icon" style="background: #fecaca;">💊</div>
             <div class="option-content">
-              <div class="option-title">Sim, tomei remédio e não resolveu</div>
+              <div class="option-title">Sim, tomei remedio e nao resolveu</div>
             </div>
             <div class="option-check">✓</div>
           </div>
           
-          <div class="option-item" data-value="caseiro" onclick="selectOption(5, 'caseiro', 'Só chá/caseiro')">
+          <div class="option-item" data-value="caseiro" onclick="selectOption(5, 'caseiro', 'So cha/caseiro')">
             <div class="option-icon" style="background: #fef3c7;">🍵</div>
             <div class="option-content">
-              <div class="option-title">Só chá ou remédio caseiro</div>
+              <div class="option-title">So cha ou remedio caseiro</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -819,19 +302,18 @@
           <div class="option-item" data-value="nada" onclick="selectOption(5, 'nada', 'Estou aguentando')">
             <div class="option-icon" style="background: #e5e7eb;">❌</div>
             <div class="option-content">
-              <div class="option-title">Não tomei nada (estou aguentando)</div>
+              <div class="option-title">Nao tomei nada (estou aguentando)</div>
             </div>
             <div class="option-check">✓</div>
           </div>
         </div>
         
-        <div class="alert alert-danger hidden" id="alert-remedio"></div>
+        <div class="alert alert-danger" id="alert-remedio"></div>
       </div>
 
-      <!-- STEP 6 -->
       <div class="step-card hidden" id="step-6">
-        <h2 class="step-title">Seu trabalho exige foco mental ou operação de máquinas?</h2>
-        <p class="step-subtitle">Isso determina a necessidade de atestado prioritário</p>
+        <h2 class="step-title">Seu trabalho exige foco mental ou operacao de maquinas?</h2>
+        <p class="step-subtitle">Isso determina a necessidade de atestado prioritario</p>
         
         <div class="options-list">
           <div class="option-item" data-value="raciocinio" onclick="selectOption(6, 'raciocinio', 'Foco mental')">
@@ -842,10 +324,10 @@
             <div class="option-check">✓</div>
           </div>
           
-          <div class="option-item" data-value="maquinas" onclick="selectOption(6, 'maquinas', 'Opero máquinas')">
+          <div class="option-item" data-value="maquinas" onclick="selectOption(6, 'maquinas', 'Opero maquinas')">
             <div class="option-icon" style="background: #fee2e2;">⚙️</div>
             <div class="option-content">
-              <div class="option-title">Sim, opero máquinas/veículos</div>
+              <div class="option-title">Sim, opero maquinas/veiculos</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -853,19 +335,18 @@
           <div class="option-item" data-value="presenca" onclick="selectOption(6, 'presenca', 'Preciso estar presente')">
             <div class="option-icon" style="background: #d1fae5;">👤</div>
             <div class="option-content">
-              <div class="option-title">Preciso estar presente, mas não opero máquinas</div>
+              <div class="option-title">Preciso estar presente, mas nao opero maquinas</div>
             </div>
             <div class="option-check">✓</div>
           </div>
         </div>
         
-        <div class="alert alert-danger hidden" id="alert-maquinas"></div>
+        <div class="alert alert-danger" id="alert-maquinas"></div>
       </div>
 
-      <!-- STEP 7 -->
       <div class="step-card hidden" id="step-7">
-        <h2 class="step-title">Se você for trabalhar hoje, sente que vai piorar?</h2>
-        <p class="step-subtitle">Avalie honestamente sua condição</p>
+        <h2 class="step-title">Se voce for trabalhar hoje, sente que vai piorar?</h2>
+        <p class="step-subtitle">Avalie honestamente sua condicao</p>
         
         <div class="options-list">
           <div class="option-item" data-value="sim" onclick="selectOption(7, 'sim', 'Vou me sentir pior')">
@@ -884,19 +365,18 @@
             <div class="option-check">✓</div>
           </div>
           
-          <div class="option-item" data-value="nao_renderei" onclick="selectOption(7, 'nao_renderei', 'Não renderei nada')">
+          <div class="option-item" data-value="nao_renderei" onclick="selectOption(7, 'nao_renderei', 'Nao renderei nada')">
             <div class="option-icon" style="background: #e5e7eb;">📉</div>
             <div class="option-content">
-              <div class="option-title">Não vou piorar, mas não renderei nada</div>
+              <div class="option-title">Nao vou piorar, mas nao renderei nada</div>
             </div>
             <div class="option-check">✓</div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 8 -->
       <div class="step-card hidden" id="step-8">
-        <h2 class="step-title">Você precisa justificar ausência para:</h2>
+        <h2 class="step-title">Voce precisa justificar ausencia para:</h2>
         
         <div class="options-list">
           <div class="option-item" data-value="hoje" onclick="selectOption(8, 'hoje', 'Hoje (urgente)')">
@@ -907,10 +387,10 @@
             <div class="option-check">✓</div>
           </div>
           
-          <div class="option-item" data-value="amanha" onclick="selectOption(8, 'amanha', 'Amanhã')">
+          <div class="option-item" data-value="amanha" onclick="selectOption(8, 'amanha', 'Amanha')">
             <div class="option-icon" style="background: #fef3c7;">🟡</div>
             <div class="option-content">
-              <div class="option-title">Amanhã</div>
+              <div class="option-title">Amanha</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -925,23 +405,22 @@
         </div>
       </div>
 
-      <!-- STEP 9 -->
       <div class="step-card hidden" id="step-9">
-        <h2 class="step-title">Sua empresa exige CID específico no documento?</h2>
+        <h2 class="step-title">Sua empresa exige CID especifico no documento?</h2>
         
         <div class="options-list">
-          <div class="option-item" data-value="sim" onclick="selectOption(9, 'sim', 'Sim, RH pede código')">
+          <div class="option-item" data-value="sim" onclick="selectOption(9, 'sim', 'Sim, RH pede codigo')">
             <div class="option-icon" style="background: #dbeafe;">📋</div>
             <div class="option-content">
-              <div class="option-title">Sim, RH pede código</div>
+              <div class="option-title">Sim, RH pede codigo</div>
             </div>
             <div class="option-check">✓</div>
           </div>
           
-          <div class="option-item" data-value="nao_sei" onclick="selectOption(9, 'nao_sei', 'Não sei')">
+          <div class="option-item" data-value="nao_sei" onclick="selectOption(9, 'nao_sei', 'Nao sei')">
             <div class="option-icon" style="background: #fef3c7;">❓</div>
             <div class="option-content">
-              <div class="option-title">Não sei</div>
+              <div class="option-title">Nao sei</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -949,7 +428,7 @@
           <div class="option-item" data-value="nao" onclick="selectOption(9, 'nao', 'Aceitam atestado simples')">
             <div class="option-icon" style="background: #d1fae5;">✅</div>
             <div class="option-content">
-              <div class="option-title">Não, aceitam atestado simples</div>
+              <div class="option-title">Nao, aceitam atestado simples</div>
             </div>
             <div class="option-check">✓</div>
           </div>
@@ -957,17 +436,16 @@
         
         <div class="alert alert-info" style="display: flex; margin-top: 16px;">
           <span class="alert-icon">🤖</span>
-          <div class="alert-content"><strong>IA Médica:</strong> Nosso sistema selecionará automaticamente o CID mais adequado.</div>
+          <div class="alert-content"><strong>IA Medica:</strong> Nosso sistema selecionara automaticamente o CID mais adequado.</div>
         </div>
       </div>
 
-      <!-- STEP 10 -->
       <div class="step-card hidden" id="step-10">
         <h2 class="step-title">Qual seu nome completo para o laudo oficial?</h2>
         <p class="step-subtitle">Digite conforme aparece em seu documento</p>
         
         <div class="input-group">
-          <input type="text" class="input-field" id="nomeInput" placeholder="Ex: João Silva Santos" oninput="updateNome(this.value)">
+          <input type="text" class="input-field" id="nomeInput" placeholder="Ex: Joao Silva Santos" oninput="updateNome(this.value)">
           <div class="input-feedback" id="feedbackNome"></div>
         </div>
         
@@ -979,10 +457,9 @@
         <button class="btn btn-primary" onclick="submitNome(10)" id="btnNome" disabled>Continuar →</button>
       </div>
 
-      <!-- STEP 11 -->
       <div class="step-card hidden" id="step-11">
-        <h2 class="step-title">Seu CPF para validação digital do documento</h2>
-        <p class="step-subtitle">Obrigatório para assinatura ICP-Brasil</p>
+        <h2 class="step-title">Seu CPF para validacao digital do documento</h2>
+        <p class="step-subtitle">Obrigatorio para assinatura ICP-Brasil</p>
         
         <div class="input-group">
           <input type="text" class="input-field" id="cpfInput" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)">
@@ -992,10 +469,9 @@
         <button class="btn btn-primary" onclick="submitCPF(11)" id="btnCPF" disabled>Continuar →</button>
       </div>
 
-      <!-- STEP 12 -->
       <div class="step-card hidden" id="step-12">
         <h2 class="step-title">Email para envio do documento</h2>
-        <p class="step-subtitle">Você receberá o PDF em segundos após aprovação</p>
+        <p class="step-subtitle">Voce recebera o PDF em segundos apos aprovacao</p>
         
         <div class="input-group">
           <input type="email" class="input-field" id="emailInput" placeholder="seu@email.com" oninput="validateEmail(this.value)">
@@ -1005,28 +481,26 @@
         <button class="btn btn-primary" onclick="submitEmail(12)" id="btnEmail" disabled>Continuar →</button>
       </div>
 
-      <!-- STEP 13 -->
       <div class="step-card hidden" id="step-13">
-        <h2 class="step-title">Confirmação de Veracidade</h2>
-        <p class="step-subtitle">Último passo antes da análise médica final</p>
+        <h2 class="step-title">Confirmacao de Veracidade</h2>
+        <p class="step-subtitle">Ultimo passo antes da analise medica final</p>
         
         <label class="checkbox-item" onclick="toggleConfirm(this)" style="padding: 20px;">
           <div class="checkbox-box"></div>
           <div>
             <div style="font-weight: 600; margin-bottom: 4px;">Sim, confirmo a veracidade dos sintomas</div>
-            <div style="font-size: 13px; color: #64748b;">Declaro que as informações são verdadeiras sob responsabilidade</div>
+            <div style="font-size: 13px; color: #64748b;">Declaro que as informacoes sao verdadeiras sob responsabilidade</div>
           </div>
         </label>
         
         <div class="alert alert-danger" style="display: flex; margin-top: 16px;">
           <span class="alert-icon">⚠️</span>
-          <div class="alert-content" style="font-size: 13px;"><strong>Aviso legal:</strong> Falsidade em documento médico constitui crime previsto no art. 299 do Código Penal.</div>
+          <div class="alert-content" style="font-size: 13px;"><strong>Aviso legal:</strong> Falsidade em documento medico constitui crime previsto no art. 299 do Codigo Penal.</div>
         </div>
         
         <button class="btn btn-primary" onclick="submitConfirm(13)" id="btnConfirm" disabled>Prosseguir para Assinatura →</button>
       </div>
 
-      <!-- STEP 14 - ASSINATURA -->
       <div class="step-card hidden" id="step-14">
         <h2 class="step-title">Assinatura Digital do Paciente</h2>
         <p class="step-subtitle">Toque e arraste para assinar no quadro abaixo</p>
@@ -1040,9 +514,8 @@
         <button class="btn btn-primary" onclick="submitSignature(14)" id="btnSignature" disabled>Confirmar Assinatura →</button>
       </div>
 
-      <!-- STEP 15 -->
       <div class="step-card hidden" id="step-15">
-        <h2 class="step-title">A IA recomenda repouso. Você precisa de:</h2>
+        <h2 class="step-title">A IA recomenda repouso. Voce precisa de:</h2>
         
         <div class="options-list">
           <div class="option-item" data-value="1" onclick="selectDays(1)">
@@ -1077,20 +550,18 @@
     </div>
   </main>
 
-  <!-- Loading -->
   <div class="loading-overlay" id="loadingScreen">
     <div class="loading-icon">
       <div class="loading-spinner"></div>
       <div class="loading-icon-inner">🤖</div>
     </div>
-    <div class="loading-title">IA Médica Processando...</div>
+    <div class="loading-title">IA Medica Processando...</div>
     <div class="loading-bar">
       <div class="loading-progress" id="loadingProgress"></div>
     </div>
-    <div class="loading-status" id="loadingStatus">Analisando padrões de sintomas...</div>
+    <div class="loading-status" id="loadingStatus">Analisando padroes de sintomas...</div>
   </div>
 
-  <!-- Modal -->
   <div class="modal-overlay" id="modal">
     <div class="modal">
       <h3 class="modal-title" id="modalTitle"></h3>
@@ -1099,7 +570,356 @@
     </div>
   </div>
 
-  <!-- Script -->
-  <script src="src/scripts/quiz.js"></script>
+  <script>
+    // JAVASCRIPT INLINE - GARANTE FUNCIONAMENTO
+    let currentStep = 1;
+    let selectedCheckboxes = [];
+    let hasSigned = false;
+    let painLevel = 5;
+    let canvas, ctx, isDrawing = false;
+
+    let userData = { nome: '', cpf: '', email: '', sintoma: '', dias: 2 };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      for (let i = 2; i <= 15; i++) {
+        const step = document.getElementById('step-' + i);
+        if (step) step.style.display = 'none';
+      }
+      initSignatureCanvas();
+      updateProgress(1);
+    });
+
+    function goToStep(stepNum) {
+      if (stepNum < 1 || stepNum > 15) return;
+      const currentEl = document.getElementById('step-' + currentStep);
+      if (currentEl) currentEl.style.display = 'none';
+      const nextEl = document.getElementById('step-' + stepNum);
+      if (nextEl) {
+        nextEl.style.display = 'block';
+        nextEl.classList.add('animate-fade-in');
+      }
+      currentStep = stepNum;
+      updateProgress(stepNum);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgress(step) {
+      const map = { 1: 20, 2: 30, 3: 40, 4: 48, 5: 54, 6: 60, 7: 66, 8: 72, 9: 78, 10: 82, 11: 86, 12: 90, 13: 93, 14: 96, 15: 98 };
+      const msgs = { 1: 'Analisando sintoma...', 2: 'Avaliando tempo...', 3: 'Processando intensidade...', 4: 'Verificando alertas...', 5: 'Analisando tratamento...', 6: 'Avaliando risco...', 7: 'Calculando repouso...', 8: 'Definindo data...', 9: 'Selecionando CID...', 10: 'Validando dados...', 11: 'Verificando CPF...', 12: 'Confirmando email...', 13: 'Verificando termos...', 14: 'Processando assinatura...', 15: 'Calculando periodo...' };
+      const fill = document.getElementById('progressFill');
+      const text = document.getElementById('progressText');
+      if (fill) fill.style.width = (map[step] || 0) + '%';
+      if (text) text.textContent = msgs[step] || 'Processando...';
+    }
+
+    function selectOption(step, value, label) {
+      console.log('selectOption:', step, value, label);
+      if (step === 1) {
+        userData.sintoma = label;
+        showAlert('alert-sintoma', 'Detectamos padrao de <strong>' + label + '</strong>. Iniciando protocolo...');
+      }
+      if (step === 5 && value === 'nada') {
+        showAlert('alert-remedio', '<strong>Atencao:</strong> Postergar tratamento pode aumentar o tempo de recuperacao.');
+        setTimeout(function() { goToStep(step + 1); }, 1500);
+        return;
+      }
+      if (step === 6 && value === 'maquinas') {
+        showAlert('alert-maquinas', '🚨 <strong>Risco de acidente detectado!</strong> Atestado prioritario indicado.');
+        setTimeout(function() { goToStep(step + 1); }, 1500);
+        return;
+      }
+      const stepEl = document.getElementById('step-' + step);
+      if (stepEl) {
+        const options = stepEl.querySelectorAll('.option-item');
+        options.forEach(function(opt) { opt.classList.remove('selected'); });
+        options.forEach(function(opt) {
+          if (opt.getAttribute('data-value') === value) opt.classList.add('selected');
+        });
+      }
+      setTimeout(function() { goToStep(step + 1); }, 400);
+    }
+
+    function toggleCheckbox(element, value) {
+      element.classList.toggle('selected');
+      if (selectedCheckboxes.includes(value)) {
+        selectedCheckboxes = selectedCheckboxes.filter(function(v) { return v !== value; });
+      } else {
+        selectedCheckboxes.push(value);
+      }
+      if (selectedCheckboxes.length >= 3) {
+        showAlert('alert-checkboxes', '<strong>Nivel critico detectado.</strong> Repouso medico recomendado.');
+      }
+    }
+
+    function submitCheckboxes(step) {
+      selectedCheckboxes = [];
+      goToStep(step + 1);
+    }
+
+    function updatePainLevel(value) {
+      painLevel = parseInt(value);
+      const labels = { 1: 'Nivel 1: Leve desconforto', 2: 'Nivel 2: Incomodo leve', 3: 'Nivel 3: Desconforto moderado', 4: 'Nivel 4: Dor perceptivel', 5: 'Nivel 5: Desconforto significativo', 6: 'Nivel 6: Dor moderada', 7: 'Nivel 7: Dor intensa', 8: 'Nivel 8: Dor muito intensa', 9: 'Nivel 9: Dor severa', 10: 'Nivel 10: Dor insuportavel' };
+      const display = document.getElementById('painValue');
+      if (display) {
+        display.textContent = labels[value];
+        if (value >= 7) display.classList.add('critical');
+        else display.classList.remove('critical');
+      }
+    }
+
+    function submitPainLevel(step) { goToStep(step + 1); }
+
+    function updateNome(value) {
+      userData.nome = value.trim();
+      const preview = document.getElementById('nomePreview');
+      const previewText = document.getElementById('nomePreviewText');
+      const btn = document.getElementById('btnNome');
+      const feedback = document.getElementById('feedbackNome');
+      if (userData.nome.length >= 5) {
+        if (preview) preview.classList.add('show');
+        if (previewText) previewText.textContent = userData.nome;
+        if (btn) btn.disabled = false;
+        if (feedback) { feedback.innerHTML = '<span>✓</span><span>Nome validado</span>'; feedback.className = 'input-feedback success'; }
+      } else {
+        if (preview) preview.classList.remove('show');
+        if (btn) btn.disabled = true;
+        if (feedback) feedback.innerHTML = '';
+      }
+    }
+
+    function submitNome(step) { if (userData.nome.length >= 5) goToStep(step + 1); }
+
+    function formatCPF(input) {
+      let value = input.value.replace(/\D/g, '');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      input.value = value;
+      const feedback = document.getElementById('feedbackCPF');
+      const btn = document.getElementById('btnCPF');
+      if (value.length === 14) {
+        if (validarCPF(value)) {
+          userData.cpf = value;
+          if (feedback) { feedback.innerHTML = '<span>✓</span><span>CPF validado</span>'; feedback.className = 'input-feedback success'; }
+          if (btn) btn.disabled = false;
+        } else {
+          if (feedback) { feedback.innerHTML = '<span>✗</span><span>CPF invalido</span>'; feedback.className = 'input-feedback error'; }
+          if (btn) btn.disabled = true;
+        }
+      } else {
+        if (feedback) feedback.innerHTML = '';
+        if (btn) btn.disabled = true;
+      }
+    }
+
+    function validarCPF(cpf) {
+      cpf = cpf.replace(/[^\d]/g, '');
+      if (cpf.length !== 11) return false;
+      if (/^(\d)\1{10}$/.test(cpf)) return false;
+      let soma = 0;
+      for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+      let resto = 11 - (soma % 11);
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf.charAt(9))) return false;
+      soma = 0;
+      for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+      resto = 11 - (soma % 11);
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf.charAt(10))) return false;
+      return true;
+    }
+
+    function submitCPF(step) { if (validarCPF(userData.cpf)) goToStep(step + 1); }
+
+    function validateEmail(value) {
+      userData.email = value.trim();
+      const feedback = document.getElementById('feedbackEmail');
+      const btn = document.getElementById('btnEmail');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(userData.email)) {
+        if (feedback) { feedback.innerHTML = '<span>✓</span><span>Email validado</span>'; feedback.className = 'input-feedback success'; }
+        if (btn) btn.disabled = false;
+      } else {
+        if (feedback) feedback.innerHTML = '';
+        if (btn) btn.disabled = true;
+      }
+    }
+
+    function submitEmail(step) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(userData.email)) {
+        localStorage.setItem('atestado_nome', userData.nome);
+        localStorage.setItem('atestado_cpf', userData.cpf);
+        localStorage.setItem('atestado_email', userData.email);
+        localStorage.setItem('atestado_sintoma', userData.sintoma);
+        goToStep(step + 1);
+      }
+    }
+
+    function toggleConfirm(element) {
+      element.classList.toggle('selected');
+      const btn = document.getElementById('btnConfirm');
+      if (btn) btn.disabled = !element.classList.contains('selected');
+    }
+
+    function submitConfirm(step) { goToStep(step + 1); }
+
+    function initSignatureCanvas() {
+      canvas = document.getElementById('signatureCanvas');
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * 2;
+      canvas.height = rect.height * 2;
+      ctx = canvas.getContext('2d');
+      ctx.scale(2, 2);
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      canvas.addEventListener('mousedown', startDrawing);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', stopDrawing);
+      canvas.addEventListener('mouseleave', stopDrawing);
+      canvas.addEventListener('touchstart', handleTouch, { passive: false });
+      canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+      canvas.addEventListener('touchend', stopDrawing);
+    }
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function startDrawing(e) {
+      isDrawing = true;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      hasSigned = true;
+      const btn = document.getElementById('btnSignature');
+      if (btn) btn.disabled = false;
+    }
+
+    function stopDrawing() { isDrawing = false; ctx.beginPath(); }
+
+    function handleTouch(e) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      canvas.dispatchEvent(new MouseEvent('mousedown', { clientX: touch.clientX, clientY: touch.clientY }));
+    }
+
+    function handleTouchMove(e) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      canvas.dispatchEvent(new MouseEvent('mousemove', { clientX: touch.clientX, clientY: touch.clientY }));
+    }
+
+    function clearSignature() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasSigned = false;
+      const btn = document.getElementById('btnSignature');
+      if (btn) btn.disabled = true;
+    }
+
+    function submitSignature(step) { if (hasSigned) goToStep(step + 1); }
+
+    function selectDays(days) {
+      const options = document.querySelectorAll('#step-15 .option-item');
+      options.forEach(function(opt) { opt.classList.remove('selected'); });
+      if (event && event.currentTarget) event.currentTarget.classList.add('selected');
+      if (days === 'ia') {
+        userData.dias = 2;
+        showModal('🤖 IA Medica Recomenda', 'Baseado nos seus sintomas, recomendamos <strong>2 dias de repouso</strong>.', function() {
+          closeModal();
+          startProcessing();
+        });
+      } else {
+        userData.dias = days;
+        setTimeout(startProcessing, 400);
+      }
+    }
+
+    function startProcessing() {
+      localStorage.setItem('atestado_dias', userData.dias);
+      const quizContainer = document.querySelector('.quiz-container');
+      const progressWrapper = document.querySelector('.progress-wrapper');
+      if (quizContainer) quizContainer.style.display = 'none';
+      if (progressWrapper) progressWrapper.style.display = 'none';
+      const loading = document.getElementById('loadingScreen');
+      if (loading) loading.style.display = 'flex';
+      const steps = [
+        { pct: 15, text: 'Analisando padroes de sintomas...', delay: 700 },
+        { pct: 30, text: 'Verificando historico clinico...', delay: 600 },
+        { pct: 45, text: 'Calculando necessidade de repouso...', delay: 700 },
+        { pct: 60, text: 'Selecionando CID mais adequado...', delay: 800 },
+        { pct: 75, text: 'Gerando documento digital...', delay: 700 },
+        { pct: 90, text: 'Assinando digitalmente...', delay: 800 },
+        { pct: 100, text: 'Finalizando...', delay: 500 }
+      ];
+      let current = 0;
+      const progress = document.getElementById('loadingProgress');
+      const status = document.getElementById('loadingStatus');
+      function runStep() {
+        if (current >= steps.length) {
+          setTimeout(function() { window.location.href = 'resultado.html'; }, 400);
+          return;
+        }
+        const step = steps[current];
+        if (progress) progress.style.width = step.pct + '%';
+        if (status) status.textContent = step.text;
+        current++;
+        setTimeout(runStep, step.delay);
+      }
+      runStep();
+    }
+
+    function showAlert(id, message) {
+      const alert = document.getElementById(id);
+      if (alert) {
+        alert.innerHTML = '<span class="alert-icon">💡</span><div class="alert-content">' + message + '</div>';
+        alert.style.display = 'flex';
+      }
+    }
+
+    function showModal(title, text, onConfirm) {
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalText = document.getElementById('modalText');
+      const modalButtons = document.getElementById('modalButtons');
+      if (modalTitle) modalTitle.innerHTML = title;
+      if (modalText) modalText.innerHTML = text;
+      if (modalButtons) modalButtons.innerHTML = '<button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancelar</button><button class="modal-btn modal-btn-primary" onclick="handleModalConfirm()">Continuar</button>';
+      window.modalCallback = onConfirm;
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      if (modal) modal.style.display = 'none';
+      window.modalCallback = null;
+    }
+
+    function handleModalConfirm() {
+      if (window.modalCallback) window.modalCallback();
+      closeModal();
+    }
+
+    document.addEventListener('focusin', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        setTimeout(function() { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
+      }
+    });
+  </script>
 </body>
 </html>
