@@ -1,57 +1,56 @@
 # 🏥 Atestado Médico Digital
 
-Site de alta conversão para emissão de atestados médicos digitais. Desenvolvido com **Vite**, **HTML5**, **CSS3** e **JavaScript** vanilla.
+Site de alta conversão para emissão de atestados médicos digitais. Desenvolvido com **Vite** + **HTML5** + **CSS3** + **JavaScript** vanilla.
 
-## ✨ Características
+## ✅ Correções Aplicadas
 
-- ⚡ **Vite** - Build tool ultrarrápido
-- 📱 **Mobile-first** - Design responsivo e otimizado para celular
-- 🎯 **Alta conversão** - Quiz estratégico com progress bar trick
-- 🔐 **Páginas legais** - Termos, privacidade e disclaimer (compliance)
-- ✍️ **Assinatura digital** - Canvas funcional no mobile
-- 🎨 **Design premium** - Tema saúde com cores profissionais
+- ✅ `vercel.json` - Headers com regex válido `/(.*)` em vez de `/**/*.html`
+- ✅ `vite.config.js` - Configuração otimizada para múltiplas páginas
+- ✅ `package.json` - Scripts atualizados com `vercel-build`
+- ✅ Caminhos de assets - Todos relativos e compatíveis
 
 ## 🚀 Deploy no Vercel
 
-### Opção 1: Deploy Automático (GitHub)
+### Método 1: GitHub + Vercel Dashboard (Recomendado)
 
-1. **Crie um repositório no GitHub e envie o código:**
 ```bash
+# 1. Inicialize git e envie para o GitHub
 git init
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://github.com/seuusuario/atestado-medico.git
+git remote add origin https://github.com/SEUUSUARIO/atestado-medico.git
 git push -u origin main
 ```
 
-2. **No Vercel:**
-   - Acesse [vercel.com](https://vercel.com)
-   - Clique em "Add New Project"
-   - Importe o repositório
-   - Framework Preset: **Vite**
-   - Clique em "Deploy"
+2. Acesse [vercel.com/dashboard](https://vercel.com/dashboard)
+3. Clique em "Add New Project"
+4. Importe o repositório `SEUUSUARIO/atestado-medico`
+5. **Framework Preset**: Selecione `Vite`
+6. Clique em **Deploy**
 
-### Opção 2: Deploy via CLI
+### Método 2: Vercel CLI
 
 ```bash
-# Instale o Vercel CLI
+# Instale o CLI
 npm i -g vercel
 
-# No diretório do projeto
+# Deploy
 vercel --prod
 ```
 
-### Opção 3: Deploy Manual (Drag & Drop)
+### Método 3: Deploy Manual
 
-1. Execute localmente:
 ```bash
+# Instale dependências
 npm install
-npm run build
-```
 
-2. Acesse [vercel.com/new](https://vercel.com/new)
-3. Arraste a pasta `dist` para o upload
+# Build
+npm run build
+
+# O conteúdo da pasta 'dist' está pronto para deploy
+# Arraste a pasta dist para o Vercel
+```
 
 ## 🛠️ Desenvolvimento Local
 
@@ -62,7 +61,9 @@ npm install
 # Servidor de desenvolvimento
 npm run dev
 
-# Build para produção
+# Acesse http://localhost:3000
+
+# Build de produção
 npm run build
 
 # Preview do build
@@ -73,41 +74,55 @@ npm run preview
 
 ```
 atestado-medico/
-├── index.html              # Landing page
-├── quiz.html               # Quiz de avaliação
-├── resultado.html          # Página de checkout
-├── termos.html             # Termos de uso
-├── privacidade.html        # Política de privacidade
-├── disclaimer.html         # Avisos legais
-├── package.json            # Dependências
-├── vite.config.js          # Configuração do Vite
-├── vercel.json             # Configuração do Vercel
-└── src/
-    ├── styles/
-    │   └── main.css        # Estilos completos
-    └── scripts/
-        └── quiz.js         # Lógica do quiz
+├── index.html                 # Landing page
+├── quiz.html                  # Quiz 15 perguntas
+├── resultado.html             # Checkout/pagamento
+├── termos.html                # Termos de uso
+├── privacidade.html           # Política de privacidade (LGPD)
+├── disclaimer.html            # Avisos legais
+├── vercel.json                # ✅ Configuração Vercel corrigida
+├── vite.config.js             # ✅ Configuração Vite
+├── package.json               # ✅ Scripts atualizados
+├── src/
+│   ├── images/                # Ilustrações SVG
+│   │   ├── hero-illustration.svg
+│   │   ├── document-illustration.svg
+│   │   ├── success-illustration.svg
+│   │   └── ...
+│   ├── styles/
+│   │   └── main.css           # Estilos completos
+│   └── scripts/
+│       └── quiz.js            # Lógica do quiz
+└── .github/
+    └── workflows/
+        └── deploy.yml         # GitHub Actions
 ```
 
-## 🎯 Funcionalidades do Quiz
+## 🎯 Funcionalidades
 
-| Step | Pergunta | Tipo |
-|------|----------|------|
-| 1 | Sintoma principal | Opções |
-| 2 | Tempo dos sintomas | Opções |
-| 3 | Escala de dor | Slider |
-| 4 | Sinais de alerta | Checkboxes |
-| 5 | Tentativas de tratamento | Opções |
-| 6 | Tipo de trabalho | Opções |
-| 7 | Piora no trabalho | Opções |
-| 8 | Quando precisa | Opções |
-| 9 | CID necessário | Opções |
-| 10 | Nome completo | Input |
-| 11 | CPF | Input com validação |
-| 12 | Email | Input |
-| 13 | Confirmação | Checkbox |
-| 14 | Assinatura digital | Canvas |
-| 15 | Dias de repouso | Opções |
+### Quiz de 15 Passos
+1. Sintoma principal (5 opções com ícones)
+2. Tempo dos sintomas
+3. Escala de dor (slider 1-10)
+4. Sinais de alerta (checkboxes)
+5. Tentativas de tratamento
+6. Tipo de trabalho
+7. Piora no trabalho
+8. Quando precisa
+9. CID necessário
+10. Nome completo
+11. CPF (com validação)
+12. Email
+13. Confirmação de veracidade
+14. Assinatura digital (canvas)
+15. Dias de repouso
+
+### Recursos Visuais
+- 🎨 Ilustrações SVG vetoriais
+- ✨ Animações CSS suaves
+- 📱 100% responsivo (mobile-first)
+- 🔒 Páginas legais completas
+- ⚡ Loading com progresso realista
 
 ## 🔧 Configurações
 
@@ -117,44 +132,40 @@ Edite `resultado.html` e substitua a função `processPayment()`:
 
 ```javascript
 function processPayment() {
-  // Exemplo: Stripe
+  // Stripe
   stripe.redirectToCheckout({
     lineItems: [{ price: 'price_123', quantity: 1 }],
     mode: 'payment',
     successUrl: 'https://seudominio.com/sucesso',
     cancelUrl: 'https://seudominio.com/resultado',
   });
-  
-  // Exemplo: Mercado Pago
-  // window.location.href = 'https://mpago.la/...';
 }
 ```
 
-### Personalização
+### Variáveis de Ambiente (opcional)
 
-- **Cores**: Edite as variáveis CSS em `src/styles/main.css`
-- **Preço**: Altere em `resultado.html`
-- **CIDs**: Modifique o objeto `cids` em `resultado.html`
+Crie um arquivo `.env`:
 
-## 📱 Otimizações Mobile
+```env
+VITE_STRIPE_KEY=pk_test_...
+VITE_API_URL=https://api.seusite.com
+```
 
-- Touch otimizado
-- Prevenção de zoom em inputs
-- Scroll suave
-- Safe area para iPhone X+
-- Animações performáticas
+## 🐛 Troubleshooting
 
-## 🛡️ Segurança
+### Erro: "Header at index 0 has invalid `source` regular expression"
+**Solução**: ✅ Corrigido! Use `/(.*)` em vez de `/**/*.html`
 
-- Headers de segurança no Vercel
-- Validação de CPF
-- Sanitização de inputs
-- LocalStorage para persistência temporária
+### Erro: "Cannot find module 'vite'"
+**Solução**: Execute `npm install` antes do build
+
+### Erro: "Build command failed"
+**Solução**: Verifique se o Node.js é >= 18.0.0
 
 ## 📄 Licença
 
-Este é um template para desenvolvimento. Consulte um advogado antes de colocar em produção.
+Template para desenvolvimento. Consulte um advogado antes de colocar em produção.
 
 ---
 
-**Nota**: Substitua os dados de contato e integre seu gateway de pagamento antes de publicar.
+**Suporte**: suporte@meddigital.com.br
