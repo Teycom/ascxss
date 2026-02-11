@@ -3,226 +3,365 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Documento Pronto | MedDigital</title>
+  <title>Atestado Médico Digital | Documento Gerado</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
-  <link rel="stylesheet" href="src/styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    /* Estilos adicionais para imagens */
-    .document-illustration {
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      color: white;
+      padding-bottom: 120px;
+    }
+    
+    .container {
       width: 100%;
-      max-width: 200px;
-      margin: 0 auto 1.5rem;
-      position: relative;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 16px;
     }
     
-    .document-illustration img {
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
-    }
-    
-    .lock-overlay-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 60px;
-      height: 60px;
-      background: #ef4444;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.75rem;
-      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
-      animation: pulse-lock 2s infinite;
-    }
-    
-    @keyframes pulse-lock {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.1); }
-    }
-    
-    .ai-icon-pulse {
-      animation: icon-pulse 2s infinite;
-    }
-    
-    @keyframes icon-pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    
-    .result-header {
-      background: linear-gradient(180deg, rgba(239, 68, 68, 0.15) 0%, transparent 100%);
-      padding: 1.5rem 0;
+    /* Header */
+    .header {
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.2) 0%, transparent 100%);
+      padding: 20px 0;
       text-align: center;
-      border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+      border-bottom: 1px solid rgba(239, 68, 68, 0.3);
     }
     
     .countdown-box {
       display: inline-flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
+      gap: 8px;
       background: rgba(0, 0, 0, 0.3);
-      padding: 1rem 1.5rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      backdrop-filter: blur(10px);
+      padding: 16px 24px;
+      border-radius: 16px;
+      border: 1px solid rgba(239, 68, 68, 0.4);
     }
     
     .countdown-label {
-      font-size: 0.6875rem;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: #fca5a5;
-      display: flex;
-      align-items: center;
-      gap: 0.375rem;
     }
     
     .countdown-time {
-      font-size: 2.5rem;
+      font-size: 36px;
       font-weight: 800;
       font-family: 'Courier New', monospace;
       color: #ef4444;
       animation: pulse 1s infinite;
-      text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
     }
     
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    /* Patient Info */
     .patient-info {
-      padding: 1rem 0;
+      padding: 16px 0;
       text-align: center;
       background: rgba(255,255,255,0.03);
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     
     .patient-name {
-      font-size: 1.125rem;
+      font-size: 18px;
       font-weight: 700;
-      margin-bottom: 0.25rem;
+      margin-bottom: 4px;
     }
     
     .patient-cpf {
-      font-size: 0.875rem;
+      font-size: 14px;
       color: rgba(255,255,255,0.5);
     }
     
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.375rem;
+      gap: 6px;
       background: rgba(245, 158, 11, 0.15);
       color: #fbbf24;
-      padding: 0.375rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
       font-weight: 600;
-      margin-top: 0.5rem;
-      border: 1px solid rgba(251, 191, 36, 0.2);
+      margin-top: 8px;
+      border: 1px solid rgba(251, 191, 36, 0.3);
     }
     
+    /* Documento Realista */
     .document-section {
-      margin: 1.5rem 0;
-      position: relative;
+      margin: 24px 0;
     }
     
-    .document-preview {
+    .document-paper {
       background: white;
-      border-radius: 1.25rem;
+      border-radius: 8px;
       overflow: hidden;
-      position: relative;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      position: relative;
     }
     
-    .document-blur {
-      filter: blur(6px);
-      opacity: 0.4;
-      padding: 1.5rem;
-      pointer-events: none;
+    /* Cabeçalho do documento */
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: #f8fafc;
+      border-bottom: 2px solid #e2e8f0;
     }
     
-    .document-lock-overlay {
+    .doc-logo-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .doc-logo-sus {
+      width: 50px;
+      height: 50px;
+      background: #059669;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+    }
+    
+    .doc-title-center {
+      text-align: center;
+      flex: 1;
+    }
+    
+    .doc-title-center h1 {
+      font-size: 14px;
+      color: #0f172a;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    
+    .doc-title-center p {
+      font-size: 10px;
+      color: #64748b;
+    }
+    
+    .doc-logo-right {
+      text-align: right;
+    }
+    
+    .doc-logo-right p {
+      font-size: 9px;
+      color: #64748b;
+      line-height: 1.2;
+    }
+    
+    /* Corpo do documento */
+    .doc-body {
+      padding: 24px 20px;
+      color: #1e293b;
+    }
+    
+    .doc-main-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 8px;
+    }
+    
+    .doc-text {
+      font-size: 12px;
+      line-height: 1.8;
+      color: #334155;
+      text-align: justify;
+    }
+    
+    .doc-field {
+      display: inline-block;
+      border-bottom: 1px solid #1e293b;
+      min-width: 120px;
+      padding: 0 4px;
+      font-weight: 600;
+      color: #0f172a;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .doc-field-large {
+      display: block;
+      border-bottom: 1px solid #1e293b;
+      width: 100%;
+      padding: 4px;
+      font-weight: 600;
+      color: #0f172a;
+      font-family: 'Courier New', monospace;
+      margin: 4px 0;
+    }
+    
+    .doc-row {
+      margin: 12px 0;
+    }
+    
+    .doc-label {
+      font-size: 10px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    
+    .doc-signature-area {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px dashed #cbd5e1;
+    }
+    
+    .doc-signature-title {
+      font-size: 10px;
+      color: #64748b;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    
+    .doc-signature-line {
+      border-bottom: 1px solid #1e293b;
+      height: 40px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-bottom: 4px;
+    }
+    
+    .doc-signature-line img {
+      max-height: 35px;
+      max-width: 80%;
+    }
+    
+    .doc-signature-label {
+      font-size: 9px;
+      color: #64748b;
+      text-align: center;
+    }
+    
+    /* Carimbo do médico */
+    .doc-stamp {
       position: absolute;
-      inset: 0;
+      bottom: 80px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      border: 3px solid #ef4444;
+      border-radius: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      background: rgba(0,0,0,0.2);
-      backdrop-filter: blur(2px);
+      transform: rotate(-15deg);
+      opacity: 0.8;
+      background: rgba(254, 242, 242, 0.9);
     }
     
-    .lock-badge {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.75rem;
-      font-weight: 800;
-      font-size: 1.125rem;
-      transform: rotate(-5deg);
-      animation: stamp-pulse 2s infinite;
-      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    @keyframes stamp-pulse {
-      0%, 100% { transform: rotate(-5deg) scale(1); }
-      50% { transform: rotate(-5deg) scale(1.05); }
-    }
-    
-    .lock-message {
+    .doc-stamp-text {
+      font-size: 8px;
+      color: #ef4444;
       text-align: center;
-      color: #1e293b;
-      font-weight: 600;
-      font-size: 0.9375rem;
-      background: rgba(255,255,255,0.95);
-      padding: 0.875rem 1.25rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      max-width: 220px;
+      font-weight: 700;
+      line-height: 1.2;
     }
     
+    .doc-stamp-crm {
+      font-size: 10px;
+      color: #dc2626;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+    
+    /* QR Code */
+    .doc-qr {
+      position: absolute;
+      top: 80px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      padding: 4px;
+    }
+    
+    .doc-qr img {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Rodapé do documento */
+    .doc-footer {
+      background: #f1f5f9;
+      padding: 12px 20px;
+      font-size: 8px;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.4;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    /* AI Report */
     .ai-report {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 1.25rem;
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
     }
     
     .ai-header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     
     .ai-icon {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-      border-radius: 0.75rem;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      font-size: 24px;
+      animation: pulse-glow 2s infinite;
     }
     
-    .ai-title-group h3 {
-      font-size: 0.9375rem;
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.5); }
+    }
+    
+    .ai-title h3 {
+      font-size: 16px;
       font-weight: 700;
       color: #6ee7b7;
     }
     
-    .ai-title-group p {
-      font-size: 0.6875rem;
+    .ai-title p {
+      font-size: 12px;
       color: rgba(255,255,255,0.5);
     }
     
@@ -230,7 +369,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.625rem 0;
+      padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     
@@ -239,14 +378,13 @@
     }
     
     .report-label {
-      font-size: 0.875rem;
+      font-size: 14px;
       color: rgba(255,255,255,0.5);
     }
     
     .report-value {
-      font-size: 0.875rem;
+      font-size: 14px;
       font-weight: 600;
-      text-align: right;
     }
     
     .report-value.highlight {
@@ -256,38 +394,40 @@
     .confidence-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 4px;
       background: rgba(16, 185, 129, 0.2);
       color: #4ade80;
-      padding: 0.25rem 0.625rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
       font-weight: 700;
     }
     
+    /* Pricing */
     .pricing-card {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 1.25rem;
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
     }
     
     .pricing-title {
       text-align: center;
-      font-size: 0.875rem;
+      font-size: 14px;
       font-weight: 700;
       color: #fbbf24;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
     }
     
     .price-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.5rem 0;
+      padding: 8px 0;
+      font-size: 14px;
     }
     
     .price-row.strikethrough {
@@ -300,12 +440,12 @@
     
     .price-row.final {
       border-top: 1px solid rgba(255,255,255,0.2);
-      padding-top: 0.75rem;
-      margin-top: 0.5rem;
+      padding-top: 12px;
+      margin-top: 8px;
     }
     
     .price-row.final .price-value {
-      font-size: 1.75rem;
+      font-size: 28px;
       font-weight: 800;
       color: #4ade80;
     }
@@ -313,35 +453,36 @@
     .savings-box {
       background: rgba(16, 185, 129, 0.15);
       border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 1rem;
-      padding: 1rem;
+      border-radius: 12px;
+      padding: 16px;
       text-align: center;
-      margin-top: 1rem;
+      margin-top: 16px;
     }
     
     .savings-text {
-      font-size: 0.8125rem;
+      font-size: 13px;
       color: #6ee7b7;
     }
     
     .savings-amount {
-      font-size: 1.25rem;
+      font-size: 20px;
       font-weight: 800;
       color: #4ade80;
     }
     
+    /* Pay Button */
     .pay-button {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.625rem;
+      gap: 10px;
       width: 100%;
-      padding: 1.125rem;
+      padding: 20px;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
       border: none;
-      border-radius: 1rem;
-      font-size: 1.0625rem;
+      border-radius: 16px;
+      font-size: 18px;
       font-weight: 800;
       cursor: pointer;
       box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
@@ -360,25 +501,27 @@
     
     .pay-subtext {
       text-align: center;
-      font-size: 0.8125rem;
+      font-size: 13px;
       color: rgba(255,255,255,0.5);
-      margin-top: 0.75rem;
+      margin-top: 12px;
     }
     
+    /* Live Feed */
     .live-feed {
       background: rgba(16, 185, 129, 0.1);
-      border-radius: 1rem;
-      padding: 1rem;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 20px;
     }
     
     .live-header {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
+      gap: 8px;
+      font-size: 12px;
       color: #6ee7b7;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 12px;
     }
     
     .live-dot {
@@ -397,10 +540,10 @@
     .feed-item {
       display: flex;
       align-items: center;
-      gap: 0.625rem;
-      font-size: 0.8125rem;
+      gap: 10px;
+      font-size: 13px;
       color: rgba(255,255,255,0.7);
-      padding: 0.375rem 0;
+      padding: 6px 0;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     
@@ -409,49 +552,51 @@
     }
     
     .feed-avatar {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.625rem;
+      font-size: 11px;
       font-weight: 700;
       flex-shrink: 0;
     }
     
+    /* Security Badges */
     .security-badges {
       display: flex;
       justify-content: center;
-      gap: 1rem;
-      margin-top: 1.5rem;
+      gap: 16px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
     
     .sec-badge {
       display: flex;
       align-items: center;
-      gap: 0.375rem;
-      font-size: 0.75rem;
+      gap: 6px;
+      font-size: 12px;
       color: rgba(255,255,255,0.4);
     }
     
+    /* Sticky Footer */
     .sticky-footer {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background: linear-gradient(180deg, transparent 0%, #0f172a 20%);
-      padding: 1rem;
+      padding: 16px;
       z-index: 100;
     }
     
     .footer-timer {
       text-align: center;
-      font-size: 0.8125rem;
+      font-size: 13px;
       color: rgba(255,255,255,0.6);
-      margin-bottom: 0.5rem;
+      margin-bottom: 8px;
     }
     
     .footer-timer span {
@@ -463,14 +608,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 8px;
       width: 100%;
-      padding: 1rem;
+      padding: 16px;
       background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
       color: white;
       border: none;
-      border-radius: 0.875rem;
-      font-size: 0.9375rem;
+      border-radius: 12px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
@@ -482,23 +627,61 @@
       50% { transform: scale(1.02); }
     }
     
-    .result-container {
-      min-height: 100vh;
-      background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    /* Blur effect */
+    .doc-blur {
+      filter: blur(4px);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    
+    .doc-lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+    }
+    
+    .lock-badge {
+      background: #ef4444;
       color: white;
-      padding-bottom: 140px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 16px;
+      transform: rotate(-5deg);
+      animation: stamp-pulse 2s infinite;
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+    }
+    
+    @keyframes stamp-pulse {
+      0%, 100% { transform: rotate(-5deg) scale(1); }
+      50% { transform: rotate(-5deg) scale(1.05); }
+    }
+    
+    .lock-text {
+      text-align: center;
+      color: #1e293b;
+      font-weight: 600;
+      font-size: 14px;
+      background: rgba(255,255,255,0.95);
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-top: 12px;
+      max-width: 200px;
     }
   </style>
 </head>
-<body class="result-container">
+<body>
   <!-- Header Countdown -->
-  <div class="result-header">
+  <div class="header">
     <div class="container">
       <div class="countdown-box">
-        <div class="countdown-label">
-          <span>⏱️</span>
-          <span>Protocolo Médico Expira Em:</span>
-        </div>
+        <div class="countdown-label">⏱️ Protocolo Médico Expira Em:</div>
         <div class="countdown-time" id="countdown">09:59</div>
       </div>
     </div>
@@ -517,17 +700,11 @@
   </div>
 
   <div class="container">
-    <!-- Document Illustration -->
-    <div class="document-illustration">
-      <img src="src/images/document-illustration.svg" alt="Documento Médico Digital">
-      <div class="lock-overlay-icon">🔒</div>
-    </div>
-
     <!-- AI Report -->
     <div class="ai-report">
       <div class="ai-header">
-        <div class="ai-icon ai-icon-pulse">🤖</div>
-        <div class="ai-title-group">
+        <div class="ai-icon">🤖</div>
+        <div class="ai-title">
           <h3>Relatório da IA Médica</h3>
           <p>Análise em tempo real</p>
         </div>
@@ -538,7 +715,7 @@
       </div>
       <div class="report-row">
         <span class="report-label">Diagnóstico:</span>
-        <span class="report-value highlight">Inaptid Confirmada</span>
+        <span class="report-value highlight">Inaptidão Temporária Confirmada</span>
       </div>
       <div class="report-row">
         <span class="report-label">CID-10:</span>
@@ -552,8 +729,125 @@
         </span>
       </div>
       <div class="report-row">
-        <span class="report-label">Assinatura:</span>
+        <span class="report-label">Assinatura Digital:</span>
         <span class="report-value" style="color: #4ade80;">✓ ICP-Brasil</span>
+      </div>
+    </div>
+
+    <!-- Documento Realista -->
+    <div class="document-section">
+      <div class="document-paper" id="documentPaper">
+        <!-- QR Code -->
+        <div class="doc-qr">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="25" height="25" fill="#1e293b"/>
+            <rect x="65" y="10" width="25" height="25" fill="#1e293b"/>
+            <rect x="10" y="65" width="25" height="25" fill="#1e293b"/>
+            <rect x="40" y="10" width="5" height="5" fill="#1e293b"/>
+            <rect x="50" y="10" width="5" height="5" fill="#1e293b"/>
+            <rect x="40" y="20" width="5" height="5" fill="#1e293b"/>
+            <rect x="45" y="25" width="5" height="5" fill="#1e293b"/>
+            <rect x="55" y="20" width="5" height="5" fill="#1e293b"/>
+            <rect x="40" y="40" width="20" height="20" fill="#1e293b"/>
+            <rect x="65" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="75" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="85" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="65" y="50" width="5" height="5" fill="#1e293b"/>
+            <rect x="80" y="50" width="5" height="5" fill="#1e293b"/>
+            <rect x="70" y="65" width="25" height="25" fill="#1e293b"/>
+            <rect x="40" y="65" width="5" height="5" fill="#1e293b"/>
+            <rect x="50" y="70" width="5" height="5" fill="#1e293b"/>
+            <rect x="45" y="80" width="5" height="5" fill="#1e293b"/>
+            <rect x="55" y="85" width="5" height="5" fill="#1e293b"/>
+            <rect x="10" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="20" y="45" width="5" height="5" fill="#1e293b"/>
+            <rect x="15" y="55" width="5" height="5" fill="#1e293b"/>
+          </svg>
+        </div>
+
+        <!-- Header -->
+        <div class="doc-header">
+          <div class="doc-logo-left">
+            <div class="doc-logo-sus">✚</div>
+            <div>
+              <div style="font-size: 10px; color: #059669; font-weight: 700;">SUS</div>
+              <div style="font-size: 8px; color: #64748b;">Sistema Único de Saúde</div>
+            </div>
+          </div>
+          <div class="doc-title-center">
+            <h1>MINISTÉRIO DA SAÚDE</h1>
+            <p>Secretaria de Atenção Especializada</p>
+          </div>
+          <div class="doc-logo-right">
+            <p>GOVERNO FEDERAL</p>
+            <p>Brasil - 2024</p>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="doc-body doc-blur" id="docBody">
+          <div class="doc-main-title">ATESTADO MÉDICO</div>
+          
+          <div class="doc-text">
+            <div class="doc-row">
+              ATESTO PARA OS DEVIDOS FINS, A PEDIDO, QUE O(A) SR.(A) 
+              <span class="doc-field-large" id="docNome">_________________________________</span>
+              , CPF Nº <span class="doc-field" id="docCPF">________________</span>
+            </div>
+            
+            <div class="doc-row">
+              FOI ATENDIDO(A) NO DIA <span class="doc-field" id="docData">__________</span> 
+              ÀS <span class="doc-field">_______</span> HORAS,
+            </div>
+            
+            <div class="doc-row">
+              NECESSITANDO DE <span class="doc-field" id="docDias">___</span> 
+              (<span class="doc-field" id="docDiasExtenso">__________</span>) 
+              DIAS DE REPOUSO POR MOTIVO DE DOENÇA.
+            </div>
+            
+            <div class="doc-row" style="margin-top: 16px;">
+              CID: <span class="doc-field" id="docCID">__________</span>
+            </div>
+            
+            <!-- Assinatura do Paciente -->
+            <div class="doc-signature-area">
+              <div class="doc-signature-title">Assinatura do Paciente ou Responsável</div>
+              <div class="doc-signature-line">
+                <img id="docAssinatura" src="" alt="Assinatura" style="display: none;">
+              </div>
+              <div class="doc-signature-label">Local e Data: _________________________________</div>
+            </div>
+            
+            <!-- Assinatura do Médico -->
+            <div style="margin-top: 24px;">
+              <div class="doc-signature-title">Assinatura do Médico</div>
+              <div style="border-bottom: 1px solid #1e293b; height: 30px; margin-bottom: 4px;"></div>
+              <div class="doc-signature-label">Dr. Ricardo Almeida - CRM: 45.782-SP</div>
+            </div>
+          </div>
+          
+          <!-- Carimbo -->
+          <div class="doc-stamp">
+            <div class="doc-stamp-text">CLÍNICA MÉDICA<br>DR. RICARDO ALMEIDA</div>
+            <div class="doc-stamp-crm">CRM: 45.782</div>
+          </div>
+        </div>
+
+        <!-- Lock Overlay -->
+        <div class="doc-lock-overlay" id="docLock">
+          <div class="lock-badge">🔒 BLOQUEADO</div>
+          <div class="lock-text">
+            Aguardando confirmação de pagamento<br>para desbloquear o documento
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+          <strong>NOTA:</strong> ESTE ATESTADO É VÁLIDO PARA FINALIDADES PREVISTAS NO ARTIGO 27 DE CLIPS, 
+          APROVADO PELO DECRETO Nº 89.312 DE 23/01/84, E SERÁ EXPEDIDO PARA JUSTIFICATIVA DE 1 A 15 DIAS 
+          DE AFASTAMENTO DO TRABALHO. DOCUMENTO DIGITAL ASSINADO COM CERTIFICAÇÃO ICP-BRASIL.
+        </div>
       </div>
     </div>
 
@@ -569,7 +863,7 @@
         <span class="price-value">R$ 80,00</span>
       </div>
       <div class="price-row final">
-        <span>Processamento IA:</span>
+        <span>Processamento IA + Emissão:</span>
         <span class="price-value">R$ 19,90</span>
       </div>
       <div class="savings-box">
@@ -599,11 +893,11 @@
         </div>
         <div class="feed-item">
           <div class="feed-avatar">AL</div>
-          <span><strong>Ana L.</strong> liberou documento • 2 dias</span>
+          <span><strong>Ana L.</strong> liberou documento • 2 dias aprovados</span>
         </div>
         <div class="feed-item">
           <div class="feed-avatar">CK</div>
-          <span><strong>Carlos K.</strong> pagou via Pix • Recebido</span>
+          <span><strong>Carlos K.</strong> pagou via Pix • Atestado recebido</span>
         </div>
       </div>
     </div>
@@ -625,13 +919,13 @@
     </div>
 
     <!-- Legal Footer -->
-    <div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
-      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
-        <a href="termos.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem;">Termos de Uso</a>
-        <a href="privacidade.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem;">Privacidade</a>
-        <a href="disclaimer.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem;">Disclaimer</a>
+    <div style="text-align: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+        <a href="termos.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px;">Termos de Uso</a>
+        <a href="privacidade.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px;">Privacidade</a>
+        <a href="disclaimer.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px;">Disclaimer</a>
       </div>
-      <p style="font-size: 0.6875rem; color: rgba(255,255,255,0.3);">© 2025 MedDigital • Documentos válidos conforme legislação brasileira</p>
+      <p style="font-size: 11px; color: rgba(255,255,255,0.3);">© 2024 MedDigital • Documentos válidos conforme legislação brasileira</p>
     </div>
   </div>
 
@@ -655,20 +949,44 @@
     const cpf = localStorage.getItem('atestado_cpf') || '000.000.000-00';
     const sintoma = localStorage.getItem('atestado_sintoma') || 'Geral';
     const dias = parseInt(localStorage.getItem('atestado_dias')) || 2;
+    const assinatura = localStorage.getItem('atestado_assinatura');
 
+    // CIDs
     const cids = {
       'Gripe/Febre/Fraqueza': 'J11 - Influenza',
       'Dor Muscular/Articular': 'M79.1 - Mialgia',
       'Enxaqueca/Tontura': 'G43.9 - Enxaqueca',
-      'Mal-estar Gástrico': 'K30 - Dispepsia',
+      'Mal-estar Gastrico': 'K30 - Dispepsia',
       'Crise de Ansiedade': 'F41.9 - Ansiedade'
     };
 
+    // Numero por extenso
+    function numeroPorExtenso(n) {
+      const numeros = ['zero', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez'];
+      return numeros[n] || n;
+    }
+
+    // Preenche dados
     document.getElementById('patientName').textContent = nome;
-    document.getElementById('patientCPF').textContent = `CPF: ${cpf}`;
+    document.getElementById('patientCPF').textContent = 'CPF: ' + cpf;
     document.getElementById('reportSintoma').textContent = sintoma;
     document.getElementById('reportCID').textContent = cids[sintoma] || 'Z76.5 - Geral';
-    document.getElementById('savingsDays').textContent = `${dias} dias`;
+    document.getElementById('savingsDays').textContent = dias + ' dias';
+    
+    // Preenche documento
+    document.getElementById('docNome').textContent = nome;
+    document.getElementById('docCPF').textContent = cpf;
+    document.getElementById('docData').textContent = new Date().toLocaleDateString('pt-BR');
+    document.getElementById('docDias').textContent = dias;
+    document.getElementById('docDiasExtenso').textContent = numeroPorExtenso(dias);
+    document.getElementById('docCID').textContent = (cids[sintoma] || 'Z76.5').split(' ')[0];
+    
+    // Mostra assinatura
+    if (assinatura) {
+      const img = document.getElementById('docAssinatura');
+      img.src = assinatura;
+      img.style.display = 'block';
+    }
 
     // Countdown
     let min = 9, sec = 59;
@@ -676,7 +994,7 @@
       sec--;
       if (sec < 0) { sec = 59; min--; }
       if (min < 0) { min = 9; sec = 59; }
-      const t = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+      const t = String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
       document.getElementById('countdown').textContent = t;
       document.getElementById('footerTimer').textContent = t;
     }, 1000);
@@ -690,20 +1008,31 @@
       const n = nomes[idx % nomes.length];
       const div = document.createElement('div');
       div.className = 'feed-item';
-      div.innerHTML = `<div class="feed-avatar">${n[0]}</div><span><strong>${n[1]}</strong> acabou de pagar • ${n[2]}</span>`;
+      div.innerHTML = '<div class="feed-avatar">' + n[0] + '</div><span><strong>' + n[1] + '</strong> acabou de pagar • ' + n[2] + '</span>';
       container.appendChild(div);
       idx++;
     }, 3000);
 
+    // Pagamento
     function processPayment() {
       const btn = event.currentTarget;
       btn.innerHTML = '<span>⏳</span><span>Processando...</span>';
       btn.disabled = true;
+      
+      // Simula pagamento
       setTimeout(() => {
-        alert('Integração com gateway de pagamento necessária.\n\nSubstitua pela integração real (Stripe, Mercado Pago, etc.)');
-        btn.innerHTML = '<span>💳</span><span>PAGAR R$ 19,90 VIA PIX</span>';
-        btn.disabled = false;
-      }, 1500);
+        // Remove blur
+        document.getElementById('docBody').classList.remove('doc-blur');
+        document.getElementById('docLock').style.display = 'none';
+        document.getElementById('documentPaper').style.boxShadow = '0 25px 50px -12px rgba(16, 185, 129, 0.4)';
+        
+        // Alerta de sucesso
+        alert('✅ Pagamento confirmado!\n\nSeu atestado foi liberado e enviado para seu email.\n\nVerifique sua caixa de entrada (e spam).');
+        
+        // Atualiza botão
+        btn.innerHTML = '<span>✓</span><span>DOCUMENTO LIBERADO</span>';
+        btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+      }, 2000);
     }
   </script>
 </body>
