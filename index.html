@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Atestado Médico Digital • Emissão Imediata</title>
+  <meta name="description" content="Atestado médico digital válido em todo Brasil. Documento com assinatura ICP-Brasil em minutos.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Atestado Médico Digital - Emissão Imediata">
+  <meta property="og:description" content="Documento válido nacionalmente. Receba em minutos no seu email.">
+  <meta property="og:type" content="website">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="src/styles/main.css">
+  
+  <style>
+    /* Hero com imagem */
+    .hero-with-image {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 30%, #f0f9ff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    
+    .hero-container {
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem 0 140px;
+    }
+    
+    .hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    
+    .brand-mini {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      color: #047857;
+      font-size: 1.125rem;
+    }
+    
+    .brand-mini-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    
+    .secure-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      color: #059669;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 0.375rem 0.875rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    
+    /* Badge flutuante */
+    .hero-badge-float {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      color: #92400e;
+      padding: 0.625rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+      animation: float 3s ease-in-out infinite;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    .hero-title {
+      font-size: clamp(1.875rem, 5vw, 2.5rem);
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #059669 0%, #0891b2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-title .urgent-text {
+      color: #dc2626;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.0625rem;
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Ilustração Hero */
+    .hero-illustration {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+    
+    .hero-illustration img {
+      width: 100%;
+      height: auto;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .hero-illustration::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+      border-radius: 2rem;
+      z-index: -1;
+      filter: blur(20px);
+    }
+    
+    /* Floating cards */
+    .floating-cards {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding: 0.5rem 0;
+      scrollbar-width: none;
+    }
+    
+    .floating-cards::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .float-card {
+      flex-shrink: 0;
+      background: white;
+      padding: 0.875rem 1.125rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #334155;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .float-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    
+    .float-card-icon.green { background: #d1fae5; }
+    .float-card-icon.blue { background: #dbeafe; }
+    .float-card-icon.yellow { background: #fef3c7; }
+    
+    /* Features */
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+      color: #334155;
+    }
+    
+    .feature-check {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+    
+    /* Social proof */
+    .social-proof-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      margin-bottom: 1.25rem;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .avatar-stack {
+      display: flex;
+    }
+    
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid white;
+      margin-left: -10px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.6875rem;
+      font-weight: 700;
+    }
+    
+    .avatar:first-child {
+      margin-left: 0;
+    }
+    
+    .avatar-more {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+    
+    .social-text {
+      font-size: 0.875rem;
+      color: #475569;
+    }
+    
+    .social-text strong {
+      color: #0f172a;
+    }
+    
+    /* Trust badges */
+    .trust-pills {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    
+    .trust-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.8125rem;
+      color: #64748b;
+      background: rgba(255,255,255,0.8);
+      padding: 0.5rem 0.875rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    /* CTA Principal */
+    .cta-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 1.25rem 1.5rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35), 0 0 0 1px rgba(255,255,255,0.2) inset;
+      transition: all 0.2s ease;
+      margin-bottom: 0.875rem;
+    }
+    
+    .cta-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(16, 185, 129, 0.45), 0 0 0 1px rgba(255,255,255,0.2) inset;
+    }
+    
+    .cta-arrow {
+      transition: transform 0.3s ease;
+    }
+    
+    .cta-main:hover .cta-arrow {
+      transform: translateX(4px);
+    }
+    
+    /* Urgency pill */
+    .urgency-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(239, 68, 68, 0.08);
+      color: #dc2626;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .urgency-dot {
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    
+    /* Bottom bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.95) 30%);
+      padding: 0.75rem 1rem 1rem;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    
+    .bottom-text {
+      text-align: center;
+      font-size: 0.8125rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+    
+    .bottom-text .highlight {
+      color: #dc2626;
+      font-weight: 700;
+    }
+    
+    .btn-urgent {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35), 0 0 0 1px rgba(255,255,255,0.2) inset;
+      animation: pulse-urgent 2s infinite;
+    }
+    
+    @keyframes pulse-urgent {
+      0%, 100% { box-shadow: 0 8px 24px rgba(239, 68, 68, 0.35); }
+      50% { box-shadow: 0 12px 32px rgba(239, 68, 68, 0.5); }
+    }
+    
+    /* Animações de entrada */
+    .animate-in {
+      animation: slideUpFade 0.6s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    @keyframes slideUpFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+  <section class="hero-with-image">
+    <div class="hero-bg-pattern"></div>
+    
+    <div class="hero-container">
+      <div class="container">
+        <!-- Top Bar -->
+        <div class="hero-top animate-in">
+          <div class="brand-mini">
+            <div class="brand-mini-icon">🏥</div>
+            <span>MedDigital</span>
+          </div>
+          <div class="secure-pill">
+            <span>🔒</span>
+            <span>Site Seguro SSL</span>
+          </div>
+        </div>
+        
+        <!-- Hero Illustration -->
+        <div class="hero-illustration animate-in delay-1">
+          <img src="src/images/hero-illustration.svg" alt="Médico com tablet digital">
+        </div>
+        
+        <!-- Badge -->
+        <div class="hero-badge-float animate-in delay-2">
+          <span>⚡</span>
+          <span>Emissão em até 5 minutos</span>
+        </div>
+        
+        <!-- Title -->
+        <h1 class="hero-title animate-in delay-2">
+          Seu <span class="gradient-text">Atestado Médico</span> Digital <span class="urgent-text">em Minutos</span>
+        </h1>
+        
+        <!-- Subtitle -->
+        <p class="hero-subtitle animate-in delay-3">
+          Documento válido em todo território nacional com assinatura digital ICP-Brasil. Sem filas, sem espera.
+        </p>
+        
+        <!-- Floating Cards -->
+        <div class="floating-cards animate-in delay-3">
+          <div class="float-card">
+            <div class="float-card-icon green">✓</div>
+            <span>100% Online</span>
+          </div>
+          <div class="float-card">
+            <div class="float-card-icon blue">⚡</div>
+            <span>Entrega Imediata</span>
+          </div>
+          <div class="float-card">
+            <div class="float-card-icon yellow">🏥</div>
+            <span>Validade Nacional</span>
+          </div>
+        </div>
+        
+        <!-- Features -->
+        <div class="features-list animate-in delay-4">
+          <div class="feature-item">
+            <div class="feature-check">✓</div>
+            <span>Válido para empresas, faculdades e órgãos públicos</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">✓</div>
+            <span>Receba direto no email em formato PDF</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">✓</div>
+            <span>Consulta médica virtual inclusa</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-check">✓</div>
+            <span>Pagamento único, sem assinatura</span>
+          </div>
+        </div>
+        
+        <!-- Social Proof -->
+        <div class="social-proof-card animate-in delay-4">
+          <div class="avatar-stack">
+            <div class="avatar">JM</div>
+            <div class="avatar">AL</div>
+            <div class="avatar">CK</div>
+            <div class="avatar avatar-more">+</div>
+          </div>
+          <div class="social-text">
+            <strong>2.847 pessoas</strong> usaram hoje
+          </div>
+        </div>
+        
+        <!-- Trust Pills -->
+        <div class="trust-pills animate-in delay-5">
+          <div class="trust-pill">
+            <span>🛡️</span>
+            <span>100% Seguro</span>
+          </div>
+          <div class="trust-pill">
+            <span>✓</span>
+            <span>Validade Legal</span>
+          </div>
+          <div class="trust-pill">
+            <span>🔒</span>
+            <span>SSL 256-bit</span>
+          </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="animate-in delay-5">
+          <a href="quiz.html" class="cta-main">
+            <span>Quero Meu Atestado Agora</span>
+            <span class="cta-arrow">→</span>
+          </a>
+          
+          <div style="text-align: center;">
+            <span class="urgency-pill">
+              <span class="urgency-dot"></span>
+              <span>Vagas limitadas para hoje</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+      <div class="container">
+        <p class="bottom-text">
+          ⚠️ <span class="highlight">Atenção:</span> Protocolo médico expira em <span id="countdown-mini">09:59</span>
+        </p>
+        <a href="quiz.html" class="btn-urgent">
+          <span>INICIAR AVALIAÇÃO MÉDICA</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Countdown
+    function updateCountdown() {
+      const now = new Date();
+      const minutos = 9 - (now.getMinutes() % 10);
+      const segundos = 59 - now.getSeconds();
+      document.getElementById('countdown-mini').textContent = 
+        `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>

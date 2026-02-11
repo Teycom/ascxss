@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
+  <!-- Background -->
+  <rect width="400" height="120" fill="url(#bg-gradient)" rx="16"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0" y1="0" x2="400" y2="120">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Decorative circles -->
+  <circle cx="350" cy="30" r="40" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="50" cy="100" r="30" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="320" cy="90" r="20" fill="rgba(255,255,255,0.05)"/>
+  
+  <!-- Medical cross -->
+  <g transform="translate(40, 35)">
+    <rect x="18" y="0" width="14" height="50" rx="4" fill="white"/>
+    <rect x="0" y="18" width="50" height="14" rx="4" fill="white"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="110" y="50" font-family="system-ui" font-size="20" font-weight="700" fill="white">Avaliação Médica</text>
+  <text x="110" y="75" font-family="system-ui" font-size="13" fill="rgba(255,255,255,0.85)">Responda algumas perguntas rápidas</text>
+  
+  <!-- Checkmarks -->
+  <g transform="translate(320, 50)">
+    <circle cx="20" cy="0" r="18" fill="rgba(255,255,255,0.2)"/>
+    <path d="M12 0 L17 5 L28 -6" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  
+  <!-- Progress indicator -->
+  <rect x="110" y="90" width="200" height="6" rx="3" fill="rgba(255,255,255,0.2)"/>
+  <rect x="110" y="90" width="60" height="6" rx="3" fill="white"/>
+</svg>

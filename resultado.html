@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Documento Pronto | MedDigital</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+  <link rel="stylesheet" href="src/styles/main.css">
+  <style>
+    /* Estilos adicionais para imagens */
+    .document-illustration {
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+    }
+    
+    .document-illustration img {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+    }
+    
+    .lock-overlay-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+      animation: pulse-lock 2s infinite;
+    }
+    
+    @keyframes pulse-lock {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+    
+    .ai-icon-pulse {
+      animation: icon-pulse 2s infinite;
+    }
+    
+    @keyframes icon-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .result-header {
+      background: linear-gradient(180deg, rgba(239, 68, 68, 0.15) 0%, transparent 100%);
+      padding: 1.5rem 0;
+      text-align: center;
+      border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    
+    .countdown-box {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      backdrop-filter: blur(10px);
+    }
+    
+    .countdown-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fca5a5;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+    
+    .countdown-time {
+      font-size: 2.5rem;
+      font-weight: 800;
+      font-family: 'Courier New', monospace;
+      color: #ef4444;
+      animation: pulse 1s infinite;
+      text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+    }
+    
+    .patient-info {
+      padding: 1rem 0;
+      text-align: center;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .patient-name {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .patient-cpf {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      padding: 0.375rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      border: 1px solid rgba(251, 191, 36, 0.2);
+    }
+    
+    .document-section {
+      margin: 1.5rem 0;
+      position: relative;
+    }
+    
+    .document-preview {
+      background: white;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    }
+    
+    .document-blur {
+      filter: blur(6px);
+      opacity: 0.4;
+      padding: 1.5rem;
+      pointer-events: none;
+    }
+    
+    .document-lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(2px);
+    }
+    
+    .lock-badge {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 800;
+      font-size: 1.125rem;
+      transform: rotate(-5deg);
+      animation: stamp-pulse 2s infinite;
+      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    @keyframes stamp-pulse {
+      0%, 100% { transform: rotate(-5deg) scale(1); }
+      50% { transform: rotate(-5deg) scale(1.05); }
+    }
+    
+    .lock-message {
+      text-align: center;
+      color: #1e293b;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      background: rgba(255,255,255,0.95);
+      padding: 0.875rem 1.25rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      max-width: 220px;
+    }
+    
+    .ai-report {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .ai-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .ai-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    
+    .ai-title-group h3 {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: #6ee7b7;
+    }
+    
+    .ai-title-group p {
+      font-size: 0.6875rem;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .report-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.625rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .report-row:last-child {
+      border-bottom: none;
+    }
+    
+    .report-label {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .report-value {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-align: right;
+    }
+    
+    .report-value.highlight {
+      color: #4ade80;
+    }
+    
+    .confidence-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(16, 185, 129, 0.2);
+      color: #4ade80;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    
+    .pricing-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .pricing-title {
+      text-align: center;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #fbbf24;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+    }
+    
+    .price-row.strikethrough {
+      color: rgba(255,255,255,0.4);
+    }
+    
+    .price-row.strikethrough .price-value {
+      text-decoration: line-through;
+    }
+    
+    .price-row.final {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    
+    .price-row.final .price-value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #4ade80;
+    }
+    
+    .savings-box {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    
+    .savings-text {
+      font-size: 0.8125rem;
+      color: #6ee7b7;
+    }
+    
+    .savings-amount {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #4ade80;
+    }
+    
+    .pay-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.625rem;
+      width: 100%;
+      padding: 1.125rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      font-size: 1.0625rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+      animation: pay-pulse 2s infinite;
+      transition: all 0.2s ease;
+    }
+    
+    @keyframes pay-pulse {
+      0%, 100% { box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); }
+      50% { box-shadow: 0 14px 40px rgba(16, 185, 129, 0.55); }
+    }
+    
+    .pay-button:hover {
+      transform: translateY(-2px);
+    }
+    
+    .pay-subtext {
+      text-align: center;
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.75rem;
+    }
+    
+    .live-feed {
+      background: rgba(16, 185, 129, 0.1);
+      border-radius: 1rem;
+      padding: 1rem;
+    }
+    
+    .live-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: #6ee7b7;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    
+    .feed-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.7);
+      padding: 0.375rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .feed-item:last-child {
+      border-bottom: none;
+    }
+    
+    .feed-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.625rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .security-badges {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .sec-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+    }
+    
+    .sticky-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(180deg, transparent 0%, #0f172a 20%);
+      padding: 1rem;
+      z-index: 100;
+    }
+    
+    .footer-timer {
+      text-align: center;
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 0.5rem;
+    }
+    
+    .footer-timer span {
+      color: #ef4444;
+      font-weight: 700;
+    }
+    
+    .footer-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      border: none;
+      border-radius: 0.875rem;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.4);
+      animation: urgent-pulse 1.5s infinite;
+    }
+    
+    @keyframes urgent-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    
+    .result-container {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      color: white;
+      padding-bottom: 140px;
+    }
+  </style>
+</head>
+<body class="result-container">
+  <!-- Header Countdown -->
+  <div class="result-header">
+    <div class="container">
+      <div class="countdown-box">
+        <div class="countdown-label">
+          <span>⏱️</span>
+          <span>Protocolo Médico Expira Em:</span>
+        </div>
+        <div class="countdown-time" id="countdown">09:59</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Patient Info -->
+  <div class="patient-info">
+    <div class="container">
+      <div class="patient-name" id="patientName">Carregando...</div>
+      <div class="patient-cpf" id="patientCPF">...</div>
+      <div class="status-badge">
+        <span>🔒</span>
+        <span>Aguardando Liberação</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Document Illustration -->
+    <div class="document-illustration">
+      <img src="src/images/document-illustration.svg" alt="Documento Médico Digital">
+      <div class="lock-overlay-icon">🔒</div>
+    </div>
+
+    <!-- AI Report -->
+    <div class="ai-report">
+      <div class="ai-header">
+        <div class="ai-icon ai-icon-pulse">🤖</div>
+        <div class="ai-title-group">
+          <h3>Relatório da IA Médica</h3>
+          <p>Análise em tempo real</p>
+        </div>
+      </div>
+      <div class="report-row">
+        <span class="report-label">Sintoma Principal:</span>
+        <span class="report-value" id="reportSintoma">...</span>
+      </div>
+      <div class="report-row">
+        <span class="report-label">Diagnóstico:</span>
+        <span class="report-value highlight">Inaptid Confirmada</span>
+      </div>
+      <div class="report-row">
+        <span class="report-label">CID-10:</span>
+        <span class="report-value" id="reportCID">...</span>
+      </div>
+      <div class="report-row">
+        <span class="report-label">Confiança IA:</span>
+        <span class="confidence-badge">
+          <span>●</span>
+          <span>97.3%</span>
+        </span>
+      </div>
+      <div class="report-row">
+        <span class="report-label">Assinatura:</span>
+        <span class="report-value" style="color: #4ade80;">✓ ICP-Brasil</span>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="pricing-card">
+      <div class="pricing-title">💳 Investimento na Sua Saúde</div>
+      <div class="price-row strikethrough">
+        <span>Consulta presencial:</span>
+        <span class="price-value">R$ 200,00</span>
+      </div>
+      <div class="price-row strikethrough">
+        <span>Telemedicina tradicional:</span>
+        <span class="price-value">R$ 80,00</span>
+      </div>
+      <div class="price-row final">
+        <span>Processamento IA:</span>
+        <span class="price-value">R$ 19,90</span>
+      </div>
+      <div class="savings-box">
+        <div class="savings-text">Você economiza</div>
+        <div class="savings-amount">R$ 180,10</div>
+        <div class="savings-text">e ganha <span id="savingsDays">2 dias</span> de repouso</div>
+      </div>
+    </div>
+
+    <!-- Pay Button -->
+    <button class="pay-button" onclick="processPayment()">
+      <span>💳</span>
+      <span>PAGAR R$ 19,90 VIA PIX</span>
+    </button>
+    <p class="pay-subtext">🔓 Liberar meu atestado imediatamente • Pagamento em segundos</p>
+
+    <!-- Live Feed -->
+    <div class="live-feed">
+      <div class="live-header">
+        <div class="live-dot"></div>
+        <span>Comprovação Social em Tempo Real</span>
+      </div>
+      <div id="feedContainer">
+        <div class="feed-item">
+          <div class="feed-avatar">JM</div>
+          <span><strong>João M.</strong> acabou de pagar • PDF enviado</span>
+        </div>
+        <div class="feed-item">
+          <div class="feed-avatar">AL</div>
+          <span><strong>Ana L.</strong> liberou documento • 2 dias</span>
+        </div>
+        <div class="feed-item">
+          <div class="feed-avatar">CK</div>
+          <span><strong>Carlos K.</strong> pagou via Pix • Recebido</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Badges -->
+    <div class="security-badges">
+      <div class="sec-badge">
+        <span>🔒</span>
+        <span>Pagamento Seguro</span>
+      </div>
+      <div class="sec-badge">
+        <span>✓</span>
+        <span>SSL 256-bit</span>
+      </div>
+      <div class="sec-badge">
+        <span>🏥</span>
+        <span>Validade Nacional</span>
+      </div>
+    </div>
+
+    <!-- Legal Footer -->
+    <div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+        <a href="termos.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem;">Termos de Uso</a>
+        <a href="privacidade.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem;">Privacidade</a>
+        <a href="disclaimer.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.75rem;">Disclaimer</a>
+      </div>
+      <p style="font-size: 0.6875rem; color: rgba(255,255,255,0.3);">© 2025 MedDigital • Documentos válidos conforme legislação brasileira</p>
+    </div>
+  </div>
+
+  <!-- Sticky Footer -->
+  <div class="sticky-footer">
+    <div class="container">
+      <div class="footer-timer">
+        ⏱️ Oferta expira em <span id="footerTimer">09:59</span>
+      </div>
+      <button class="footer-btn" onclick="processPayment()">
+        <span>🔓</span>
+        <span>LIBERAR MEU ATESTADO AGORA</span>
+        <span>→</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Carrega dados
+    const nome = localStorage.getItem('atestado_nome') || 'Paciente';
+    const cpf = localStorage.getItem('atestado_cpf') || '000.000.000-00';
+    const sintoma = localStorage.getItem('atestado_sintoma') || 'Geral';
+    const dias = parseInt(localStorage.getItem('atestado_dias')) || 2;
+
+    const cids = {
+      'Gripe/Febre/Fraqueza': 'J11 - Influenza',
+      'Dor Muscular/Articular': 'M79.1 - Mialgia',
+      'Enxaqueca/Tontura': 'G43.9 - Enxaqueca',
+      'Mal-estar Gástrico': 'K30 - Dispepsia',
+      'Crise de Ansiedade': 'F41.9 - Ansiedade'
+    };
+
+    document.getElementById('patientName').textContent = nome;
+    document.getElementById('patientCPF').textContent = `CPF: ${cpf}`;
+    document.getElementById('reportSintoma').textContent = sintoma;
+    document.getElementById('reportCID').textContent = cids[sintoma] || 'Z76.5 - Geral';
+    document.getElementById('savingsDays').textContent = `${dias} dias`;
+
+    // Countdown
+    let min = 9, sec = 59;
+    setInterval(() => {
+      sec--;
+      if (sec < 0) { sec = 59; min--; }
+      if (min < 0) { min = 9; sec = 59; }
+      const t = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+      document.getElementById('countdown').textContent = t;
+      document.getElementById('footerTimer').textContent = t;
+    }, 1000);
+
+    // Live feed
+    const nomes = [['MA','Maria A.','2 dias'], ['LS','Lucas S.','1 dia'], ['PO','Paula O.','2 dias']];
+    let idx = 0;
+    setInterval(() => {
+      const container = document.getElementById('feedContainer');
+      container.children[0].remove();
+      const n = nomes[idx % nomes.length];
+      const div = document.createElement('div');
+      div.className = 'feed-item';
+      div.innerHTML = `<div class="feed-avatar">${n[0]}</div><span><strong>${n[1]}</strong> acabou de pagar • ${n[2]}</span>`;
+      container.appendChild(div);
+      idx++;
+    }, 3000);
+
+    function processPayment() {
+      const btn = event.currentTarget;
+      btn.innerHTML = '<span>⏳</span><span>Processando...</span>';
+      btn.disabled = true;
+      setTimeout(() => {
+        alert('Integração com gateway de pagamento necessária.\n\nSubstitua pela integração real (Stripe, Mercado Pago, etc.)');
+        btn.innerHTML = '<span>💳</span><span>PAGAR R$ 19,90 VIA PIX</span>';
+        btn.disabled = false;
+      }, 1500);
+    }
+  </script>
+</body>
+</html>

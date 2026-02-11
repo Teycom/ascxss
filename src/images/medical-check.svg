@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="#ecfdf5"/>
+  <circle cx="100" cy="100" r="70" fill="#d1fae5"/>
+  
+  <!-- Stethoscope -->
+  <path d="M60 140 C60 120 70 110 80 110 L80 80 C80 70 90 60 100 60 C110 60 120 70 120 80 L120 110 C130 110 140 120 140 140" 
+        stroke="#059669" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- Chest piece -->
+  <circle cx="100" cy="60" r="15" fill="#059669"/>
+  <circle cx="100" cy="60" r="8" fill="#34d399"/>
+  
+  <!-- Ear pieces -->
+  <circle cx="60" cy="140" r="10" fill="#374151"/>
+  <circle cx="140" cy="140" r="10" fill="#374151"/>
+  
+  <!-- Checkmark overlay -->
+  <g transform="translate(130, 130)">
+    <circle cx="25" cy="25" r="25" fill="#10b981"/>
+    <path d="M15 25 L22 32 L35 18" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Pulse line decoration -->
+  <path d="M40 160 L50 160 L55 140 L65 180 L75 150 L80 160 L100 160" 
+        stroke="#6ee7b7" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>
