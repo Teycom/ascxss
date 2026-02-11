@@ -4,23 +4,637 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Avaliação Médica | MedDigital</title>
-  <meta name="description" content="Complete sua avaliação médica para emissão do atestado digital.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
-  <link rel="stylesheet" href="src/styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      min-height: 100vh;
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #059669 0%, #0891b2 100%);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      font-weight: 800;
+      font-size: 18px;
+    }
+    
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    /* Progress */
+    .progress-wrapper {
+      background: white;
+      padding: 16px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      width: 20%;
+    }
+    
+    .progress-text {
+      font-size: 12px;
+      color: #64748b;
+      text-align: center;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    
+    /* Cards */
+    .quiz-container {
+      padding: 20px 0 40px;
+    }
+    
+    .step-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      border: 1px solid #f1f5f9;
+    }
+    
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    
+    .step-subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+    
+    .urgent { color: #dc2626; }
+    
+    /* Options */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .option-item:hover {
+      border-color: #10b981;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .option-item.selected {
+      border-color: #10b981;
+      background: #ecfdf5;
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
+    }
+    
+    .option-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .option-icon.gripe { background: #fef3c7; }
+    .option-icon.dor { background: #fce7f3; }
+    .option-icon.cabeca { background: #dbeafe; }
+    .option-icon.estomago { background: #d1fae5; }
+    .option-icon.ansiedade { background: #f3e8ff; }
+    .option-icon.tempo { background: #fef3c7; }
+    
+    .option-content { flex: 1; }
+    
+    .option-title {
+      font-weight: 600;
+      font-size: 15px;
+      color: #1e293b;
+      margin-bottom: 2px;
+    }
+    
+    .option-desc {
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    .option-check {
+      width: 28px;
+      height: 28px;
+      background: #10b981;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s ease;
+    }
+    
+    .option-item.selected .option-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    /* Checkboxes */
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .checkbox-item.selected {
+      border-color: #10b981;
+      background: #ecfdf5;
+    }
+    
+    .checkbox-box {
+      width: 24px;
+      height: 24px;
+      border: 2px solid #cbd5e1;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    .checkbox-item.selected .checkbox-box {
+      background: #10b981;
+      border-color: #10b981;
+    }
+    
+    .checkbox-box::after {
+      content: '✓';
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      opacity: 0;
+    }
+    
+    .checkbox-item.selected .checkbox-box::after {
+      opacity: 1;
+    }
+    
+    .checkbox-text {
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.4;
+    }
+    
+    /* Slider */
+    .slider-container {
+      padding: 20px 0;
+    }
+    
+    .slider {
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+      -webkit-appearance: none;
+      outline: none;
+    }
+    
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      border: 4px solid #10b981;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    .slider-value {
+      text-align: center;
+      margin-top: 20px;
+      padding: 16px;
+      background: #ecfdf5;
+      border-radius: 12px;
+      font-weight: 600;
+      color: #059669;
+      border: 2px solid #d1fae5;
+    }
+    
+    .slider-value.critical {
+      background: #fef2f2;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
+    
+    /* Inputs */
+    .input-group { margin-bottom: 16px; }
+    
+    .input-field {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16,185,129,0.1);
+    }
+    
+    .input-feedback {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    
+    .input-feedback.success { color: #10b981; }
+    .input-feedback.error { color: #ef4444; }
+    
+    .input-preview {
+      background: #ecfdf5;
+      border: 2px dashed #10b981;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      display: none;
+    }
+    
+    .input-preview.show { display: block; }
+    
+    .input-preview-label {
+      font-size: 12px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    
+    .input-preview-value {
+      font-weight: 700;
+      color: #059669;
+      font-size: 16px;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 16px;
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 16px rgba(16,185,129,0.3);
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+    }
+    
+    /* Signature */
+    .signature-wrapper {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .signature-canvas {
+      width: 100%;
+      height: 200px;
+      background: white;
+      border-radius: 12px;
+      cursor: crosshair;
+      touch-action: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .signature-clear {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 12px;
+      padding: 8px;
+    }
+    
+    /* Alerts */
+    .alert {
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .alert-icon { font-size: 20px; }
+    .alert-content { font-size: 14px; line-height: 1.5; }
+    
+    .alert-warning {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      color: #92400e;
+    }
+    
+    .alert-danger {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+      color: #991b1b;
+    }
+    
+    .alert-info {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      color: #1e40af;
+    }
+    
+    /* Loading */
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0f172a;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      z-index: 1000;
+      padding: 24px;
+    }
+    
+    .loading-overlay[style*="flex"] {
+      display: flex !important;
+    }
+    
+    .loading-icon {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+    
+    .loading-spinner {
+      width: 100%;
+      height: 100%;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top-color: #10b981;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-icon-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+    }
+    
+    .loading-title {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      text-align: center;
+    }
+    
+    .loading-status {
+      color: #94a3b8;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    .loading-bar {
+      width: 280px;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .loading-progress {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+    
+    .modal-overlay[style*="flex"] {
+      display: flex !important;
+    }
+    
+    .modal {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      width: 100%;
+      max-width: 400px;
+      animation: modalIn 0.3s ease;
+    }
+    
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #0f172a;
+    }
+    
+    .modal-text {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .modal-btn {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .modal-btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+    }
+    
+    .modal-btn-primary {
+      background: #10b981;
+      color: white;
+    }
+    
+    /* Hidden */
+    .hidden { display: none !important; }
+    
+    /* Animation */
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease;
+    }
+  </style>
 </head>
 <body>
   <!-- Header -->
-  <header class="app-header">
+  <header class="header">
     <div class="container">
       <div class="header-content">
         <div class="brand">
           <div class="brand-icon">🏥</div>
           <span>MedDigital</span>
         </div>
-        <div class="header-badge">
-          <span>🔒</span>
-          <span>Seguro</span>
-        </div>
+        <div class="header-badge">🔒 Seguro</div>
       </div>
     </div>
   </header>
@@ -28,462 +642,434 @@
   <!-- Progress -->
   <div class="progress-wrapper">
     <div class="container">
-      <div class="progress-container">
-        <div class="progress-fill" id="progressFill" style="width: 22%"></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
       </div>
       <p class="progress-text" id="progressText">Iniciando avaliação...</p>
     </div>
   </div>
 
-  <!-- Quiz Container -->
-  <main class="quiz-container" style="padding: 1.5rem 0;">
+  <!-- Quiz -->
+  <main class="quiz-container">
     <div class="container">
       
-      <!-- STEP 1: Sintoma Principal -->
-      <div class="question-card" id="step-1">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Qual sintoma está dominando seu corpo <span style="color: var(--accent-red);">AGORA</span>?</h2>
-            <p class="card-subtitle">Selecione o sintoma mais intenso no momento</p>
+      <!-- STEP 1 -->
+      <div class="step-card" id="step-1">
+        <h2 class="step-title">Qual sintoma está dominando seu corpo <span class="urgent">AGORA</span>?</h2>
+        <p class="step-subtitle">Selecione o sintoma mais intenso no momento</p>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="gripe" onclick="selectOption(1, 'gripe', 'Gripe/Febre/Fraqueza')">
+            <div class="option-icon gripe">🤒</div>
+            <div class="option-content">
+              <div class="option-title">Gripe / Febre / Fraqueza</div>
+              <div class="option-desc">Tosse, coriza, mal-estar geral</div>
+            </div>
+            <div class="option-check">✓</div>
           </div>
-          <div class="options-list">
-            <div class="option-item" data-value="gripe" onclick="quizApp.selectOption(1, 'gripe', 'Gripe/Febre/Fraqueza')">
-              <div class="option-icon-box gripe">🤒</div>
-              <div class="option-content">
-                <div class="option-title">Gripe / Febre / Fraqueza</div>
-                <div class="option-desc">Tosse, coriza, mal-estar geral</div>
-              </div>
-              <div class="option-check">✓</div>
+          
+          <div class="option-item" data-value="dor" onclick="selectOption(1, 'dor', 'Dor Muscular/Articular')">
+            <div class="option-icon dor">💪</div>
+            <div class="option-content">
+              <div class="option-title">Dor Muscular / Articular</div>
+              <div class="option-desc">Dores no corpo, limitação de movimento</div>
             </div>
-            <div class="option-item" data-value="dor" onclick="quizApp.selectOption(1, 'dor', 'Dor Muscular/Articular')">
-              <div class="option-icon-box dor">💪</div>
-              <div class="option-content">
-                <div class="option-title">Dor Muscular / Articular</div>
-                <div class="option-desc">Dores no corpo, limitação de movimento</div>
-              </div>
-              <div class="option-check">✓</div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="cabeca" onclick="selectOption(1, 'cabeca', 'Enxaqueca/Tontura')">
+            <div class="option-icon cabeca">🧠</div>
+            <div class="option-content">
+              <div class="option-title">Enxaqueca / Tontura</div>
+              <div class="option-desc">Dor de cabeça intensa, vertigem</div>
             </div>
-            <div class="option-item" data-value="cabeca" onclick="quizApp.selectOption(1, 'cabeca', 'Enxaqueca/Tontura')">
-              <div class="option-icon-box cabeca">🧠</div>
-              <div class="option-content">
-                <div class="option-title">Enxaqueca / Tontura</div>
-                <div class="option-desc">Dor de cabeça intensa, vertigem</div>
-              </div>
-              <div class="option-check">✓</div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="estomago" onclick="selectOption(1, 'estomago', 'Mal-estar Gástrico')">
+            <div class="option-icon estomago">🤢</div>
+            <div class="option-content">
+              <div class="option-title">Mal-estar Gástrico</div>
+              <div class="option-desc">Náuseas, azia, cólicas abdominais</div>
             </div>
-            <div class="option-item" data-value="estomago" onclick="quizApp.selectOption(1, 'estomago', 'Mal-estar Gástrico')">
-              <div class="option-icon-box estomago">🤢</div>
-              <div class="option-content">
-                <div class="option-title">Mal-estar Gástrico</div>
-                <div class="option-desc">Náuseas, azia, cólicas abdominais</div>
-              </div>
-              <div class="option-check">✓</div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="ansiedade" onclick="selectOption(1, 'ansiedade', 'Crise de Ansiedade')">
+            <div class="option-icon ansiedade">💭</div>
+            <div class="option-content">
+              <div class="option-title">Crise de Ansiedade / Estresse</div>
+              <div class="option-desc">Aperto no peito, insônia, nervosismo</div>
             </div>
-            <div class="option-item" data-value="ansiedade" onclick="quizApp.selectOption(1, 'ansiedade', 'Crise de Ansiedade')">
-              <div class="option-icon-box ansiedade">💭</div>
-              <div class="option-content">
-                <div class="option-title">Crise de Ansiedade / Estresse</div>
-                <div class="option-desc">Aperto no peito, insônia, nervosismo</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
+            <div class="option-check">✓</div>
           </div>
         </div>
-        <div class="alert alert-info" id="alert-sintoma" style="display: none;"></div>
+        
+        <div class="alert alert-info hidden" id="alert-sintoma"></div>
       </div>
 
-      <!-- STEP 2: Tempo -->
-      <div class="question-card hidden" id="step-2">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Há quanto tempo seu organismo pede socorro?</h2>
-            <p class="card-subtitle">Isso ajuda a determinar a necessidade de repouso</p>
+      <!-- STEP 2 -->
+      <div class="step-card hidden" id="step-2">
+        <h2 class="step-title">Há quanto tempo seu organismo pede socorro?</h2>
+        <p class="step-subtitle">Isso ajuda a determinar a necessidade de repouso</p>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="hoje" onclick="selectOption(2, 'hoje', 'Começou hoje')">
+            <div class="option-icon tempo">⏰</div>
+            <div class="option-content">
+              <div class="option-title">Começou hoje (agora há pouco)</div>
+            </div>
+            <div class="option-check">✓</div>
           </div>
-          <div class="options-list">
-            <div class="option-item" data-value="hoje" onclick="quizApp.selectOption(2, 'hoje', 'Começou hoje')">
-              <div class="option-icon-box tempo">⏰</div>
-              <div class="option-content">
-                <div class="option-title">Começou hoje (agora há pouco)</div>
-              </div>
-              <div class="option-check">✓</div>
+          
+          <div class="option-item" data-value="ontem" onclick="selectOption(2, 'ontem', 'Desde ontem')">
+            <div class="option-icon" style="background: #fce7f3;">📅</div>
+            <div class="option-content">
+              <div class="option-title">Desde ontem</div>
             </div>
-            <div class="option-item" data-value="ontem" onclick="quizApp.selectOption(2, 'ontem', 'Desde ontem')">
-              <div class="option-icon-box" style="background: #fce7f3;">📅</div>
-              <div class="option-content">
-                <div class="option-title">Desde ontem</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="48h" onclick="quizApp.selectOption(2, '48h', 'Mais de 48h')">
-              <div class="option-icon-box" style="background: #fee2e2;">⚠️</div>
-              <div class="option-content">
-                <div class="option-title">Mais de 48 horas</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
+            <div class="option-check">✓</div>
           </div>
-        </div>
-      </div>
-
-      <!-- STEP 3: Escala de Dor -->
-      <div class="question-card hidden" id="step-3">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Em uma escala de 1 a 10, seu corpo está pedindo para parar?</h2>
-            <p class="card-subtitle">Avalie a intensidade dos seus sintomas</p>
-          </div>
-          <div class="slider-container">
-            <input type="range" min="1" max="10" value="5" class="slider" id="painSlider" oninput="quizApp.updatePainLevel(this.value)">
-            <div class="slider-labels">
-              <span>Leve (1)</span>
-              <span>Moderado (5)</span>
-              <span>Intenso (10)</span>
+          
+          <div class="option-item" data-value="48h" onclick="selectOption(2, '48h', 'Mais de 48h')">
+            <div class="option-icon" style="background: #fee2e2;">⚠️</div>
+            <div class="option-content">
+              <div class="option-title">Mais de 48 horas</div>
             </div>
-            <div class="slider-value" id="painValue">Nível 5: Desconforto significativo</div>
-          </div>
-          <button class="btn btn-primary w-full" onclick="quizApp.submitPainLevel(3)" style="margin-top: 1.5rem;">
-            Continuar Avaliação →
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 4: Sinais de Alerta -->
-      <div class="question-card hidden" id="step-4">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Você apresenta algum desses sinais de alerta?</h2>
-            <p class="card-subtitle">Marque todos que se aplicam ao seu caso</p>
-          </div>
-          <div class="options-list">
-            <label class="checkbox-item" onclick="quizApp.toggleCheckbox(this, 'febre')">
-              <div class="checkbox-box"></div>
-              <div class="checkbox-text">Febre acima de 37,5°C</div>
-            </label>
-            <label class="checkbox-item" onclick="quizApp.toggleCheckbox(this, 'cama')">
-              <div class="checkbox-box"></div>
-              <div class="checkbox-text">Dificuldade para levantar da cama</div>
-            </label>
-            <label class="checkbox-item" onclick="quizApp.toggleCheckbox(this, 'vomito')">
-              <div class="checkbox-box"></div>
-              <div class="checkbox-text">Vômitos ou náuseas persistentes</div>
-            </label>
-            <label class="checkbox-item" onclick="quizApp.toggleCheckbox(this, 'dor_intensa')">
-              <div class="checkbox-box"></div>
-              <div class="checkbox-text">Dor intensa ao movimentar</div>
-            </label>
-            <label class="checkbox-item" onclick="quizApp.toggleCheckbox(this, 'falta_ar')">
-              <div class="checkbox-box"></div>
-              <div class="checkbox-text">Falta de ar ou dificuldade para respirar</div>
-            </label>
-          </div>
-          <button class="btn btn-primary w-full" onclick="quizApp.submitCheckboxes(4)" style="margin-top: 1.5rem;">
-            Continuar →
-          </button>
-        </div>
-        <div class="alert alert-warning" id="alert-checkboxes" style="display: none;"></div>
-      </div>
-
-      <!-- STEP 5: Remédio Caseiro -->
-      <div class="question-card hidden" id="step-5">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Já tentou "aguentar" tomando remédio caseiro?</h2>
-            <p class="card-subtitle">Informe se já fez alguma tentativa de alívio</p>
-          </div>
-          <div class="options-list">
-            <div class="option-item" data-value="nao_resolveu" onclick="quizApp.selectOption(5, 'nao_resolveu', 'Remédio não resolveu', {id: 'alert-remedio', condition: v => v === 'nada', message: '<strong>Atenção:</strong> Postergar tratamento pode aumentar o tempo de recuperação.', delay: 1000})">
-              <div class="option-icon-box" style="background: #fecaca;">💊</div>
-              <div class="option-content">
-                <div class="option-title">Sim, tomei remédio e não resolveu</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="caseiro" onclick="quizApp.selectOption(5, 'caseiro', 'Só chá/caseiro', {id: 'alert-remedio', condition: v => v === 'nada', message: '<strong>Atenção:</strong> Postergar tratamento pode aumentar o tempo de recuperação.', delay: 1000})">
-              <div class="option-icon-box" style="background: #fef3c7;">🍵</div>
-              <div class="option-content">
-                <div class="option-title">Só chá ou remédio caseiro</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="nada" onclick="quizApp.selectOption(5, 'nada', 'Estou aguentando', {id: 'alert-remedio', condition: v => v === 'nada', message: '<strong>Atenção:</strong> Postergar tratamento pode aumentar o tempo de recuperação.', delay: 1000})">
-              <div class="option-icon-box" style="background: #e5e7eb;">❌</div>
-              <div class="option-content">
-                <div class="option-title">Não tomei nada (estou aguentando)</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-          </div>
-        </div>
-        <div class="alert alert-danger" id="alert-remedio" style="display: none;"></div>
-      </div>
-
-      <!-- STEP 6: Trabalho -->
-      <div class="question-card hidden" id="step-6">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Seu trabalho exige foco mental ou operação de máquinas?</h2>
-            <p class="card-subtitle">Isso determina a necessidade de atestado prioritário</p>
-          </div>
-          <div class="options-list">
-            <div class="option-item" data-value="raciocinio" onclick="quizApp.selectOption(6, 'raciocinio', 'Foco mental')">
-              <div class="option-icon-box" style="background: #dbeafe;">🧠</div>
-              <div class="option-content">
-                <div class="option-title">Sim, preciso raciocinar claramente</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="maquinas" onclick="quizApp.selectOption(6, 'maquinas', 'Opero máquinas', {id: 'alert-maquinas', condition: v => v === 'maquinas', message: '🚨 <strong>Risco de acidente detectado!</strong> Atestado prioritário indicado para sua segurança.', delay: 1000})">
-              <div class="option-icon-box" style="background: #fee2e2;">⚙️</div>
-              <div class="option-content">
-                <div class="option-title">Sim, opero máquinas/veículos</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="presenca" onclick="quizApp.selectOption(6, 'presenca', 'Preciso estar presente')">
-              <div class="option-icon-box" style="background: #dcfce7;">👤</div>
-              <div class="option-content">
-                <div class="option-title">Preciso estar presente, mas não opero máquinas</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-          </div>
-        </div>
-        <div class="alert alert-danger" id="alert-maquinas" style="display: none;"></div>
-      </div>
-
-      <!-- STEP 7: Piora -->
-      <div class="question-card hidden" id="step-7">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Se você for trabalhar hoje, sente que vai piorar?</h2>
-            <p class="card-subtitle">Avalie honestamente sua condição</p>
-          </div>
-          <div class="options-list">
-            <div class="option-item" data-value="sim" onclick="quizApp.selectOption(7, 'sim', 'Vou me sentir pior')">
-              <div class="option-icon-box" style="background: #fecaca;">😔</div>
-              <div class="option-content">
-                <div class="option-title">Sim, vou me sentir pior</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="talvez" onclick="quizApp.selectOption(7, 'talvez', 'Talvez')">
-              <div class="option-icon-box" style="background: #fef3c7;">🤔</div>
-              <div class="option-content">
-                <div class="option-title">Talvez</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="nao_renderei" onclick="quizApp.selectOption(7, 'nao_renderei', 'Não renderei nada')">
-              <div class="option-icon-box" style="background: #e5e7eb;">📉</div>
-              <div class="option-content">
-                <div class="option-title">Não vou piorar, mas não renderei nada</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-          </div>
-        </div>
-        <div class="alert alert-info" id="alert-piora" style="margin-top: 1rem; display: flex;">
-          <span class="alert-icon">💡</span>
-          <div class="alert-content"><strong>Sua saúde é prioridade</strong> sobre produtividade temporária.</div>
-        </div>
-      </div>
-
-      <!-- STEP 8: Quando Precisa -->
-      <div class="question-card hidden" id="step-8">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Você precisa justificar ausência para:</h2>
-          </div>
-          <div class="options-list">
-            <div class="option-item" data-value="hoje" onclick="quizApp.selectOption(8, 'hoje', 'Hoje (urgente)')">
-              <div class="option-icon-box" style="background: #fecaca;">🔴</div>
-              <div class="option-content">
-                <div class="option-title">Hoje (urgente)</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="amanha" onclick="quizApp.selectOption(8, 'amanha', 'Amanhã')">
-              <div class="option-icon-box" style="background: #fef3c7;">🟡</div>
-              <div class="option-content">
-                <div class="option-title">Amanhã</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="retroativo" onclick="quizApp.selectOption(8, 'retroativo', 'Retroativo')">
-              <div class="option-icon-box" style="background: #e0e7ff;">📄</div>
-              <div class="option-content">
-                <div class="option-title">Retroativo (ontem)</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
+            <div class="option-check">✓</div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 9: CID -->
-      <div class="question-card hidden" id="step-9">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Sua empresa exige CID específico no documento?</h2>
+      <!-- STEP 3 -->
+      <div class="step-card hidden" id="step-3">
+        <h2 class="step-title">Em uma escala de 1 a 10, seu corpo está pedindo para parar?</h2>
+        <p class="step-subtitle">Avalie a intensidade dos seus sintomas</p>
+        
+        <div class="slider-container">
+          <input type="range" min="1" max="10" value="5" class="slider" id="painSlider" oninput="updatePainLevel(this.value)">
+          <div class="slider-labels">
+            <span>Leve (1)</span>
+            <span>Moderado (5)</span>
+            <span>Intenso (10)</span>
           </div>
-          <div class="options-list">
-            <div class="option-item" data-value="sim" onclick="quizApp.selectOption(9, 'sim', 'Sim, RH pede código')">
-              <div class="option-icon-box" style="background: #dbeafe;">📋</div>
-              <div class="option-content">
-                <div class="option-title">Sim, RH pede código</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="nao_sei" onclick="quizApp.selectOption(9, 'nao_sei', 'Não sei')">
-              <div class="option-icon-box" style="background: #fef3c7;">❓</div>
-              <div class="option-content">
-                <div class="option-title">Não sei</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-            <div class="option-item" data-value="nao" onclick="quizApp.selectOption(9, 'nao', 'Aceitam atestado simples')">
-              <div class="option-icon-box" style="background: #dcfce7;">✅</div>
-              <div class="option-content">
-                <div class="option-title">Não, aceitam atestado simples</div>
-              </div>
-              <div class="option-check">✓</div>
-            </div>
-          </div>
+          <div class="slider-value" id="painValue">Nível 5: Desconforto significativo</div>
         </div>
-        <div class="alert alert-info" style="margin-top: 1rem; display: flex;">
-          <span class="alert-icon">🤖</span>
-          <div class="alert-content"><strong>IA Médica:</strong> Nosso sistema selecionará automaticamente o CID mais adequado ao seu caso clínico.</div>
-        </div>
+        
+        <button class="btn btn-primary" onclick="submitPainLevel(3)">Continuar →</button>
       </div>
 
-      <!-- STEP 10: Nome -->
-      <div class="question-card hidden" id="step-10">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Qual seu nome completo para o laudo oficial?</h2>
-            <p class="card-subtitle">Digite conforme aparece em seu documento</p>
-          </div>
-          <div class="input-group">
-            <input type="text" class="input-field" id="nomeInput" placeholder="Ex: João Silva Santos" oninput="quizApp.updateNome(this.value)">
-            <div class="input-feedback" id="feedbackNome"></div>
-          </div>
-          <div class="input-preview" id="nomePreview">
-            <div class="input-preview-label">Gerando laudo para:</div>
-            <div class="input-preview-value" id="nomePreviewText"></div>
-          </div>
-          <button class="btn btn-primary w-full" onclick="quizApp.submitNome(10)" id="btnNome" disabled>
-            Continuar →
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 11: CPF -->
-      <div class="question-card hidden" id="step-11">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Seu CPF para validação digital do documento</h2>
-            <p class="card-subtitle">Obrigatório para assinatura ICP-Brasil</p>
-          </div>
-          <div class="input-group">
-            <input type="text" class="input-field" id="cpfInput" placeholder="000.000.000-00" maxlength="14" oninput="quizApp.formatCPF(this)">
-            <div class="input-feedback" id="feedbackCPF"></div>
-          </div>
-          <button class="btn btn-primary w-full" onclick="quizApp.submitCPF(11)" id="btnCPF" disabled>
-            Continuar →
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 12: Email -->
-      <div class="question-card hidden" id="step-12">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Email para envio do documento</h2>
-            <p class="card-subtitle">Você receberá o PDF em segundos após aprovação</p>
-          </div>
-          <div class="input-group">
-            <input type="email" class="input-field" id="emailInput" placeholder="seu@email.com" oninput="quizApp.validateEmail(this.value)">
-            <div class="input-feedback" id="feedbackEmail"></div>
-          </div>
-          <button class="btn btn-primary w-full" onclick="quizApp.submitEmail(12)" id="btnEmail" disabled>
-            Continuar →
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 13: Confirmação -->
-      <div class="question-card hidden" id="step-13">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Confirmação de Veracidade</h2>
-            <p class="card-subtitle">Último passo antes da análise médica final</p>
-          </div>
-          <label class="checkbox-item" onclick="quizApp.toggleConfirm(this)" style="padding: 1.25rem;">
+      <!-- STEP 4 -->
+      <div class="step-card hidden" id="step-4">
+        <h2 class="step-title">Você apresenta algum desses sinais de alerta?</h2>
+        <p class="step-subtitle">Marque todos que se aplicam ao seu caso</p>
+        
+        <div class="options-list">
+          <label class="checkbox-item" onclick="toggleCheckbox(this, 'febre')">
             <div class="checkbox-box"></div>
-            <div>
-              <div style="font-weight: 600; margin-bottom: 0.25rem;">Sim, confirmo a veracidade dos sintomas</div>
-              <div style="font-size: 0.8125rem; color: var(--gray-500);">Declaro que as informações são verdadeiras sob responsabilidade</div>
-            </div>
+            <div class="checkbox-text">Febre acima de 37,5°C</div>
           </label>
-          <div class="alert alert-danger" style="margin-top: 1rem; display: flex;">
-            <span class="alert-icon">⚠️</span>
-            <div class="alert-content" style="font-size: 0.8125rem;"><strong>Aviso legal:</strong> Falsidade em documento médico constitui crime previsto no art. 299 do Código Penal.</div>
+          
+          <label class="checkbox-item" onclick="toggleCheckbox(this, 'cama')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">Dificuldade para levantar da cama</div>
+          </label>
+          
+          <label class="checkbox-item" onclick="toggleCheckbox(this, 'vomito')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">Vômitos ou náuseas persistentes</div>
+          </label>
+          
+          <label class="checkbox-item" onclick="toggleCheckbox(this, 'dor_intensa')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">Dor intensa ao movimentar</div>
+          </label>
+          
+          <label class="checkbox-item" onclick="toggleCheckbox(this, 'falta_ar')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">Falta de ar ou dificuldade para respirar</div>
+          </label>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitCheckboxes(4)">Continuar →</button>
+        <div class="alert alert-warning hidden" id="alert-checkboxes"></div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step-card hidden" id="step-5">
+        <h2 class="step-title">Já tentou "aguentar" tomando remédio caseiro?</h2>
+        <p class="step-subtitle">Informe se já fez alguma tentativa de alívio</p>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="nao_resolveu" onclick="selectOption(5, 'nao_resolveu', 'Remédio não resolveu')">
+            <div class="option-icon" style="background: #fecaca;">💊</div>
+            <div class="option-content">
+              <div class="option-title">Sim, tomei remédio e não resolveu</div>
+            </div>
+            <div class="option-check">✓</div>
           </div>
-          <button class="btn btn-primary w-full" onclick="quizApp.submitConfirm(13)" id="btnConfirm" disabled style="margin-top: 1.5rem;">
-            Prosseguir para Assinatura →
-          </button>
+          
+          <div class="option-item" data-value="caseiro" onclick="selectOption(5, 'caseiro', 'Só chá/caseiro')">
+            <div class="option-icon" style="background: #fef3c7;">🍵</div>
+            <div class="option-content">
+              <div class="option-title">Só chá ou remédio caseiro</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="nada" onclick="selectOption(5, 'nada', 'Estou aguentando')">
+            <div class="option-icon" style="background: #e5e7eb;">❌</div>
+            <div class="option-content">
+              <div class="option-title">Não tomei nada (estou aguentando)</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        
+        <div class="alert alert-danger hidden" id="alert-remedio"></div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step-card hidden" id="step-6">
+        <h2 class="step-title">Seu trabalho exige foco mental ou operação de máquinas?</h2>
+        <p class="step-subtitle">Isso determina a necessidade de atestado prioritário</p>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="raciocinio" onclick="selectOption(6, 'raciocinio', 'Foco mental')">
+            <div class="option-icon" style="background: #dbeafe;">🧠</div>
+            <div class="option-content">
+              <div class="option-title">Sim, preciso raciocinar claramente</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="maquinas" onclick="selectOption(6, 'maquinas', 'Opero máquinas')">
+            <div class="option-icon" style="background: #fee2e2;">⚙️</div>
+            <div class="option-content">
+              <div class="option-title">Sim, opero máquinas/veículos</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="presenca" onclick="selectOption(6, 'presenca', 'Preciso estar presente')">
+            <div class="option-icon" style="background: #d1fae5;">👤</div>
+            <div class="option-content">
+              <div class="option-title">Preciso estar presente, mas não opero máquinas</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        
+        <div class="alert alert-danger hidden" id="alert-maquinas"></div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="step-card hidden" id="step-7">
+        <h2 class="step-title">Se você for trabalhar hoje, sente que vai piorar?</h2>
+        <p class="step-subtitle">Avalie honestamente sua condição</p>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="sim" onclick="selectOption(7, 'sim', 'Vou me sentir pior')">
+            <div class="option-icon" style="background: #fecaca;">😔</div>
+            <div class="option-content">
+              <div class="option-title">Sim, vou me sentir pior</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="talvez" onclick="selectOption(7, 'talvez', 'Talvez')">
+            <div class="option-icon" style="background: #fef3c7;">🤔</div>
+            <div class="option-content">
+              <div class="option-title">Talvez</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="nao_renderei" onclick="selectOption(7, 'nao_renderei', 'Não renderei nada')">
+            <div class="option-icon" style="background: #e5e7eb;">📉</div>
+            <div class="option-content">
+              <div class="option-title">Não vou piorar, mas não renderei nada</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
         </div>
       </div>
 
-      <!-- STEP 14: Assinatura -->
-      <div class="question-card hidden" id="step-14">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">Assinatura Digital do Paciente</h2>
-            <p class="card-subtitle">Toque e arraste para assinar no quadro abaixo</p>
+      <!-- STEP 8 -->
+      <div class="step-card hidden" id="step-8">
+        <h2 class="step-title">Você precisa justificar ausência para:</h2>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="hoje" onclick="selectOption(8, 'hoje', 'Hoje (urgente)')">
+            <div class="option-icon" style="background: #fecaca;">🔴</div>
+            <div class="option-content">
+              <div class="option-title">Hoje (urgente)</div>
+            </div>
+            <div class="option-check">✓</div>
           </div>
-          <div class="signature-wrapper">
-            <div style="font-size: 0.8125rem; color: var(--gray-500); margin-bottom: 0.75rem;">Toque e arraste para assinar</div>
-            <canvas class="signature-canvas" id="signatureCanvas"></canvas>
-            <button class="signature-clear" onclick="quizApp.clearSignature()">Limpar assinatura</button>
+          
+          <div class="option-item" data-value="amanha" onclick="selectOption(8, 'amanha', 'Amanhã')">
+            <div class="option-icon" style="background: #fef3c7;">🟡</div>
+            <div class="option-content">
+              <div class="option-title">Amanhã</div>
+            </div>
+            <div class="option-check">✓</div>
           </div>
-          <button class="btn btn-primary w-full" onclick="quizApp.submitSignature(14)" id="btnSignature" disabled style="margin-top: 1.5rem;">
-            Confirmar Assinatura →
-          </button>
+          
+          <div class="option-item" data-value="retroativo" onclick="selectOption(8, 'retroativo', 'Retroativo')">
+            <div class="option-icon" style="background: #dbeafe;">📄</div>
+            <div class="option-content">
+              <div class="option-title">Retroativo (ontem)</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
         </div>
       </div>
 
-      <!-- STEP 15: Dias -->
-      <div class="question-card hidden" id="step-15">
-        <div class="card">
-          <div class="card-header">
-            <h2 class="card-title">A IA recomenda repouso. Você precisa de:</h2>
+      <!-- STEP 9 -->
+      <div class="step-card hidden" id="step-9">
+        <h2 class="step-title">Sua empresa exige CID específico no documento?</h2>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="sim" onclick="selectOption(9, 'sim', 'Sim, RH pede código')">
+            <div class="option-icon" style="background: #dbeafe;">📋</div>
+            <div class="option-content">
+              <div class="option-title">Sim, RH pede código</div>
+            </div>
+            <div class="option-check">✓</div>
           </div>
-          <div class="options-list">
-            <div class="option-item" data-value="1" onclick="quizApp.selectDays(1)">
-              <div class="option-icon-box" style="background: #fef3c7;">1️⃣</div>
-              <div class="option-content">
-                <div class="option-title">1 dia (24 horas)</div>
-                <div class="option-desc">Repouso parcial</div>
-              </div>
-              <div class="option-check">✓</div>
+          
+          <div class="option-item" data-value="nao_sei" onclick="selectOption(9, 'nao_sei', 'Não sei')">
+            <div class="option-icon" style="background: #fef3c7;">❓</div>
+            <div class="option-content">
+              <div class="option-title">Não sei</div>
             </div>
-            <div class="option-item" data-value="2" onclick="quizApp.selectDays(2)">
-              <div class="option-icon-box" style="background: #fde68a;">2️⃣</div>
-              <div class="option-content">
-                <div class="option-title">2 dias (48 horas)</div>
-                <div class="option-desc">Repouso recomendado</div>
-              </div>
-              <div class="option-check">✓</div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="nao" onclick="selectOption(9, 'nao', 'Aceitam atestado simples')">
+            <div class="option-icon" style="background: #d1fae5;">✅</div>
+            <div class="option-content">
+              <div class="option-title">Não, aceitam atestado simples</div>
             </div>
-            <div class="option-item" data-value="ia" onclick="quizApp.selectDays('ia')">
-              <div class="option-icon-box" style="background: #dbeafe;">🤖</div>
-              <div class="option-content">
-                <div class="option-title">Deixar a IA decidir</div>
-                <div class="option-desc">Baseado nos seus sintomas</div>
-              </div>
-              <div class="option-check">✓</div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        
+        <div class="alert alert-info" style="display: flex; margin-top: 16px;">
+          <span class="alert-icon">🤖</span>
+          <div class="alert-content"><strong>IA Médica:</strong> Nosso sistema selecionará automaticamente o CID mais adequado.</div>
+        </div>
+      </div>
+
+      <!-- STEP 10 -->
+      <div class="step-card hidden" id="step-10">
+        <h2 class="step-title">Qual seu nome completo para o laudo oficial?</h2>
+        <p class="step-subtitle">Digite conforme aparece em seu documento</p>
+        
+        <div class="input-group">
+          <input type="text" class="input-field" id="nomeInput" placeholder="Ex: João Silva Santos" oninput="updateNome(this.value)">
+          <div class="input-feedback" id="feedbackNome"></div>
+        </div>
+        
+        <div class="input-preview" id="nomePreview">
+          <div class="input-preview-label">Gerando laudo para:</div>
+          <div class="input-preview-value" id="nomePreviewText"></div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitNome(10)" id="btnNome" disabled>Continuar →</button>
+      </div>
+
+      <!-- STEP 11 -->
+      <div class="step-card hidden" id="step-11">
+        <h2 class="step-title">Seu CPF para validação digital do documento</h2>
+        <p class="step-subtitle">Obrigatório para assinatura ICP-Brasil</p>
+        
+        <div class="input-group">
+          <input type="text" class="input-field" id="cpfInput" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)">
+          <div class="input-feedback" id="feedbackCPF"></div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitCPF(11)" id="btnCPF" disabled>Continuar →</button>
+      </div>
+
+      <!-- STEP 12 -->
+      <div class="step-card hidden" id="step-12">
+        <h2 class="step-title">Email para envio do documento</h2>
+        <p class="step-subtitle">Você receberá o PDF em segundos após aprovação</p>
+        
+        <div class="input-group">
+          <input type="email" class="input-field" id="emailInput" placeholder="seu@email.com" oninput="validateEmail(this.value)">
+          <div class="input-feedback" id="feedbackEmail"></div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitEmail(12)" id="btnEmail" disabled>Continuar →</button>
+      </div>
+
+      <!-- STEP 13 -->
+      <div class="step-card hidden" id="step-13">
+        <h2 class="step-title">Confirmação de Veracidade</h2>
+        <p class="step-subtitle">Último passo antes da análise médica final</p>
+        
+        <label class="checkbox-item" onclick="toggleConfirm(this)" style="padding: 20px;">
+          <div class="checkbox-box"></div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Sim, confirmo a veracidade dos sintomas</div>
+            <div style="font-size: 13px; color: #64748b;">Declaro que as informações são verdadeiras sob responsabilidade</div>
+          </div>
+        </label>
+        
+        <div class="alert alert-danger" style="display: flex; margin-top: 16px;">
+          <span class="alert-icon">⚠️</span>
+          <div class="alert-content" style="font-size: 13px;"><strong>Aviso legal:</strong> Falsidade em documento médico constitui crime previsto no art. 299 do Código Penal.</div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitConfirm(13)" id="btnConfirm" disabled>Prosseguir para Assinatura →</button>
+      </div>
+
+      <!-- STEP 14 - ASSINATURA -->
+      <div class="step-card hidden" id="step-14">
+        <h2 class="step-title">Assinatura Digital do Paciente</h2>
+        <p class="step-subtitle">Toque e arraste para assinar no quadro abaixo</p>
+        
+        <div class="signature-wrapper">
+          <div style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Toque e arraste para assinar</div>
+          <canvas class="signature-canvas" id="signatureCanvas"></canvas>
+          <button class="signature-clear" onclick="clearSignature()">Limpar assinatura</button>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitSignature(14)" id="btnSignature" disabled>Confirmar Assinatura →</button>
+      </div>
+
+      <!-- STEP 15 -->
+      <div class="step-card hidden" id="step-15">
+        <h2 class="step-title">A IA recomenda repouso. Você precisa de:</h2>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="1" onclick="selectDays(1)">
+            <div class="option-icon" style="background: #fef3c7;">1️⃣</div>
+            <div class="option-content">
+              <div class="option-title">1 dia (24 horas)</div>
+              <div class="option-desc">Repouso parcial</div>
             </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="2" onclick="selectDays(2)">
+            <div class="option-icon" style="background: #fde68a;">2️⃣</div>
+            <div class="option-content">
+              <div class="option-title">2 dias (48 horas)</div>
+              <div class="option-desc">Repouso recomendado</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="ia" onclick="selectDays('ia')">
+            <div class="option-icon" style="background: #dbeafe;">🤖</div>
+            <div class="option-content">
+              <div class="option-title">Deixar a IA decidir</div>
+              <div class="option-desc">Baseado nos seus sintomas</div>
+            </div>
+            <div class="option-check">✓</div>
           </div>
         </div>
       </div>
@@ -491,21 +1077,21 @@
     </div>
   </main>
 
-  <!-- Loading Screen -->
-  <div class="loading-overlay hidden" id="loadingScreen">
+  <!-- Loading -->
+  <div class="loading-overlay" id="loadingScreen">
     <div class="loading-icon">
       <div class="loading-spinner"></div>
       <div class="loading-icon-inner">🤖</div>
     </div>
     <div class="loading-title">IA Médica Processando...</div>
     <div class="loading-bar">
-      <div class="loading-progress" id="loadingProgress" style="width: 0%"></div>
+      <div class="loading-progress" id="loadingProgress"></div>
     </div>
     <div class="loading-status" id="loadingStatus">Analisando padrões de sintomas...</div>
   </div>
 
   <!-- Modal -->
-  <div class="modal-overlay hidden" id="modal">
+  <div class="modal-overlay" id="modal">
     <div class="modal">
       <h3 class="modal-title" id="modalTitle"></h3>
       <p class="modal-text" id="modalText"></p>
@@ -513,6 +1099,7 @@
     </div>
   </div>
 
+  <!-- Script -->
   <script src="src/scripts/quiz.js"></script>
 </body>
 </html>

@@ -1,16 +1,16 @@
 /**
  * ATESTADO MÉDICO DIGITAL - QUIZ ENGINE
- * Versão simplificada e funcional
+ * Versão corrigida - Funções globais expostas
  */
 
-// Estado global do quiz
+// ========================================
+// ESTADO GLOBAL
+// ========================================
 let currentStep = 1;
-let selectedOption = null;
 let selectedCheckboxes = [];
 let hasSigned = false;
 let painLevel = 5;
 
-// Dados do usuário
 let userData = {
   nome: '',
   cpf: '',
@@ -19,39 +19,41 @@ let userData = {
   dias: 2
 };
 
-// Inicialização quando DOM carregar
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
 document.addEventListener('DOMContentLoaded', function() {
-  initQuiz();
+  console.log('Quiz iniciado');
+  
+  // Esconde todos os passos exceto o primeiro
+  for (let i = 2; i <= 15; i++) {
+    const step = document.getElementById('step-' + i);
+    if (step) step.style.display = 'none';
+  }
+  
+  // Inicializa assinatura
   initSignatureCanvas();
+  
+  // Atualiza progresso
   updateProgress(1);
 });
 
 // ========================================
-// NAVEGAÇÃO ENTRE PASSOS
+// NAVEGAÇÃO
 // ========================================
-
-function initQuiz() {
-  // Esconde todos os passos exceto o primeiro
-  for (let i = 2; i <= 15; i++) {
-    const step = document.getElementById('step-' + i);
-    if (step) step.classList.add('hidden');
-  }
-}
-
 function goToStep(stepNum) {
-  // Validação
   if (stepNum < 1 || stepNum > 15) return;
   
   // Esconde passo atual
   const currentEl = document.getElementById('step-' + currentStep);
   if (currentEl) {
-    currentEl.classList.add('hidden');
+    currentEl.style.display = 'none';
   }
   
   // Mostra novo passo
   const nextEl = document.getElementById('step-' + stepNum);
   if (nextEl) {
-    nextEl.classList.remove('hidden');
+    nextEl.style.display = 'block';
     nextEl.classList.add('animate-fade-in');
   }
   
@@ -61,14 +63,6 @@ function goToStep(stepNum) {
   // Scroll para topo
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-function nextStep() {
-  goToStep(currentStep + 1);
-}
-
-// ========================================
-// PROGRESS BAR
-// ========================================
 
 function updateProgress(step) {
   const progressMap = {
@@ -103,57 +97,65 @@ function updateProgress(step) {
 }
 
 // ========================================
-// SELEÇÃO DE OPÇÕES
+// SELEÇÃO DE OPÇÕES (ONE CLICK)
 // ========================================
-
 function selectOption(step, value, label) {
-  // Salva dados específicos
+  console.log('selectOption chamado:', step, value, label);
+  
+  // Salva dados
   if (step === 1) {
     userData.sintoma = label;
     showAlert('alert-sintoma', 'Detectamos padrão de <strong>' + label + '</strong>. Iniciando protocolo...');
   }
   
+  // Alerts especiais
   if (step === 5 && value === 'nada') {
     showAlert('alert-remedio', '<strong>Atenção:</strong> Postergar tratamento pode aumentar o tempo de recuperação.');
-    setTimeout(() => goToStep(step + 1), 1500);
+    setTimeout(function() { goToStep(step + 1); }, 1500);
     return;
   }
   
   if (step === 6 && value === 'maquinas') {
     showAlert('alert-maquinas', '🚨 <strong>Risco de acidente detectado!</strong> Atestado prioritário indicado.');
-    setTimeout(() => goToStep(step + 1), 1500);
+    setTimeout(function() { goToStep(step + 1); }, 1500);
     return;
   }
   
-  // Destaca a opção clicada
+  // Destaca visualmente
   const stepEl = document.getElementById('step-' + step);
   if (stepEl) {
     const options = stepEl.querySelectorAll('.option-item');
-    options.forEach(opt => opt.classList.remove('selected'));
+    options.forEach(function(opt) {
+      opt.classList.remove('selected');
+    });
     
-    // Encontra o elemento clicado
-    const clicked = event.currentTarget;
-    if (clicked) clicked.classList.add('selected');
+    // Encontra e destaca o clicado
+    const clickedOptions = stepEl.querySelectorAll('.option-item');
+    clickedOptions.forEach(function(opt) {
+      if (opt.getAttribute('data-value') === value) {
+        opt.classList.add('selected');
+      }
+    });
   }
   
-  // Avança automaticamente após pequeno delay
-  setTimeout(() => goToStep(step + 1), 400);
+  // Avança automaticamente
+  setTimeout(function() {
+    goToStep(step + 1);
+  }, 400);
 }
 
 // ========================================
-// CHECKBOXES (Múltipla escolha)
+// CHECKBOXES
 // ========================================
-
 function toggleCheckbox(element, value) {
   element.classList.toggle('selected');
   
   if (selectedCheckboxes.includes(value)) {
-    selectedCheckboxes = selectedCheckboxes.filter(v => v !== value);
+    selectedCheckboxes = selectedCheckboxes.filter(function(v) { return v !== value; });
   } else {
     selectedCheckboxes.push(value);
   }
   
-  // Alert se marcou muitos
   if (selectedCheckboxes.length >= 3) {
     showAlert('alert-checkboxes', '<strong>Nível crítico detectado.</strong> Repouso médico recomendado.');
   }
@@ -167,7 +169,6 @@ function submitCheckboxes(step) {
 // ========================================
 // SLIDER DE DOR
 // ========================================
-
 function updatePainLevel(value) {
   painLevel = parseInt(value);
   
@@ -200,9 +201,8 @@ function submitPainLevel(step) {
 }
 
 // ========================================
-// INPUTS DE TEXTO
+// INPUTS
 // ========================================
-
 function updateNome(value) {
   userData.nome = value.trim();
   
@@ -232,7 +232,6 @@ function submitNome(step) {
   }
 }
 
-// CPF
 function formatCPF(input) {
   let value = input.value.replace(/\D/g, '');
   value = value.replace(/(\d{3})(\d)/, '$1.$2');
@@ -294,7 +293,6 @@ function submitCPF(step) {
   }
 }
 
-// Email
 function validateEmail(value) {
   userData.email = value.trim();
   const feedback = document.getElementById('feedbackEmail');
@@ -327,7 +325,6 @@ function submitEmail(step) {
 // ========================================
 // CONFIRMAÇÃO
 // ========================================
-
 function toggleConfirm(element) {
   element.classList.toggle('selected');
   const btn = document.getElementById('btnConfirm');
@@ -343,14 +340,14 @@ function submitConfirm(step) {
 // ========================================
 // ASSINATURA DIGITAL
 // ========================================
-
 let canvas, ctx;
+let isDrawing = false;
 
 function initSignatureCanvas() {
   canvas = document.getElementById('signatureCanvas');
   if (!canvas) return;
 
-  // Ajusta resolução para retina
+  // Ajusta resolução
   const rect = canvas.getBoundingClientRect();
   canvas.width = rect.width * 2;
   canvas.height = rect.height * 2;
@@ -362,69 +359,69 @@ function initSignatureCanvas() {
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
-  // Eventos de mouse
-  let isDrawing = false;
-  
-  canvas.addEventListener('mousedown', function(e) {
-    isDrawing = true;
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-  });
-  
-  canvas.addEventListener('mousemove', function(e) {
-    if (!isDrawing) return;
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    hasSigned = true;
-    const btn = document.getElementById('btnSignature');
-    if (btn) btn.disabled = false;
-  });
-  
-  canvas.addEventListener('mouseup', function() {
-    isDrawing = false;
-    ctx.beginPath();
-  });
-  
-  canvas.addEventListener('mouseleave', function() {
-    isDrawing = false;
-  });
+  // Mouse events
+  canvas.addEventListener('mousedown', startDrawing);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', stopDrawing);
+  canvas.addEventListener('mouseleave', stopDrawing);
 
-  // Eventos de touch
-  canvas.addEventListener('touchstart', function(e) {
-    e.preventDefault();
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    isDrawing = true;
-  }, { passive: false });
-  
-  canvas.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-    if (!isDrawing) return;
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    hasSigned = true;
-    const btn = document.getElementById('btnSignature');
-    if (btn) btn.disabled = false;
-  }, { passive: false });
-  
-  canvas.addEventListener('touchend', function() {
-    isDrawing = false;
-    ctx.beginPath();
+  // Touch events
+  canvas.addEventListener('touchstart', handleTouch, { passive: false });
+  canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+  canvas.addEventListener('touchend', stopDrawing);
+}
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+  const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top
+  };
+}
+
+function startDrawing(e) {
+  isDrawing = true;
+  const pos = getPos(e);
+  ctx.beginPath();
+  ctx.moveTo(pos.x, pos.y);
+}
+
+function draw(e) {
+  if (!isDrawing) return;
+  e.preventDefault();
+  const pos = getPos(e);
+  ctx.lineTo(pos.x, pos.y);
+  ctx.stroke();
+  hasSigned = true;
+  const btn = document.getElementById('btnSignature');
+  if (btn) btn.disabled = false;
+}
+
+function stopDrawing() {
+  isDrawing = false;
+  ctx.beginPath();
+}
+
+function handleTouch(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const mouseEvent = new MouseEvent('mousedown', {
+    clientX: touch.clientX,
+    clientY: touch.clientY
   });
+  canvas.dispatchEvent(mouseEvent);
+}
+
+function handleTouchMove(e) {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const mouseEvent = new MouseEvent('mousemove', {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  });
+  canvas.dispatchEvent(mouseEvent);
 }
 
 function clearSignature() {
@@ -444,12 +441,13 @@ function submitSignature(step) {
 // ========================================
 // DIAS DE REPOUSO
 // ========================================
-
 function selectDays(days) {
-  // Destaca seleção
   const options = document.querySelectorAll('#step-15 .option-item');
-  options.forEach(opt => opt.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
+  options.forEach(function(opt) { opt.classList.remove('selected'); });
+  
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add('selected');
+  }
 
   if (days === 'ia') {
     userData.dias = 2;
@@ -466,21 +464,17 @@ function selectDays(days) {
 // ========================================
 // PROCESSAMENTO FINAL
 // ========================================
-
 function startProcessing() {
   localStorage.setItem('atestado_dias', userData.dias);
 
-  // Esconde quiz
   const quizContainer = document.querySelector('.quiz-container');
   const progressWrapper = document.querySelector('.progress-wrapper');
-  if (quizContainer) quizContainer.classList.add('hidden');
-  if (progressWrapper) progressWrapper.classList.add('hidden');
+  if (quizContainer) quizContainer.style.display = 'none';
+  if (progressWrapper) progressWrapper.style.display = 'none';
 
-  // Mostra loading
   const loading = document.getElementById('loadingScreen');
-  if (loading) loading.classList.remove('hidden');
+  if (loading) loading.style.display = 'flex';
 
-  // Simula progresso
   const steps = [
     { pct: 15, text: 'Analisando padrões de sintomas...', delay: 700 },
     { pct: 30, text: 'Verificando histórico clínico...', delay: 600 },
@@ -517,7 +511,6 @@ function startProcessing() {
 // ========================================
 // UTILITÁRIOS
 // ========================================
-
 function showAlert(id, message) {
   const alert = document.getElementById(id);
   if (alert) {
@@ -535,16 +528,16 @@ function showModal(title, text, onConfirm) {
   if (modalTitle) modalTitle.innerHTML = title;
   if (modalText) modalText.innerHTML = text;
   if (modalButtons) {
-    modalButtons.innerHTML = '<button class="btn btn-secondary" onclick="closeModal()">Cancelar</button><button class="btn btn-primary" onclick="handleModalConfirm()">Continuar</button>';
+    modalButtons.innerHTML = '<button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancelar</button><button class="modal-btn modal-btn-primary" onclick="handleModalConfirm()">Continuar</button>';
   }
   
   window.modalCallback = onConfirm;
-  if (modal) modal.classList.remove('hidden');
+  if (modal) modal.style.display = 'flex';
 }
 
 function closeModal() {
   const modal = document.getElementById('modal');
-  if (modal) modal.classList.add('hidden');
+  if (modal) modal.style.display = 'none';
   window.modalCallback = null;
 }
 
