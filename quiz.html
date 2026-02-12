@@ -1611,72 +1611,111 @@
     }
 
     function startProcessing() {
-      console.log('=== startProcessing CHAMADO ===');
-      console.log('Dados:', userData);
-      
-      // Salva todos os dados no localStorage
       try {
+        console.log('=== startProcessing INICIADO ===');
+        
+        // 1. SALVAR DADOS
+        console.log('Salvando dados...', userData);
         localStorage.setItem('atestado_dias', userData.dias || 2);
         localStorage.setItem('atestado_nome', userData.nome || 'Paciente');
         localStorage.setItem('atestado_email', userData.email || '');
         localStorage.setItem('atestado_sintoma', userData.sintoma || 'Geral');
         localStorage.setItem('atestado_hospital', userData.hospital || 'Hospital Regional');
-        console.log('Dados salvos com sucesso!');
-      } catch (e) {
-        console.error('Erro:', e);
-      }
-      
-      // Esconde a página
-      document.querySelector('.quiz-container').style.display = 'none';
-      document.querySelector('.progress-wrapper').style.display = 'none';
-      document.querySelector('.header').style.display = 'none';
-      
-      // Mostra loading
-      const loading = document.getElementById('loadingScreen');
-      loading.style.display = 'flex';
-      loading.classList.add('active');
-      
-      // Animação simples
-      let pct = 0;
-      const progress = document.getElementById('loadingProgress');
-      const status = document.getElementById('loadingStatus');
-      const percentage = document.getElementById('loadingPercentage');
-      
-      const mensagens = [
-        'Analisando padrões de sintomas',
-        'Verificando histórico clínico',
-        'Calculando necessidade de repouso',
-        'Selecionando CID mais adequado',
-        'Gerando documento digital',
-        'Assinando digitalmente',
-        'Finalizando análise',
-        'Redirecionando...'
-      ];
-      
-      const interval = setInterval(function() {
-        pct += 12;
-        if (pct > 100) pct = 100;
+        console.log('Dados salvos!');
         
-        progress.style.width = pct + '%';
-        percentage.textContent = pct + '%';
+        // 2. ESCONDER PÁGINA
+        console.log('Escondendo elementos...');
+        const quiz = document.querySelector('.quiz-container');
+        const progress = document.querySelector('.progress-wrapper');
+        const header = document.querySelector('.header');
         
-        const msgIndex = Math.floor((pct / 100) * mensagens.length);
-        status.textContent = mensagens[Math.min(msgIndex, mensagens.length - 1)];
+        if (quiz) quiz.style.display = 'none';
+        if (progress) progress.style.display = 'none';
+        if (header) header.style.display = 'none';
+        console.log('Elementos escondidos!');
         
-        // Atualiza steps visuais
-        for (let i = 1; i <= 5; i++) {
-          const stepEl = document.getElementById('step' + i);
-          if (stepEl && (i * 20) <= pct) stepEl.classList.add('active');
+        // 3. MOSTRAR LOADING
+        console.log('Mostrando loading...');
+        const loading = document.getElementById('loadingScreen');
+        if (!loading) {
+          console.error('ERRO: loadingScreen não encontrado!');
+          alert('Erro: tela de carregamento não encontrada');
+          return;
         }
         
-        if (pct >= 100) {
-          clearInterval(interval);
-          console.log('Redirecionando...');
+        loading.style.display = 'flex';
+        loading.classList.add('active');
+        loading.style.flexDirection = 'column';
+        loading.style.alignItems = 'center';
+        loading.style.justifyContent = 'center';
+        console.log('Loading visível!');
+        
+        // 4. ANIMAÇÃO
+        let pct = 0;
+        const progressBar = document.getElementById('loadingProgress');
+        const status = document.getElementById('loadingStatus');
+        const percentage = document.getElementById('loadingPercentage');
+        
+        if (!progressBar || !status || !percentage) {
+          console.error('ERRO: Elementos de progresso não encontrados');
+          // Redireciona mesmo assim após 2 segundos
           setTimeout(function() {
-            window.location.replace('resultado.html');
-          }, 800);
+            window.location.href = 'resultado.html';
+          }, 2000);
+          return;
         }
-      }, 400);
+        
+        const mensagens = [
+          'Analisando padrões de sintomas...',
+          'Verificando histórico clínico...',
+          'Calculando necessidade de repouso...',
+          'Selecionando CID mais adequado...',
+          'Gerando documento digital...',
+          'Assinando digitalmente...',
+          'Finalizando análise...',
+          'Redirecionando...'
+        ];
+        
+        console.log('Iniciando animação...');
+        
+        const interval = setInterval(function() {
+          try {
+            pct += 10;
+            if (pct > 100) pct = 100;
+            
+            progressBar.style.width = pct + '%';
+            percentage.textContent = pct + '%';
+            
+            const msgIndex = Math.min(Math.floor((pct / 100) * mensagens.length), mensagens.length - 1);
+            status.textContent = mensagens[msgIndex];
+            
+            // Atualiza steps
+            for (let i = 1; i <= 5; i++) {
+              const stepEl = document.getElementById('step' + i);
+              if (stepEl && (i * 20) <= pct) {
+                stepEl.classList.add('active');
+              }
+            }
+            
+            if (pct >= 100) {
+              clearInterval(interval);
+              console.log('Animação completa! Redirecionando...');
+              setTimeout(function() {
+                window.location.href = 'resultado.html';
+              }, 1000);
+            }
+          } catch (e) {
+            console.error('Erro na animação:', e);
+            clearInterval(interval);
+            window.location.href = 'resultado.html';
+          }
+        }, 400);
+        
+      } catch (erro) {
+        console.error('ERRO FATAL em startProcessing:', erro);
+        alert('Ocorreu um erro. Redirecionando manualmente...');
+        window.location.href = 'resultado.html';
+      }
     }
 
     function showAlert(id, message) {
