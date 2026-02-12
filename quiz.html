@@ -4,89 +4,301 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Avaliacao Medica | MedDigital</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; min-height: 100vh; color: #1e293b; }
     .container { width: 100%; max-width: 480px; margin: 0 auto; padding: 0 16px; }
     
-    .header { background: linear-gradient(135deg, #059669 0%, #0891b2 100%); padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+    .header { background: linear-gradient(135deg, #059669 0%, #0891b2 100%); padding: 16px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     .header-content { display: flex; align-items: center; justify-content: space-between; }
     .brand { display: flex; align-items: center; gap: 10px; color: white; font-weight: 800; font-size: 18px; }
+    .brand-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .header-badge { background: rgba(255,255,255,0.15); color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
     
     .progress-wrapper { background: white; padding: 16px 0; border-bottom: 1px solid #e2e8f0; }
     .progress-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); border-radius: 4px; transition: width 0.5s ease; width: 20%; }
+    .progress-text { font-size: 12px; color: #64748b; text-align: center; margin-top: 8px; font-weight: 500; }
     
     .quiz-container { padding: 20px 0 40px; }
     .step-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid #f1f5f9; }
-    .step-title { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    .step-title { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 8px; line-height: 1.3; }
     .step-subtitle { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+    .urgent { color: #dc2626; }
     
     .options-list { display: flex; flex-direction: column; gap: 12px; }
-    .option-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; }
-    .option-item:hover { border-color: #10b981; transform: translateY(-2px); }
-    .option-item.selected { border-color: #10b981; background: #ecfdf5; }
+    .option-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+    .option-item:hover { border-color: #10b981; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .option-item.selected { border-color: #10b981; background: #ecfdf5; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
     .option-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .option-icon.gripe { background: #fef3c7; }
+    .option-icon.dor { background: #fce7f3; }
+    .option-icon.cabeca { background: #dbeafe; }
+    .option-icon.estomago { background: #d1fae5; }
+    .option-icon.ansiedade { background: #f3e8ff; }
+    .option-icon.tempo { background: #fef3c7; }
     .option-content { flex: 1; }
-    .option-title { font-weight: 600; font-size: 15px; color: #1e293b; }
-    .option-check { width: 28px; height: 28px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0); transition: all 0.2s ease; }
+    .option-title { font-weight: 600; font-size: 15px; color: #1e293b; margin-bottom: 2px; }
+    .option-desc { font-size: 13px; color: #64748b; }
+    .option-check { width: 28px; height: 28px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; opacity: 0; transform: scale(0); transition: all 0.2s ease; }
     .option-item.selected .option-check { opacity: 1; transform: scale(1); }
     
+    .checkbox-item { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+    .checkbox-item.selected { border-color: #10b981; background: #ecfdf5; }
+    .checkbox-box { width: 24px; height: 24px; border: 2px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .checkbox-item.selected .checkbox-box { background: #10b981; border-color: #10b981; }
+    .checkbox-box::after { content: '✓'; color: white; font-size: 14px; font-weight: bold; opacity: 0; }
+    .checkbox-item.selected .checkbox-box::after { opacity: 1; }
+    .checkbox-text { font-size: 14px; color: #334155; line-height: 1.4; }
+    
+    .slider-container { padding: 20px 0; }
+    .slider { width: 100%; height: 10px; border-radius: 5px; background: linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #ef4444 100%); -webkit-appearance: none; outline: none; }
+    .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%; background: white; border: 4px solid #10b981; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .slider-labels { display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: #64748b; }
+    .slider-value { text-align: center; margin-top: 20px; padding: 16px; background: #ecfdf5; border-radius: 12px; font-weight: 600; color: #059669; border: 2px solid #d1fae5; }
+    .slider-value.critical { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+    
+    .input-group { margin-bottom: 16px; }
     .input-field { width: 100%; padding: 16px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 16px; transition: all 0.2s ease; font-family: inherit; }
-    .input-field:focus { outline: none; border-color: #10b981; }
+    .input-field:focus { outline: none; border-color: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,0.1); }
+    .input-feedback { display: flex; align-items: center; gap: 6px; font-size: 13px; margin-top: 8px; }
+    .input-feedback.success { color: #10b981; }
+    .input-feedback.error { color: #ef4444; }
+    .input-preview { background: #ecfdf5; border: 2px dashed #10b981; border-radius: 12px; padding: 16px; margin-top: 16px; display: none; }
+    .input-preview.show { display: block; }
+    .input-preview-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .input-preview-value { font-weight: 700; color: #059669; font-size: 16px; }
     
     .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 16px 24px; font-size: 16px; font-weight: 700; border: none; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; margin-top: 16px; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-primary { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
-    .btn-primary:hover:not(:disabled) { transform: translateY(-2px); }
+    .btn-primary { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; box-shadow: 0 4px 16px rgba(16,185,129,0.3); }
+    .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
     
-    .signature-canvas { width: 100%; height: 200px; background: white; border: 2px dashed #cbd5e1; border-radius: 12px; cursor: crosshair; touch-action: none; }
+    .signature-wrapper { background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 16px; text-align: center; }
+    .signature-canvas { width: 100%; height: 200px; background: white; border-radius: 12px; cursor: crosshair; touch-action: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .signature-clear { background: none; border: none; color: #64748b; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 12px; padding: 8px; }
     
-    .hidden { display: none !important; }
-    
-    /* LOADING */
-    .loading-overlay { 
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      display: none; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 1000; padding: 20px;
-    }
-    .loading-card {
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 24px;
-      padding: 40px 32px;
-      width: 100%; max-width: 380px;
-      text-align: center;
-    }
-    .loading-icon {
-      width: 80px; height: 80px;
-      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-      border-radius: 20px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 40px; margin: 0 auto 24px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-      50% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
-    }
-    .loading-title { color: white; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-    .loading-subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 32px; }
-    .loading-progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
-    .loading-progress-fill { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); border-radius: 4px; width: 0%; transition: width 0.3s ease; }
-    .loading-percentage { color: #10b981; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .loading-status { color: #94a3b8; font-size: 14px; }
-    
-    .alert { padding: 16px; border-radius: 12px; margin-top: 16px; display: none; }
+    .alert { padding: 16px; border-radius: 12px; margin-top: 16px; display: none; align-items: flex-start; gap: 12px; animation: fadeIn 0.4s ease; }
+    .alert[style*="flex"] { display: flex !important; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .alert-icon { font-size: 20px; }
+    .alert-content { font-size: 14px; line-height: 1.5; }
+    .alert-warning { background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; }
+    .alert-danger { background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; }
     .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
     
-    .checkbox-item { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; }
-    .checkbox-item.selected { border-color: #10b981; background: #ecfdf5; }
-    .checkbox-box { width: 24px; height: 24px; border: 2px solid #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-    .checkbox-item.selected .checkbox-box { background: #10b981; border-color: #10b981; color: white; }
+    .alert-with-button { flex-direction: column; align-items: stretch; }
+    .alert-with-button .alert-content-wrapper { display: flex; align-items: flex-start; gap: 12px; }
+    .alert-continue-btn { 
+      margin-top: 12px; 
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+      color: white; 
+      border: none; 
+      padding: 12px 24px; 
+      border-radius: 10px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+      transition: all 0.2s ease;
+    }
+    .alert-continue-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,0.4); }
+    
+    .hospital-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; }
+    .hospital-item:hover { border-color: #10b981; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .hospital-item.selected { border-color: #10b981; background: #ecfdf5; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+    .hospital-icon { width: 48px; height: 48px; background: #fef2f2; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .hospital-content { flex: 1; }
+    .hospital-name { font-weight: 600; font-size: 15px; color: #1e293b; margin-bottom: 2px; }
+    .hospital-address { font-size: 12px; color: #64748b; }
+    .hospital-distance { font-size: 12px; color: #10b981; font-weight: 600; }
+    .hospital-check { width: 28px; height: 28px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; opacity: 0; transform: scale(0); transition: all 0.2s ease; }
+    .hospital-item.selected .hospital-check { opacity: 1; transform: scale(1); }
+    
+    .loading-overlay { 
+      position: fixed; 
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      display: none; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      z-index: 1000; 
+      padding: 20px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .loading-overlay.active { 
+      display: flex !important; 
+    }
+    .loading-overlay[style*="flex"] { display: flex !important; }
+    
+    .loading-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 40px 32px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      animation: fadeInUp 0.6s ease;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .loading-icon-container {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    
+    .loading-icon-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
+      animation: pulse-glow 2s infinite;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.4); }
+      50% { box-shadow: 0 0 60px rgba(16, 185, 129, 0.6); }
+    }
+    
+    .loading-spinner-ring {
+      position: absolute;
+      top: -8px; left: -8px; right: -8px; bottom: -8px;
+      border: 3px solid transparent;
+      border-top-color: rgba(16, 185, 129, 0.5);
+      border-radius: 28px;
+      animation: spin 1.5s linear infinite;
+    }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    
+    .loading-title {
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    
+    .loading-subtitle {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    
+    .loading-progress-container {
+      margin-bottom: 16px;
+    }
+    
+    .loading-progress-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .loading-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 4px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .loading-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .loading-percentage {
+      color: #10b981;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 12px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .loading-status {
+      color: #64748b;
+      font-size: 13px;
+      margin-top: 8px;
+      min-height: 20px;
+    }
+    
+    .loading-status::after {
+      content: '...';
+      animation: dots 1.5s infinite;
+    }
+    
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+    
+    .loading-steps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+    
+    .loading-step {
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .loading-step.active {
+      background: #10b981;
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+    
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
+    .modal-overlay[style*="flex"] { display: flex !important; }
+    .modal { background: white; border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; animation: modalIn 0.3s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: #0f172a; }
+    .modal-text { font-size: 14px; color: #64748b; margin-bottom: 20px; line-height: 1.5; }
+    .modal-buttons { display: flex; gap: 12px; }
+    .modal-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .modal-btn-secondary { background: #f1f5f9; color: #475569; }
+    .modal-btn-primary { background: #10b981; color: white; }
+    
+    .hidden { display: none !important; }
+    .animate-fade-in { animation: fadeIn 0.5s ease; }
   </style>
 </head>
 <body>
@@ -94,9 +306,10 @@
     <div class="container">
       <div class="header-content">
         <div class="brand">
-          <div style="width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏥</div>
+          <div class="brand-icon">🏥</div>
           <span>MedDigital</span>
         </div>
+        <div class="header-badge">🔒 Seguro</div>
       </div>
     </div>
   </header>
@@ -106,522 +319,1441 @@
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
       </div>
+      <p class="progress-text" id="progressText">Iniciando avaliacao...</p>
     </div>
   </div>
 
   <main class="quiz-container">
     <div class="container">
       
-      <!-- STEP 1: Sintoma -->
       <div class="step-card" id="step-1">
-        <h2 class="step-title">Qual sintoma está dominando seu corpo AGORA?</h2>
-        <p class="step-subtitle">Selecione o sintoma mais intenso</p>
+        <h2 class="step-title">Qual sintoma esta dominando seu corpo <span class="urgent">AGORA</span>?</h2>
+        <p class="step-subtitle">Selecione o sintoma mais intenso no momento</p>
+        
         <div class="options-list">
-          <div class="option-item" onclick="selectOption(1, 'gripe', 'Gripe/Febre')">
-            <div class="option-icon" style="background: #fef3c7;">🤒</div>
-            <div class="option-content"><div class="option-title">Gripe / Febre / Fraqueza</div></div>
+          <div class="option-item" data-value="gripe" onclick="selectOption(1, 'gripe', 'Gripe/Febre/Fraqueza')">
+            <div class="option-icon gripe">🤒</div>
+            <div class="option-content">
+              <div class="option-title">Gripe / Febre / Fraqueza</div>
+              <div class="option-desc">Tosse, coriza, mal-estar geral</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(1, 'dor', 'Dor Muscular')">
-            <div class="option-icon" style="background: #fce7f3;">💪</div>
-            <div class="option-content"><div class="option-title">Dor Muscular / Articular</div></div>
+          
+          <div class="option-item" data-value="dor" onclick="selectOption(1, 'dor', 'Dor Muscular/Articular')">
+            <div class="option-icon dor">💪</div>
+            <div class="option-content">
+              <div class="option-title">Dor Muscular / Articular</div>
+              <div class="option-desc">Dores no corpo, limitacao de movimento</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(1, 'cabeca', 'Enxaqueca')">
-            <div class="option-icon" style="background: #dbeafe;">🧠</div>
-            <div class="option-content"><div class="option-title">Enxaqueca / Tontura</div></div>
+          
+          <div class="option-item" data-value="cabeca" onclick="selectOption(1, 'cabeca', 'Enxaqueca/Tontura')">
+            <div class="option-icon cabeca">🧠</div>
+            <div class="option-content">
+              <div class="option-title">Enxaqueca / Tontura</div>
+              <div class="option-desc">Dor de cabeca intensa, vertigem</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(1, 'estomago', 'Mal-estar')">
-            <div class="option-icon" style="background: #d1fae5;">🤢</div>
-            <div class="option-content"><div class="option-title">Mal-estar Gástrico</div></div>
+          
+          <div class="option-item" data-value="estomago" onclick="selectOption(1, 'estomago', 'Mal-estar Gastrico')">
+            <div class="option-icon estomago">🤢</div>
+            <div class="option-content">
+              <div class="option-title">Mal-estar Gastrico</div>
+              <div class="option-desc">Nauseas, azia, colicas abdominais</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(1, 'ansiedade', 'Ansiedade')">
-            <div class="option-icon" style="background: #f3e8ff;">💭</div>
-            <div class="option-content"><div class="option-title">Crise de Ansiedade</div></div>
+          
+          <div class="option-item" data-value="ansiedade" onclick="selectOption(1, 'ansiedade', 'Crise de Ansiedade')">
+            <div class="option-icon ansiedade">💭</div>
+            <div class="option-content">
+              <div class="option-title">Crise de Ansiedade / Estresse</div>
+              <div class="option-desc">Aperto no peito, insonia, nervosismo</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
         </div>
+        
         <div class="alert alert-info" id="alert-sintoma"></div>
       </div>
 
-      <!-- STEP 2: Tempo -->
       <div class="step-card hidden" id="step-2">
-        <h2 class="step-title">Há quanto tempo seu organismo pede socorro?</h2>
+        <h2 class="step-title">Ha quanto tempo seu organismo pede socorro?</h2>
+        <p class="step-subtitle">Isso ajuda a determinar a necessidade de repouso</p>
+        
         <div class="options-list">
-          <div class="option-item" onclick="selectOption(2, 'hoje', 'Hoje')">
-            <div class="option-icon" style="background: #fef3c7;">⏰</div>
-            <div class="option-content"><div class="option-title">Começou hoje</div></div>
+          <div class="option-item" data-value="hoje" onclick="selectOption(2, 'hoje', 'Comecou hoje')">
+            <div class="option-icon tempo">⏰</div>
+            <div class="option-content">
+              <div class="option-title">Comecou hoje (agora ha pouco)</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(2, 'ontem', 'Ontem')">
+          
+          <div class="option-item" data-value="ontem" onclick="selectOption(2, 'ontem', 'Desde ontem')">
             <div class="option-icon" style="background: #fce7f3;">📅</div>
-            <div class="option-content"><div class="option-title">Desde ontem</div></div>
+            <div class="option-content">
+              <div class="option-title">Desde ontem</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(2, '48h', '48h')">
+          
+          <div class="option-item" data-value="48h" onclick="selectOption(2, '48h', 'Mais de 48h')">
             <div class="option-icon" style="background: #fee2e2;">⚠️</div>
-            <div class="option-content"><div class="option-title">Mais de 48 horas</div></div>
+            <div class="option-content">
+              <div class="option-title">Mais de 48 horas</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 3: Dor -->
       <div class="step-card hidden" id="step-3">
-        <h2 class="step-title">Em uma escala de 1 a 10, qual a intensidade?</h2>
-        <div style="padding: 20px 0;">
-          <input type="range" min="1" max="10" value="5" style="width: 100%;" id="painSlider" oninput="updatePain(this.value)">
-          <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: #64748b;">
-            <span>Leve (1)</span><span>Moderado (5)</span><span>Intenso (10)</span>
+        <h2 class="step-title">Em uma escala de 1 a 10, seu corpo esta pedindo para parar?</h2>
+        <p class="step-subtitle">Avalie a intensidade dos seus sintomas</p>
+        
+        <div class="slider-container">
+          <input type="range" min="1" max="10" value="5" class="slider" id="painSlider" oninput="updatePainLevel(this.value)">
+          <div class="slider-labels">
+            <span>Leve (1)</span>
+            <span>Moderado (5)</span>
+            <span>Intenso (10)</span>
           </div>
-          <div style="text-align: center; margin-top: 20px; padding: 16px; background: #ecfdf5; border-radius: 12px; font-weight: 600; color: #059669;" id="painDisplay">Nível 5: Desconforto significativo</div>
+          <div class="slider-value" id="painValue">Nivel 5: Desconforto significativo</div>
         </div>
-        <button class="btn btn-primary" onclick="goToStep(4)">Continuar →</button>
+        
+        <button class="btn btn-primary" onclick="submitPainLevel(3)">Continuar →</button>
       </div>
 
-      <!-- STEP 4: Alertas -->
       <div class="step-card hidden" id="step-4">
-        <h2 class="step-title">Você apresenta algum desses sinais?</h2>
-        <p class="step-subtitle">Marque todos que se aplicam</p>
+        <h2 class="step-title">Voce apresenta algum desses sinais de alerta?</h2>
+        <p class="step-subtitle">Marque todos que se aplicam ao seu caso</p>
+        
         <div class="options-list">
           <label class="checkbox-item" onclick="toggleCheckbox(this, 'febre')">
             <div class="checkbox-box"></div>
-            <div>Febre acima de 37,5°C</div>
+            <div class="checkbox-text">Febre acima de 37,5°C</div>
           </label>
+          
           <label class="checkbox-item" onclick="toggleCheckbox(this, 'cama')">
             <div class="checkbox-box"></div>
-            <div>Dificuldade para levantar da cama</div>
+            <div class="checkbox-text">Dificuldade para levantar da cama</div>
           </label>
+          
           <label class="checkbox-item" onclick="toggleCheckbox(this, 'vomito')">
             <div class="checkbox-box"></div>
-            <div>Vômitos ou náuseas persistentes</div>
+            <div class="checkbox-text">Vomitos ou nauseas persistentes</div>
+          </label>
+          
+          <label class="checkbox-item" onclick="toggleCheckbox(this, 'dor_intensa')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">Dor intensa ao movimentar</div>
+          </label>
+          
+          <label class="checkbox-item" onclick="toggleCheckbox(this, 'falta_ar')">
+            <div class="checkbox-box"></div>
+            <div class="checkbox-text">Falta de ar ou dificuldade para respirar</div>
           </label>
         </div>
-        <button class="btn btn-primary" onclick="goToStep(5)" style="margin-top: 20px;">Continuar →</button>
+        
+        <button class="btn btn-primary" onclick="submitCheckboxes(4)">Continuar →</button>
+        <div class="alert alert-warning" id="alert-checkboxes"></div>
       </div>
 
-      <!-- STEP 5: Trabalho -->
       <div class="step-card hidden" id="step-5">
-        <h2 class="step-title">Seu trabalho exige foco mental ou máquinas?</h2>
+        <h2 class="step-title">Ja tentou "aguentar" tomando remedio caseiro?</h2>
+        <p class="step-subtitle">Informe se ja fez alguma tentativa de alivio</p>
+        
         <div class="options-list">
-          <div class="option-item" onclick="selectOption(5, 'raciocinio', 'Foco mental')">
-            <div class="option-icon" style="background: #dbeafe;">🧠</div>
-            <div class="option-content"><div class="option-title">Preciso raciocinar claramente</div></div>
+          <div class="option-item" data-value="nao_resolveu" onclick="selectOption(5, 'nao_resolveu', 'Remedio nao resolveu')">
+            <div class="option-icon" style="background: #fecaca;">💊</div>
+            <div class="option-content">
+              <div class="option-title">Sim, tomei remedio e nao resolveu</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(5, 'maquinas', 'Máquinas')">
-            <div class="option-icon" style="background: #fee2e2;">⚙️</div>
-            <div class="option-content"><div class="option-title">Opero máquinas/veículos</div></div>
+          
+          <div class="option-item" data-value="caseiro" onclick="selectOption(5, 'caseiro', 'So cha/caseiro')">
+            <div class="option-icon" style="background: #fef3c7;">🍵</div>
+            <div class="option-content">
+              <div class="option-title">So cha ou remedio caseiro</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(5, 'presenca', 'Presença')">
-            <div class="option-icon" style="background: #d1fae5;">👤</div>
-            <div class="option-content"><div class="option-title">Presença, sem máquinas</div></div>
+          
+          <div class="option-item" data-value="nada" onclick="selectOption(5, 'nada', 'Estou aguentando')">
+            <div class="option-icon" style="background: #e5e7eb;">❌</div>
+            <div class="option-content">
+              <div class="option-title">Nao tomei nada (estou aguentando)</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
         </div>
+        
+        <div class="alert alert-danger" id="alert-remedio"></div>
       </div>
 
-      <!-- STEP 6: Data -->
       <div class="step-card hidden" id="step-6">
-        <h2 class="step-title">Você precisa justificar ausência para:</h2>
+        <h2 class="step-title">Seu trabalho exige foco mental ou operacao de maquinas?</h2>
+        <p class="step-subtitle">Isso determina a necessidade de atestado prioritario</p>
+        
         <div class="options-list">
-          <div class="option-item" onclick="selectOption(6, 'hoje', 'Hoje')">
-            <div class="option-icon" style="background: #fecaca;">🔴</div>
-            <div class="option-content"><div class="option-title">Hoje (urgente)</div></div>
+          <div class="option-item" data-value="raciocinio" onclick="selectOption(6, 'raciocinio', 'Foco mental')">
+            <div class="option-icon" style="background: #dbeafe;">🧠</div>
+            <div class="option-content">
+              <div class="option-title">Sim, preciso raciocinar claramente</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(6, 'amanha', 'Amanhã')">
-            <div class="option-icon" style="background: #fef3c7;">🟡</div>
-            <div class="option-content"><div class="option-title">Amanhã</div></div>
+          
+          <div class="option-item" data-value="maquinas" onclick="selectOption(6, 'maquinas', 'Opero maquinas')">
+            <div class="option-icon" style="background: #fee2e2;">⚙️</div>
+            <div class="option-content">
+              <div class="option-title">Sim, opero maquinas/veiculos</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectOption(6, 'retroativo', 'Retroativo')">
-            <div class="option-icon" style="background: #dbeafe;">📄</div>
-            <div class="option-content"><div class="option-title">Retroativo (ontem)</div></div>
+          
+          <div class="option-item" data-value="presenca" onclick="selectOption(6, 'presenca', 'Preciso estar presente')">
+            <div class="option-icon" style="background: #d1fae5;">👤</div>
+            <div class="option-content">
+              <div class="option-title">Preciso estar presente, mas nao opero maquinas</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        
+        <div class="alert alert-danger" id="alert-maquinas"></div>
+      </div>
+
+      <div class="step-card hidden" id="step-7">
+        <h2 class="step-title">Se voce for trabalhar hoje, sente que vai piorar?</h2>
+        <p class="step-subtitle">Avalie honestamente sua condicao</p>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="sim" onclick="selectOption(7, 'sim', 'Vou me sentir pior')">
+            <div class="option-icon" style="background: #fecaca;">😔</div>
+            <div class="option-content">
+              <div class="option-title">Sim, vou me sentir pior</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="talvez" onclick="selectOption(7, 'talvez', 'Talvez')">
+            <div class="option-icon" style="background: #fef3c7;">🤔</div>
+            <div class="option-content">
+              <div class="option-title">Talvez</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="nao_renderei" onclick="selectOption(7, 'nao_renderei', 'Nao renderei nada')">
+            <div class="option-icon" style="background: #e5e7eb;">📉</div>
+            <div class="option-content">
+              <div class="option-title">Nao vou piorar, mas nao renderei nada</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 7: Nome -->
-      <div class="step-card hidden" id="step-7">
-        <h2 class="step-title">Qual seu nome completo?</h2>
-        <p class="step-subtitle">Para o laudo oficial</p>
-        <input type="text" class="input-field" id="nomeInput" placeholder="Ex: João Silva Santos" oninput="updateNome(this.value)">
-        <button class="btn btn-primary" onclick="goToStep(8)" id="btnNome" disabled>Continuar →</button>
-      </div>
-
-      <!-- STEP 8: Email -->
       <div class="step-card hidden" id="step-8">
-        <h2 class="step-title">Email para envio do documento</h2>
-        <input type="email" class="input-field" id="emailInput" placeholder="seu@email.com" oninput="updateEmail(this.value)">
-        <button class="btn btn-primary" onclick="goToStep(9)" id="btnEmail" disabled>Continuar →</button>
+        <h2 class="step-title">Voce precisa justificar ausencia para:</h2>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="hoje" onclick="selectOption(8, 'hoje', 'Hoje (urgente)')">
+            <div class="option-icon" style="background: #fecaca;">🔴</div>
+            <div class="option-content">
+              <div class="option-title">Hoje (urgente)</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="amanha" onclick="selectOption(8, 'amanha', 'Amanha')">
+            <div class="option-icon" style="background: #fef3c7;">🟡</div>
+            <div class="option-content">
+              <div class="option-title">Amanha</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="retroativo" onclick="selectOption(8, 'retroativo', 'Retroativo')">
+            <div class="option-icon" style="background: #dbeafe;">📄</div>
+            <div class="option-content">
+              <div class="option-title">Retroativo (ontem)</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
       </div>
 
-      <!-- STEP 9: Termos -->
       <div class="step-card hidden" id="step-9">
-        <h2 class="step-title">Confirmação de Veracidade</h2>
+        <h2 class="step-title">Sua empresa exige CID especifico no documento?</h2>
+        
+        <div class="options-list">
+          <div class="option-item" data-value="sim" onclick="selectOption(9, 'sim', 'Sim, RH pede codigo')">
+            <div class="option-icon" style="background: #dbeafe;">📋</div>
+            <div class="option-content">
+              <div class="option-title">Sim, RH pede codigo</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="nao_sei" onclick="selectOption(9, 'nao_sei', 'Nao sei')">
+            <div class="option-icon" style="background: #fef3c7;">❓</div>
+            <div class="option-content">
+              <div class="option-title">Nao sei</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="nao" onclick="selectOption(9, 'nao', 'Aceitam atestado simples')">
+            <div class="option-icon" style="background: #d1fae5;">✅</div>
+            <div class="option-content">
+              <div class="option-title">Nao, aceitam atestado simples</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        
+        <div class="alert alert-info" style="display: flex; margin-top: 16px;">
+          <span class="alert-icon">🤖</span>
+          <div class="alert-content"><strong>IA Medica:</strong> Nosso sistema selecionara automaticamente o CID mais adequado.</div>
+        </div>
+      </div>
+
+      <div class="step-card hidden" id="step-10">
+        <h2 class="step-title">Qual seu nome completo para o laudo oficial?</h2>
+        <p class="step-subtitle">Digite conforme aparece em seu documento</p>
+        
+        <div class="input-group">
+          <input type="text" class="input-field" id="nomeInput" placeholder="Ex: Joao Silva Santos" oninput="updateNome(this.value)">
+          <div class="input-feedback" id="feedbackNome"></div>
+        </div>
+        
+        <div class="input-preview" id="nomePreview">
+          <div class="input-preview-label">Gerando laudo para:</div>
+          <div class="input-preview-value" id="nomePreviewText"></div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitNome(10)" id="btnNome" disabled>Continuar →</button>
+      </div>
+
+      <div class="step-card hidden" id="step-11">
+        <h2 class="step-title">Email para envio do documento</h2>
+        <p class="step-subtitle">Voce recebera o PDF em segundos apos aprovacao</p>
+        
+        <div class="input-group">
+          <input type="email" class="input-field" id="emailInput" placeholder="seu@email.com" oninput="validateEmail(this.value)">
+          <div class="input-feedback" id="feedbackEmail"></div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitEmail(11)" id="btnEmail" disabled>Continuar →</button>
+      </div>
+
+      <div class="step-card hidden" id="step-12">
+        <h2 class="step-title">Confirmacao de Veracidade</h2>
+        <p class="step-subtitle">Ultimo passo antes da analise medica final</p>
+        
         <label class="checkbox-item" onclick="toggleConfirm(this)" style="padding: 20px;">
           <div class="checkbox-box"></div>
           <div>
-            <div style="font-weight: 600; margin-bottom: 4px;">Confirmo a veracidade dos sintomas</div>
-            <div style="font-size: 13px; color: #64748b;">Declaro que as informações são verdadeiras</div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Sim, confirmo a veracidade dos sintomas</div>
+            <div style="font-size: 13px; color: #64748b;">Declaro que as informacoes sao verdadeiras sob responsabilidade</div>
           </div>
         </label>
-        <button class="btn btn-primary" onclick="goToStep(10)" id="btnConfirm" disabled>Prosseguir →</button>
+        
+        <div class="alert alert-danger" style="display: flex; margin-top: 16px;">
+          <span class="alert-icon">⚠️</span>
+          <div class="alert-content" style="font-size: 13px;"><strong>Aviso legal:</strong> Falsidade em documento medico constitui crime previsto no art. 299 do Codigo Penal.</div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitConfirm(12)" id="btnConfirm" disabled>Prosseguir para Assinatura →</button>
       </div>
 
-      <!-- STEP 10: Assinatura -->
-      <div class="step-card hidden" id="step-10">
-        <h2 class="step-title">Assinatura Digital</h2>
-        <p class="step-subtitle">Toque e arraste para assinar</p>
-        <canvas class="signature-canvas" id="signatureCanvas"></canvas>
-        <button onclick="clearSignature()" style="background: none; border: none; color: #64748b; margin-top: 12px; text-decoration: underline;">Limpar</button>
-        <button class="btn btn-primary" onclick="goToStep(11)" id="btnSignature" disabled>Confirmar →</button>
+      <div class="step-card hidden" id="step-13">
+        <h2 class="step-title">Assinatura Digital do Paciente</h2>
+        <p class="step-subtitle">Toque e arraste para assinar no quadro abaixo</p>
+        
+        <div class="signature-wrapper">
+          <div style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Toque e arraste para assinar</div>
+          <canvas class="signature-canvas" id="signatureCanvas"></canvas>
+          <button class="signature-clear" onclick="clearSignature()">Limpar assinatura</button>
+        </div>
+        
+        <button class="btn btn-primary" onclick="submitSignature(13)" id="btnSignature" disabled>Confirmar Assinatura →</button>
       </div>
 
-      <!-- STEP 11: Dias -->
-      <div class="step-card hidden" id="step-11">
-        <h2 class="step-title">A IA recomenda repouso. Você precisa de:</h2>
+      <div class="step-card hidden" id="step-14">
+        <h2 class="step-title">A IA recomenda repouso. Voce precisa de:</h2>
+        
         <div class="options-list">
-          <div class="option-item" onclick="selectDays(1)">
+          <div class="option-item" data-value="1" onclick="selectDays(1)">
             <div class="option-icon" style="background: #fef3c7;">1️⃣</div>
-            <div class="option-content"><div class="option-title">1 dia</div></div>
+            <div class="option-content">
+              <div class="option-title">1 dia (24 horas)</div>
+              <div class="option-desc">Repouso parcial</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectDays(2)">
+          
+          <div class="option-item" data-value="2" onclick="selectDays(2)">
             <div class="option-icon" style="background: #fde68a;">2️⃣</div>
-            <div class="option-content"><div class="option-title">2 dias</div></div>
+            <div class="option-content">
+              <div class="option-title">2 dias (48 horas)</div>
+              <div class="option-desc">Repouso recomendado</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectDays(7)">
+          
+          <div class="option-item" data-value="7" onclick="selectDays(7)">
             <div class="option-icon" style="background: #bfdbfe;">7️⃣</div>
-            <div class="option-content"><div class="option-title">7 dias (1 semana)</div></div>
+            <div class="option-content">
+              <div class="option-title">7 dias (1 semana)</div>
+              <div class="option-desc">Repouso prolongado</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
-          <div class="option-item" onclick="selectDays(14)">
+          
+          <div class="option-item" data-value="14" onclick="selectDays(14)">
             <div class="option-icon" style="background: #ddd6fe;">📅</div>
-            <div class="option-content"><div class="option-title">14 dias (2 semanas)</div></div>
+            <div class="option-content">
+              <div class="option-title">14 dias (2 semanas)</div>
+              <div class="option-desc">Recuperação completa</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="ia" onclick="selectDays('ia')">
+            <div class="option-icon" style="background: #dbeafe;">🤖</div>
+            <div class="option-content">
+              <div class="option-title">Deixar a IA decidir</div>
+              <div class="option-desc">Baseado nos seus sintomas</div>
+            </div>
             <div class="option-check">✓</div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 12: Hospital -->
-      <div class="step-card hidden" id="step-12">
-        <h2 class="step-title">Selecione a unidade de saúde</h2>
-        <p class="step-subtitle">Hospital ou posto mais próximo</p>
+      <div class="step-card hidden" id="step-15">
+        <h2 class="step-title">Selecione a unidade de saude mais proxima</h2>
+        <p class="step-subtitle" id="locationSubtitle">Localizando hospitais na sua regiao...</p>
         
-        <div id="hospitalLoading" style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 16px; border: 2px dashed #e2e8f0;">
-          <div style="font-size: 40px; animation: bounce 1s infinite;">🏥</div>
-          <p style="font-weight: 600; margin-top: 12px;">Carregando hospitais...</p>
+        <!-- Card de Localização -->
+        <div id="locationInfo" style="background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%); border: 2px solid #10b981; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: none; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📍</div>
+            <div style="flex: 1;">
+              <div style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">📍 Sua Localizacao Detectada</div>
+              <div id="userLocation" style="font-size: 16px; font-weight: 700; color: #0f172a;">Detectando...</div>
+            </div>
+          </div>
         </div>
         
-        <div id="hospitalList" class="options-list hidden" style="margin-top: 16px;">
-          <!-- Hospitais serão inseridos aqui -->
+        <!-- Mapa do Google -->
+        <div id="mapContainer" style="width: 100%; height: 200px; background: #e2e8f0; border-radius: 12px; margin-bottom: 16px; display: none; overflow: hidden; position: relative;">
+          <iframe id="googleMap" width="100%" height="100%" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            🏥 Unidades próximas
+          </div>
         </div>
         
-        <button class="btn btn-primary" onclick="goToResultado()" id="btnHospital" disabled>✓ Gerar Atestado →</button>
+        <!-- Loading -->
+        <div id="locationStatus" style="text-align: center; padding: 40px 20px; color: #64748b; background: #f8fafc; border-radius: 16px; border: 2px dashed #e2e8f0;">
+          <div style="font-size: 48px; margin-bottom: 16px; animation: bounce 1s infinite;">🗺️</div>
+          <p style="font-weight: 600; color: #0f172a;">Detectando sua regiao...</p>
+          <p style="font-size: 13px; margin-top: 8px;">Buscando hospitais e postos de saude proximos</p>
+        </div>
+        
+        <!-- Lista de Hospitais -->
+        <div id="hospitalsList" class="options-list" style="display: none; margin-top: 16px;">
+          <!-- Hospitais serao carregados aqui -->
+        </div>
+        
+        <!-- Erro - Entrada Manual -->
+        <div id="hospitalError" style="display: none; background: #fef2f2; border: 1px solid #fecaca; border-radius: 16px; padding: 20px; text-align: center;">
+          <div style="font-size: 32px; margin-bottom: 8px;">⚠️</div>
+          <p style="color: #dc2626; margin-bottom: 12px; font-weight: 600;">Nao foi possivel detectar automaticamente</p>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Digite o nome do hospital ou clinica mais proxima da sua casa</p>
+          <input type="text" class="input-field" id="manualHospital" placeholder="Ex: Hospital Municipal, UPA, Clinica..." style="margin-bottom: 12px;">
+          <button class="btn btn-primary" onclick="submitManualHospital()">Confirmar Unidade</button>
+        </div>
+        
+        <button class="btn btn-primary" onclick="console.log('Botão clicado!'); startProcessing();" id="btnHospital" disabled style="margin-top: 16px; display: none;">✓ Confirmar e Gerar Atestado →</button>
       </div>
 
     </div>
   </main>
 
-  <!-- LOADING SCREEN -->
   <div class="loading-overlay" id="loadingScreen">
     <div class="loading-card">
-      <div class="loading-icon">🏥</div>
-      <h2 class="loading-title">Analisando suas respostas...</h2>
-      <p class="loading-subtitle">Nossa IA médica está processando</p>
-      <div class="loading-progress-bar">
-        <div class="loading-progress-fill" id="loadingProgress"></div>
+      <div class="loading-icon-container">
+        <div class="loading-spinner-ring"></div>
+        <div class="loading-icon-bg">🏥</div>
       </div>
-      <div class="loading-percentage" id="loadingPercentage">0%</div>
-      <div class="loading-status" id="loadingStatus">Iniciando...</div>
+      <h2 class="loading-title">Analisando suas respostas...</h2>
+      <p class="loading-subtitle">Nossa IA médica está processando seu caso</p>
+      
+      <div class="loading-progress-container">
+        <div class="loading-progress-bar">
+          <div class="loading-progress-fill" id="loadingProgress"></div>
+        </div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+      </div>
+      
+      <div class="loading-status" id="loadingStatus">Analisando padrões de sintomas</div>
+      
+      <div class="loading-steps">
+        <div class="loading-step active" id="step1"></div>
+        <div class="loading-step" id="step2"></div>
+        <div class="loading-step" id="step3"></div>
+        <div class="loading-step" id="step4"></div>
+        <div class="loading-step" id="step5"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <p class="modal-text" id="modalText"></p>
+      <div class="modal-buttons" id="modalButtons"></div>
     </div>
   </div>
 
   <script>
-    // VARIÁVEIS GLOBAIS
+    // JAVASCRIPT INLINE - GARANTE FUNCIONAMENTO
     let currentStep = 1;
-    let userData = { nome: '', email: '', sintoma: '', dias: 2, hospital: '' };
+    let selectedCheckboxes = [];
     let hasSigned = false;
-    let canvas, ctx;
-    
-    // DADOS DOS HOSPITAIS
-    const hospitalsDB = {
-      'São Paulo': ['Hospital das Clínicas - SP', 'Hospital Sírio-Libanês', 'UPA Pinheiros', 'Posto Saúde Vila Madalena', 'Hospital Albert Einstein'],
-      'Rio de Janeiro': ['Hospital Samaritano', 'Hospital Copa DOr', 'UPA Copacabana', 'Hospital Municipal Souza Aguiar'],
-      'Belo Horizonte': ['Hospital das Clínicas UFMG', 'Hospital Sofia Feldman', 'UPA Barreiro'],
-      'Brasília': ['Hospital de Base', 'Hospital Brasília', 'UPA Asa Sul'],
-      'Curitiba': ['Hospital de Clínicas UFPR', 'Hospital Evangélico', 'UPA Boqueirão'],
-      'Salvador': ['Hospital Roberto Santos', 'Hospital Português', 'UPA Barra'],
-      'Fortaleza': ['Hospital São Mateus', 'Hospital Unimed', 'UPA Aldeota'],
-      'Recife': ['Hospital Real Beneficência', 'Hospital Memorial', 'UPA Boa Viagem'],
-      'Porto Alegre': ['HCPA', 'Hospital Moinhos de Vento', 'UPA Centro'],
-      'Manaus': ['Hospital 28 de Agosto', 'HUGV', 'UPA Centro']
-    };
-    
-    // INICIALIZAÇÃO
+    let painLevel = 5;
+    let canvas, ctx, isDrawing = false;
+
+    let userData = { nome: '', cpf: '', email: '', sintoma: '', dias: 2, hospital: '' };
+
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Quiz iniciado');
-      for (let i = 2; i <= 12; i++) {
+      for (let i = 2; i <= 16; i++) {
         const step = document.getElementById('step-' + i);
         if (step) step.classList.add('hidden');
       }
-      initCanvas();
+      initSignatureCanvas();
+      updateProgress(1);
     });
-    
-    // NAVEGAÇÃO
+
     function goToStep(stepNum) {
-      console.log(' Indo para step:', stepNum);
-      
-      // Esconde atual
+      if (stepNum < 1 || stepNum > 17) return;
       const currentEl = document.getElementById('step-' + currentStep);
       if (currentEl) currentEl.classList.add('hidden');
-      
-      // Mostra próximo
       const nextEl = document.getElementById('step-' + stepNum);
-      if (nextEl) nextEl.classList.remove('hidden');
-      
+      if (nextEl) {
+        nextEl.classList.remove('hidden');
+        nextEl.classList.add('animate-fade-in');
+      }
       currentStep = stepNum;
       updateProgress(stepNum);
-      
-      // Se for step 12, carrega hospitais
-      if (stepNum === 12) {
-        loadHospitals();
-      }
-      
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Inicializa canvas de assinatura quando chegar no step 13
+      if (stepNum === 13) {
+        setTimeout(initSignatureCanvas, 100);
+      }
+      
+      // Busca hospitais quando chegar no step 15
+      if (stepNum === 15) {
+        setTimeout(findNearbyHospitals, 500);
+      }
     }
-    
+
     function updateProgress(step) {
+      const map = { 1: 18, 2: 26, 3: 34, 4: 42, 5: 50, 6: 58, 7: 65, 8: 72, 9: 78, 10: 83, 11: 87, 12: 90, 13: 93, 14: 95, 15: 97, 16: 99 };
+      const msgs = { 1: 'Analisando sintoma...', 2: 'Avaliando tempo...', 3: 'Processando intensidade...', 4: 'Verificando alertas...', 5: 'Analisando tratamento...', 6: 'Avaliando risco...', 7: 'Calculando repouso...', 8: 'Definindo data...', 9: 'Selecionando CID...', 10: 'Validando dados...', 11: 'Confirmando email...', 12: 'Verificando termos...', 13: 'Processando assinatura...', 14: 'Calculando periodo...', 15: 'Buscando unidades de saude...', 16: 'Finalizando...' };
       const fill = document.getElementById('progressFill');
-      if (fill) fill.style.width = (step * 8) + '%';
+      const text = document.getElementById('progressText');
+      if (fill) fill.style.width = (map[step] || 0) + '%';
+      if (text) text.textContent = msgs[step] || 'Processando...';
     }
-    
-    // SELEÇÃO DE OPÇÕES
+
     function selectOption(step, value, label) {
-      console.log('Select:', step, value, label);
+      console.log('selectOption:', step, value, label);
       
-      if (step === 1) userData.sintoma = label;
-      
-      // Visual
+      // Seleciona visualmente a opção
       const stepEl = document.getElementById('step-' + step);
-      const options = stepEl.querySelectorAll('.option-item');
-      options.forEach(function(opt) { opt.classList.remove('selected'); });
-      event.currentTarget.classList.add('selected');
+      if (stepEl) {
+        const options = stepEl.querySelectorAll('.option-item');
+        options.forEach(function(opt) { opt.classList.remove('selected'); });
+        options.forEach(function(opt) {
+          if (opt.getAttribute('data-value') === value) opt.classList.add('selected');
+        });
+      }
       
-      // Próximo
-      setTimeout(function() { goToStep(step + 1); }, 300);
+      // Step 1: Mostra mensagem com botão de continuar
+      if (step === 1) {
+        userData.sintoma = label;
+        showAlertWithButton('alert-sintoma', 'Detectamos padrao de <strong>' + label + '</strong>. Iniciando protocolo de analise medica.', step + 1);
+        return;
+      }
+      
+      // Step 5: Se selecionou 'nada', mostra alerta com botão
+      if (step === 5 && value === 'nada') {
+        showAlertWithButton('alert-remedio', '<strong>Atencao:</strong> Postergar tratamento pode aumentar o tempo de recuperacao e comprometer sua saude. Recomendamos iniciar o protocolo medico imediatamente.', step + 1);
+        return;
+      }
+      
+      // Step 6: Se selecionou 'maquinas', mostra alerta com botão
+      if (step === 6 && value === 'maquinas') {
+        showAlertWithButton('alert-maquinas', '🚨 <strong>Risco de acidente detectado!</strong> Operar maquinas ou veiculos com os sintomas apresentados pode colocar sua vida e a de outros em risco. Atestado prioritario indicado.', step + 1);
+        return;
+      }
+      
+      // Para outros steps, avança normalmente
+      setTimeout(function() { goToStep(step + 1); }, 400);
     }
     
-    // SLIDER DE DOR
-    function updatePain(value) {
-      const labels = ['', 'Leve', 'Moderado', 'Significativo', 'Intenso', 'Severo'];
-      const display = document.getElementById('painDisplay');
-      if (display) {
-        display.textContent = 'Nível ' + value + ': ' + (labels[Math.ceil(value/2)] || 'Significativo');
+    function showAlertWithButton(alertId, message, nextStep) {
+      const alert = document.getElementById(alertId);
+      if (alert) {
+        alert.className = 'alert alert-info alert-with-button';
+        alert.innerHTML = '<div class="alert-content-wrapper"><span class="alert-icon">💡</span><div class="alert-content">' + message + '</div></div><button class="alert-continue-btn" onclick="continueFromAlert(' + nextStep + ')">Continuar →</button>';
+        alert.style.display = 'flex';
       }
     }
     
-    // CHECKBOXES
+    function continueFromAlert(nextStep) {
+      goToStep(nextStep);
+    }
+
     function toggleCheckbox(element, value) {
       element.classList.toggle('selected');
+      if (selectedCheckboxes.includes(value)) {
+        selectedCheckboxes = selectedCheckboxes.filter(function(v) { return v !== value; });
+      } else {
+        selectedCheckboxes.push(value);
+      }
+      if (selectedCheckboxes.length >= 3) {
+        showAlert('alert-checkboxes', '<strong>Nivel critico detectado.</strong> Repouso medico recomendado.');
+      }
     }
-    
-    // INPUTS
+
+    function submitCheckboxes(step) {
+      selectedCheckboxes = [];
+      goToStep(step + 1);
+    }
+
+    function updatePainLevel(value) {
+      painLevel = parseInt(value);
+      const labels = { 1: 'Nivel 1: Leve desconforto', 2: 'Nivel 2: Incomodo leve', 3: 'Nivel 3: Desconforto moderado', 4: 'Nivel 4: Dor perceptivel', 5: 'Nivel 5: Desconforto significativo', 6: 'Nivel 6: Dor moderada', 7: 'Nivel 7: Dor intensa', 8: 'Nivel 8: Dor muito intensa', 9: 'Nivel 9: Dor severa', 10: 'Nivel 10: Dor insuportavel' };
+      const display = document.getElementById('painValue');
+      if (display) {
+        display.textContent = labels[value];
+        if (value >= 7) display.classList.add('critical');
+        else display.classList.remove('critical');
+      }
+    }
+
+    function submitPainLevel(step) { goToStep(step + 1); }
+
     function updateNome(value) {
       userData.nome = value.trim();
-      document.getElementById('btnNome').disabled = value.length < 5;
+      const preview = document.getElementById('nomePreview');
+      const previewText = document.getElementById('nomePreviewText');
+      const btn = document.getElementById('btnNome');
+      const feedback = document.getElementById('feedbackNome');
+      if (userData.nome.length >= 5) {
+        if (preview) preview.classList.add('show');
+        if (previewText) previewText.textContent = userData.nome;
+        if (btn) btn.disabled = false;
+        if (feedback) { feedback.innerHTML = '<span>✓</span><span>Nome validado</span>'; feedback.className = 'input-feedback success'; }
+      } else {
+        if (preview) preview.classList.remove('show');
+        if (btn) btn.disabled = true;
+        if (feedback) feedback.innerHTML = '';
+      }
     }
-    
-    function updateEmail(value) {
+
+    function submitNome(step) { if (userData.nome.length >= 5) goToStep(step + 1); }
+
+    function formatCPF(input) {
+      let value = input.value.replace(/\D/g, '');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      input.value = value;
+      const feedback = document.getElementById('feedbackCPF');
+      const btn = document.getElementById('btnCPF');
+      if (value.length === 14) {
+        if (validarCPF(value)) {
+          userData.cpf = value;
+          if (feedback) { feedback.innerHTML = '<span>✓</span><span>CPF validado</span>'; feedback.className = 'input-feedback success'; }
+          if (btn) btn.disabled = false;
+        } else {
+          if (feedback) { feedback.innerHTML = '<span>✗</span><span>CPF invalido</span>'; feedback.className = 'input-feedback error'; }
+          if (btn) btn.disabled = true;
+        }
+      } else {
+        if (feedback) feedback.innerHTML = '';
+        if (btn) btn.disabled = true;
+      }
+    }
+
+    function validarCPF(cpf) {
+      cpf = cpf.replace(/[^\d]/g, '');
+      if (cpf.length !== 11) return false;
+      if (/^(\d)\1{10}$/.test(cpf)) return false;
+      let soma = 0;
+      for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+      let resto = 11 - (soma % 11);
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf.charAt(9))) return false;
+      soma = 0;
+      for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+      resto = 11 - (soma % 11);
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf.charAt(10))) return false;
+      return true;
+    }
+
+    function submitCPF(step) { if (validarCPF(userData.cpf)) goToStep(step + 1); }
+
+    function validateEmail(value) {
       userData.email = value.trim();
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      document.getElementById('btnEmail').disabled = !valid;
+      const feedback = document.getElementById('feedbackEmail');
+      const btn = document.getElementById('btnEmail');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(userData.email)) {
+        if (feedback) { feedback.innerHTML = '<span>✓</span><span>Email validado</span>'; feedback.className = 'input-feedback success'; }
+        if (btn) btn.disabled = false;
+      } else {
+        if (feedback) feedback.innerHTML = '';
+        if (btn) btn.disabled = true;
+      }
     }
-    
+
+    function submitEmail(step) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(userData.email)) {
+        localStorage.setItem('atestado_nome', userData.nome);
+        localStorage.setItem('atestado_email', userData.email);
+        localStorage.setItem('atestado_sintoma', userData.sintoma);
+        goToStep(step + 1);
+      }
+    }
+
     function toggleConfirm(element) {
       element.classList.toggle('selected');
-      document.getElementById('btnConfirm').disabled = !element.classList.contains('selected');
+      const btn = document.getElementById('btnConfirm');
+      if (btn) btn.disabled = !element.classList.contains('selected');
     }
-    
-    // ASSINATURA
-    function initCanvas() {
+
+    function submitConfirm(step) { goToStep(step + 1); }
+
+    function initSignatureCanvas() {
       canvas = document.getElementById('signatureCanvas');
       if (!canvas) return;
       
-      ctx = canvas.getContext('2d');
-      ctx.strokeStyle = '#000';
-      ctx.lineWidth = 2.5;
-      ctx.lineCap = 'round';
-      
-      let drawing = false;
-      
-      canvas.addEventListener('mousedown', function(e) {
-        drawing = true;
-        ctx.beginPath();
-        ctx.moveTo(e.offsetX, e.offsetY);
-      });
-      
-      canvas.addEventListener('mousemove', function(e) {
-        if (!drawing) return;
-        ctx.lineTo(e.offsetX, e.offsetY);
-        ctx.stroke();
-        hasSigned = true;
-        document.getElementById('btnSignature').disabled = false;
-      });
-      
-      canvas.addEventListener('mouseup', function() { drawing = false; });
-      canvas.addEventListener('mouseleave', function() { drawing = false; });
-    }
-    
-    function clearSignature() {
-      if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hasSigned = false;
-      document.getElementById('btnSignature').disabled = true;
-    }
-    
-    // DIAS
-    function selectDays(days) {
-      userData.dias = days;
-      
-      // Visual
-      const options = document.querySelectorAll('#step-11 .option-item');
-      options.forEach(function(opt) { opt.classList.remove('selected'); });
-      event.currentTarget.classList.add('selected');
-      
-      // Salva assinatura
-      if (hasSigned && canvas) {
-        localStorage.setItem('atestado_assinatura', canvas.toDataURL());
+      // Garante que o canvas está visível antes de pegar dimensões
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        console.log('Canvas não está visível ainda, tentando novamente...');
+        setTimeout(initSignatureCanvas, 200);
+        return;
       }
       
-      setTimeout(function() { goToStep(12); }, 300);
+      // Define dimensões com alta resolução para retina
+      canvas.width = rect.width * 2;
+      canvas.height = rect.height * 2;
+      
+      ctx = canvas.getContext('2d');
+      ctx.scale(2, 2);
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      // Remove listeners antigos para evitar duplicação
+      canvas.removeEventListener('mousedown', startDrawing);
+      canvas.removeEventListener('mousemove', draw);
+      canvas.removeEventListener('mouseup', stopDrawing);
+      canvas.removeEventListener('mouseleave', stopDrawing);
+      canvas.removeEventListener('touchstart', handleTouch);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchend', stopDrawing);
+      
+      // Adiciona listeners
+      canvas.addEventListener('mousedown', startDrawing);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('mouseup', stopDrawing);
+      canvas.addEventListener('mouseleave', stopDrawing);
+      canvas.addEventListener('touchstart', handleTouch, { passive: false });
+      canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+      canvas.addEventListener('touchend', stopDrawing);
+      
+      console.log('Canvas de assinatura inicializado:', rect.width, 'x', rect.height);
+    }
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      let clientX, clientY;
+      
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function startDrawing(e) {
+      isDrawing = true;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+      e.preventDefault();
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      hasSigned = true;
+      const btn = document.getElementById('btnSignature');
+      if (btn) btn.disabled = false;
+    }
+
+    function stopDrawing() { isDrawing = false; ctx.beginPath(); }
+
+    function handleTouch(e) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      canvas.dispatchEvent(new MouseEvent('mousedown', { clientX: touch.clientX, clientY: touch.clientY }));
+    }
+
+    function handleTouchMove(e) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      canvas.dispatchEvent(new MouseEvent('mousemove', { clientX: touch.clientX, clientY: touch.clientY }));
+    }
+
+    function clearSignature() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasSigned = false;
+      const btn = document.getElementById('btnSignature');
+      if (btn) btn.disabled = true;
+    }
+
+    function submitSignature(step) { 
+      if (hasSigned) {
+        // Salva a assinatura como imagem base64
+        const signatureData = canvas.toDataURL('image/png');
+        localStorage.setItem('atestado_assinatura', signatureData);
+        goToStep(step + 1); 
+      }
+    }
+
+    function selectDays(days) {
+      const options = document.querySelectorAll('#step-15 .option-item');
+      options.forEach(function(opt) { opt.classList.remove('selected'); });
+      if (event && event.currentTarget) event.currentTarget.classList.add('selected');
+      if (days === 'ia') {
+        userData.dias = 2;
+        showModal('🤖 IA Medica Recomenda', 'Baseado nos seus sintomas, recomendamos <strong>2 dias de repouso</strong>.', function() {
+          closeModal();
+          goToStep(16); // Vai para seleção de hospital
+        });
+      } else {
+        userData.dias = days;
+        setTimeout(function() { goToStep(16); }, 400); // Vai para seleção de hospital
+      }
+    }
+
+    // Dados de hospitais por região com cidade, estado e bairro
+    const hospitalsDatabase = {
+      'Sao Paulo': {
+        estado: 'SP',
+        cidade: 'São Paulo',
+        bairro: 'Pinheiros',
+        hospitais: [
+          { name: 'Hospital das Clínicas', bairro: 'Cerqueira César', endereco: 'Av. Dr. Enéas Carvalho de Aguiar, 255', distance: '2.3 km' },
+          { name: 'Hospital Sírio-Libanês', bairro: 'Bela Vista', endereco: 'Rua Dona Adma Jafet, 91', distance: '4.1 km' },
+          { name: 'Hospital Albert Einstein', bairro: 'Morumbi', endereco: 'Av. Albert Einstein, 627', distance: '5.8 km' },
+          { name: 'UPA Pinheiros', bairro: 'Pinheiros', endereco: 'Rua Teodoro Sampaio, 201', distance: '1.2 km' },
+          { name: 'Posto de Saúde Vila Madalena', bairro: 'Vila Madalena', endereco: 'Rua Harmonia, 145', distance: '0.8 km' }
+        ]
+      },
+      'Rio de Janeiro': {
+        estado: 'RJ',
+        cidade: 'Rio de Janeiro',
+        bairro: 'Copacabana',
+        hospitais: [
+          { name: 'Hospital Samaritano', bairro: 'Botafogo', endereco: 'Rua Bambina, 98', distance: '3.2 km' },
+          { name: 'Hospital Copa DOr', bairro: 'Copacabana', endereco: 'Rua Figueiredo Magalhães, 875', distance: '2.1 km' },
+          { name: 'UPA Copacabana', bairro: 'Copacabana', endereco: 'Av. Nossa Senhora de Copacabana, 600', distance: '1.5 km' },
+          { name: 'Hospital Municipal Souza Aguiar', bairro: 'Centro', endereco: 'Praça dos Lavradores, 5', distance: '4.2 km' }
+        ]
+      },
+      'Belo Horizonte': {
+        estado: 'MG',
+        cidade: 'Belo Horizonte',
+        bairro: 'Funcionários',
+        hospitais: [
+          { name: 'Hospital das Clínicas UFMG', bairro: 'Santa Efigênia', endereco: 'Av. Alfredo Balena, 110', distance: '2.8 km' },
+          { name: 'Hospital Sofia Feldman', bairro: 'Calafate', endereco: 'Av. dos Engenheiros, 1.000', distance: '3.5 km' },
+          { name: 'UPA Barreiro', bairro: 'Barreiro', endereco: 'Av. Afonso Vaz de Melo, 1.200', distance: '1.9 km' }
+        ]
+      },
+      'Brasilia': {
+        estado: 'DF',
+        cidade: 'Brasília',
+        bairro: 'Asa Sul',
+        hospitais: [
+          { name: 'Hospital de Base', bairro: 'Setor Militar', endereco: 'Av. Contorno, 1', distance: '5.2 km' },
+          { name: 'Hospital Brasília', bairro: 'Asa Sul', endereco: 'SMHS, Qd. 1, Conjunto A', distance: '3.8 km' },
+          { name: 'UPA Asa Sul', bairro: 'Asa Sul', endereco: 'SGAS 914, Conjunto F', distance: '2.1 km' }
+        ]
+      },
+      'Curitiba': {
+        estado: 'PR',
+        cidade: 'Curitiba',
+        bairro: 'Centro',
+        hospitais: [
+          { name: 'Hospital de Clínicas UFPR', bairro: 'Alto da Glória', endereco: 'Rua General Carneiro, 181', distance: '2.5 km' },
+          { name: 'Hospital Evangélico', bairro: 'Cabral', endereco: 'Av. Brasil, 1.500', distance: '3.2 km' },
+          { name: 'UPA Boqueirão', bairro: 'Boqueirão', endereco: 'Rua Marechal Deodoro, 2.300', distance: '1.8 km' }
+        ]
+      },
+      'Salvador': {
+        estado: 'BA',
+        cidade: 'Salvador',
+        bairro: 'Barra',
+        hospitais: [
+          { name: 'Hospital Geral Roberto Santos', bairro: 'Patamares', endereco: 'Av. Lauro de Freitas, 520', distance: '3.1 km' },
+          { name: 'Hospital Português', bairro: 'Barra', endereco: 'Av. Sete de Setembro, 1.500', distance: '2.4 km' },
+          { name: 'UPA Barra', bairro: 'Barra', endereco: 'Rua Marquês de Caravelas, 215', distance: '1.2 km' }
+        ]
+      },
+      'Fortaleza': {
+        estado: 'CE',
+        cidade: 'Fortaleza',
+        bairro: 'Aldeota',
+        hospitais: [
+          { name: 'Hospital São Mateus', bairro: 'Dionisio Torres', endereco: 'Av. Santos Dumont, 3.800', distance: '2.8 km' },
+          { name: 'Hospital Unimed Fortaleza', bairro: 'Cocó', endereco: 'Av. Santos Dumont, 4.800', distance: '4.2 km' },
+          { name: 'UPA Aldeota', bairro: 'Aldeota', endereco: 'Rua Costa Mendes, 1.200', distance: '1.5 km' }
+        ]
+      },
+      'Recife': {
+        estado: 'PE',
+        cidade: 'Recife',
+        bairro: 'Boa Viagem',
+        hospitais: [
+          { name: 'Hospital da Real Beneficência', bairro: 'Boa Viagem', endereco: 'Av. Conselheiro Aguiar, 1.500', distance: '2.1 km' },
+          { name: 'Hospital Memorial São José', bairro: 'Boa Viagem', endereco: 'Av. Conselheiro Aguiar, 3.700', distance: '3.5 km' },
+          { name: 'UPA Boa Viagem', bairro: 'Boa Viagem', endereco: 'Rua Padre Carapuceiro, 850', distance: '1.8 km' }
+        ]
+      },
+      'Porto Alegre': {
+        estado: 'RS',
+        cidade: 'Porto Alegre',
+        bairro: 'Centro',
+        hospitais: [
+          { name: 'Hospital de Clínicas de Porto Alegre', bairro: 'Santana', endereco: 'Rua Ramiro Barcelos, 2.350', distance: '3.2 km' },
+          { name: 'Hospital Moinhos de Vento', bairro: 'Moinhos de Vento', endereco: 'Rua Ramiro Barcelos, 910', distance: '2.1 km' },
+          { name: 'UPA Centro', bairro: 'Centro', endereco: 'Rua Voluntários da Pátria, 800', distance: '1.4 km' }
+        ]
+      },
+      'Manaus': {
+        estado: 'AM',
+        cidade: 'Manaus',
+        bairro: 'Centro',
+        hospitais: [
+          { name: 'Hospital e Pronto Socorro 28 de Agosto', bairro: 'Adrianópolis', endereco: 'Av. Mário Ypiranga, 1.500', distance: '3.5 km' },
+          { name: 'Hospital Universitário Getúlio Vargas', bairro: 'São Jorge', endereco: 'Av. Brigadeiro Hilário Gurjão, 700', distance: '4.2 km' },
+          { name: 'UPA Centro', bairro: 'Centro', endereco: 'Rua Barroso, 300', distance: '1.1 km' }
+        ]
+      },
+      'default': {
+        estado: 'SP',
+        cidade: 'Sua Cidade',
+        bairro: 'Centro',
+        hospitais: [
+          { name: 'Hospital Regional Central', bairro: 'Centro', endereco: 'Av. Principal, 1.000', distance: '2.1 km' },
+          { name: 'UPA 24h', bairro: 'Centro', endereco: 'Rua da Saúde, 500', distance: '1.3 km' },
+          { name: 'Posto de Saúde Municipal', bairro: 'Centro', endereco: 'Rua das Flores, 120', distance: '0.9 km' },
+          { name: 'Hospital Municipal', bairro: 'Vila Nova', endereco: 'Av. Brasil, 2.000', distance: '3.5 km' },
+          { name: 'Clínica Médica Local', bairro: 'Jardim', endereco: 'Rua do Comércio, 85', distance: '1.8 km' }
+        ]
+      }
+    };
+
+    let currentCityData = null;
+    let userLocationData = null;
+    
+    // Busca localização por IP com dados de bairro
+    async function getLocationByIP() {
+      try {
+        // Usa ipapi.co para geolocalização por IP (gratuito)
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        
+        // Tenta pegar o bairro de várias fontes possíveis
+        let bairro = 'Centro';
+        if (data.suburb && data.suburb.trim() !== '') {
+          bairro = data.suburb;
+        } else if (data.district && data.district.trim() !== '') {
+          bairro = data.district;
+        } else if (data.neighborhood && data.neighborhood.trim() !== '') {
+          bairro = data.neighborhood;
+        } else if (data.postal) {
+          // Se tiver CEP, tenta inferir bairro da cidade
+          bairro = getBairroByCep(data.postal, data.city);
+        }
+        
+        userLocationData = {
+          cidade: data.city || 'Sua Cidade',
+          estado: data.region_code || 'UF',
+          bairro: bairro,
+          cep: data.postal || '',
+          latitude: data.latitude,
+          longitude: data.longitude,
+          ip: data.ip
+        };
+        
+        console.log('Localização detectada:', userLocationData);
+        return userLocationData;
+      } catch (error) {
+        console.log('Erro ao buscar IP:', error);
+        return null;
+      }
     }
     
-    // HOSPITAIS - VERSÃO SIMPLES
-    function loadHospitals() {
-      console.log('Carregando hospitais...');
+    // Tenta inferir bairro baseado no CEP (simplificado)
+    function getBairroByCep(cep, cidade) {
+      // Remove traço do CEP
+      cep = cep.replace('-', '');
+      const prefixo = cep.substring(0, 5);
       
-      const loading = document.getElementById('hospitalLoading');
-      const list = document.getElementById('hospitalList');
+      // São Paulo
+      if (cidade.toLowerCase().includes('sao paulo')) {
+        if (prefixo >= '01400' && prefixo <= '01499') return 'Jardins';
+        if (prefixo >= '05400' && prefixo <= '05499') return 'Pinheiros';
+        if (prefixo >= '05425' && prefixo <= '05436') return 'Vila Madalena';
+        if (prefixo >= '04500' && prefixo <= '04599') return 'Itaim Bibi';
+        if (prefixo >= '01300' && prefixo <= '01399') return 'Bela Vista';
+        if (prefixo >= '01000' && prefixo <= '01199') return 'Centro';
+        if (prefixo >= '03000' && prefixo <= '03999') return 'Leste';
+      }
       
-      // Simula cidades com base no horário (apenas para demonstração)
-      const cidades = Object.keys(hospitalsDB);
-      const cidade = cidades[Math.floor(Math.random() * cidades.length)];
-      const hospitais = hospitalsDB[cidade] || hospitalsDB['São Paulo'];
+      // Rio de Janeiro
+      if (cidade.toLowerCase().includes('rio de janeiro')) {
+        if (prefixo >= '22000' && prefixo <= '22099') return 'Copacabana';
+        if (prefixo >= '22200' && prefixo <= '22299') return 'Botafogo';
+        if (prefixo >= '22400' && prefixo <= '22499') return 'Ipanema';
+        if (prefixo >= '20000' && prefixo <= '20099') return 'Centro';
+      }
       
-      // Esconde loading
-      loading.classList.add('hidden');
-      list.classList.remove('hidden');
+      return 'Centro';
+    }
+    
+    function findNearbyHospitals() {
+      const statusEl = document.getElementById('locationStatus');
+      const listEl = document.getElementById('hospitalsList');
+      const errorEl = document.getElementById('hospitalError');
+      const locationInfo = document.getElementById('locationInfo');
+      const userLocation = document.getElementById('userLocation');
+      const subtitle = document.getElementById('locationSubtitle');
       
-      // Gera lista
-      list.innerHTML = '';
-      hospitais.forEach(function(hosp, index) {
+      // Primeiro tenta por IP
+      getLocationByIP().then(function(locationData) {
+        if (locationData) {
+          // Encontra hospitais próximos baseado na cidade
+          const cityKey = findCityKey(locationData.cidade, locationData.estado);
+          currentCityData = hospitalsDatabase[cityKey] || generateHospitalsForCity(locationData);
+          
+          // Atualiza informações de localização
+          if (locationInfo) locationInfo.style.display = 'block';
+          if (userLocation) {
+            userLocation.textContent = locationData.bairro + ', ' + locationData.cidade + ' - ' + locationData.estado;
+          }
+          if (subtitle) {
+            subtitle.textContent = 'Selecione uma unidade de saúde em ' + locationData.cidade + '/' + locationData.estado;
+          }
+          
+          displayHospitals(currentCityData);
+        } else {
+          // Fallback para geolocalização do navegador
+          tryGeolocationFallback();
+        }
+      }).catch(function() {
+        tryGeolocationFallback();
+      });
+    }
+    
+    function findCityKey(cidade, estado) {
+      const cidadeLower = cidade.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const estadoUpper = estado.toUpperCase();
+      
+      // Mapeamento por cidade
+      if (cidadeLower.includes('sao paulo')) return 'Sao Paulo';
+      if (cidadeLower.includes('rio de janeiro')) return 'Rio de Janeiro';
+      if (cidadeLower.includes('belo horizonte')) return 'Belo Horizonte';
+      if (cidadeLower.includes('brasilia')) return 'Brasilia';
+      if (cidadeLower.includes('curitiba')) return 'Curitiba';
+      if (cidadeLower.includes('salvador')) return 'Salvador';
+      if (cidadeLower.includes('fortaleza')) return 'Fortaleza';
+      if (cidadeLower.includes('recife')) return 'Recife';
+      if (cidadeLower.includes('porto alegre')) return 'Porto Alegre';
+      if (cidadeLower.includes('manaus')) return 'Manaus';
+      
+      // Mapeamento por estado (fallback)
+      if (estadoUpper === 'SP') return 'Sao Paulo';
+      if (estadoUpper === 'RJ') return 'Rio de Janeiro';
+      if (estadoUpper === 'MG') return 'Belo Horizonte';
+      if (estadoUpper === 'DF') return 'Brasilia';
+      if (estadoUpper === 'PR') return 'Curitiba';
+      if (estadoUpper === 'BA') return 'Salvador';
+      if (estadoUpper === 'CE') return 'Fortaleza';
+      if (estadoUpper === 'PE') return 'Recife';
+      if (estadoUpper === 'RS') return 'Porto Alegre';
+      if (estadoUpper === 'AM') return 'Manaus';
+      
+      return 'default';
+    }
+    
+    function generateHospitalsForCity(locationData) {
+      // Gera hospitais próximos ao bairro detectado
+      const bairroUsuario = locationData.bairro || 'Centro';
+      const cidade = locationData.cidade;
+      const estado = locationData.estado;
+      
+      // Bairros próximos simulados baseados no bairro do usuário
+      const bairrosProximos = [
+        bairroUsuario,
+        'Vila ' + cidade.split(' ')[0],
+        'Jardim ' + cidade.split(' ')[0],
+        bairroUsuario + ' Novo',
+        'Centro'
+      ];
+      
+      const tipos = ['Hospital Municipal', 'UPA 24h', 'Clínica Médica', 'Posto de Saúde', 'Centro de Saúde'];
+      const ruas = ['Principal', 'Brasil', 'São Paulo', 'Rio de Janeiro', 'Minas Gerais'];
+      
+      const hospitais = [];
+      for (let i = 0; i < 5; i++) {
+        const bairro = bairrosProximos[i] || 'Centro';
+        const tipo = tipos[i];
+        const num = 1000 + i * 450;
+        
+        // Distância menor se for o mesmo bairro
+        let distancia = (0.5 + i * 0.6);
+        if (i === 0) distancia = 0.3; // Primeiro é no próprio bairro
+        
+        hospitais.push({
+          name: tipo + ' - ' + bairro,
+          bairro: bairro,
+          endereco: 'Av. ' + ruas[i] + ', ' + num + ' - ' + bairro,
+          distance: distancia.toFixed(1) + ' km'
+        });
+      }
+      
+      return {
+        estado: estado,
+        cidade: cidade,
+        bairro: bairroUsuario,
+        hospitais: hospitais
+      };
+    }
+    
+    function tryGeolocationFallback() {
+      if (!navigator.geolocation) {
+        showManualEntry();
+        return;
+      }
+      
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          
+          // Determina cidade aproximada pelas coordenadas
+          let city = 'default';
+          if (lat > -23.8 && lat < -23.3 && lng > -47.0 && lng < -46.3) city = 'Sao Paulo';
+          else if (lat > -23.1 && lat < -22.7 && lng > -43.8 && lng < -43.1) city = 'Rio de Janeiro';
+          else if (lat > -19.9 && lat < -19.7 && lng > -44.1 && lng < -43.8) city = 'Belo Horizonte';
+          else if (lat > -15.9 && lat < -15.5 && lng > -48.0 && lng < -47.5) city = 'Brasilia';
+          else if (lat > -25.6 && lat < -25.3 && lng > -49.4 && lng < -49.1) city = 'Curitiba';
+          
+          currentCityData = hospitalsDatabase[city] || hospitalsDatabase['default'];
+          
+          // Atualiza UI
+          const locationInfo = document.getElementById('locationInfo');
+          const userLocation = document.getElementById('userLocation');
+          const subtitle = document.getElementById('locationSubtitle');
+          
+          if (locationInfo) locationInfo.style.display = 'block';
+          if (userLocation) {
+            userLocation.textContent = currentCityData.bairro + ', ' + currentCityData.cidade + ' - ' + currentCityData.estado;
+          }
+          if (subtitle) {
+            subtitle.textContent = 'Selecione uma unidade de saúde em ' + currentCityData.cidade + '/' + currentCityData.estado;
+          }
+          
+          displayHospitals(currentCityData);
+        },
+        function(error) {
+          console.log('Erro na geolocalização:', error);
+          showManualEntry();
+        },
+        { timeout: 8000, enableHighAccuracy: false }
+      );
+    }
+    
+    function showManualEntry() {
+      document.getElementById('locationStatus').style.display = 'none';
+      document.getElementById('hospitalsList').style.display = 'none';
+      document.getElementById('hospitalError').style.display = 'block';
+    }
+    
+    function submitManualHospital() {
+      const input = document.getElementById('manualHospital');
+      if (input && input.value.trim().length >= 3) {
+        const hospitalNome = input.value.trim();
+        const cidade = currentCityData ? currentCityData.cidade : 'Cidade';
+        const estado = currentCityData ? currentCityData.estado : 'UF';
+        userData.hospital = hospitalNome + ' - ' + cidade + '/' + estado;
+        localStorage.setItem('atestado_hospital', userData.hospital);
+        localStorage.setItem('atestado_hospital_cidade', cidade);
+        localStorage.setItem('atestado_hospital_estado', estado);
+        startProcessing();
+      }
+    }
+    
+    function displayHospitals(cityData) {
+      const statusEl = document.getElementById('locationStatus');
+      const listEl = document.getElementById('hospitalsList');
+      const btnEl = document.getElementById('btnHospital');
+      const mapContainer = document.getElementById('mapContainer');
+      const googleMap = document.getElementById('googleMap');
+      
+      statusEl.style.display = 'none';
+      listEl.style.display = 'flex';
+      listEl.style.flexDirection = 'column';
+      listEl.style.gap = '12px';
+      
+      // Mostra o mapa do Google com a cidade
+      if (mapContainer && googleMap) {
+        mapContainer.style.display = 'block';
+        const cidadeQuery = encodeURIComponent(cityData.cidade + ' ' + cityData.estado + ' hospitais postos de saude');
+        googleMap.src = 'https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d50000!2d-46.6333!3d-23.5505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s' + cidadeQuery + '!5e0!3m2!1spt-BR!2sbr!4v1600000000000!5m2!1spt-BR!2sbr';
+      }
+      
+      listEl.innerHTML = '';
+      
+      cityData.hospitais.forEach(function(hospital, index) {
         const div = document.createElement('div');
-        div.className = 'option-item';
-        div.style.marginBottom = '12px';
-        div.onclick = function() { selectHospital(hosp); };
+        div.className = 'hospital-item';
+        div.setAttribute('data-hospital', hospital.name);
+        div.setAttribute('data-cidade', cityData.cidade);
+        div.setAttribute('data-estado', cityData.estado);
+        div.setAttribute('data-bairro', hospital.bairro);
+        div.onclick = function() { selectHospital(hospital.name); };
         div.innerHTML = 
-          '<div class="option-icon" style="background: #fee2e2;">🏥</div>' +
-          '<div class="option-content"><div class="option-title">' + hosp + '</div><div style="font-size: 12px; color: #64748b;">' + cidade + '</div></div>' +
-          '<div class="option-check">✓</div>';
-        list.appendChild(div);
+          '<div class="hospital-icon">🏥</div>' +
+          '<div class="hospital-content">' +
+            '<div class="hospital-name">' + hospital.name + '</div>' +
+            '<div class="hospital-address">' + hospital.endereco + '</div>' +
+            '<div style="font-size: 11px; color: #64748b; margin-top: 2px;">' +
+              '📍 ' + hospital.bairro + ', ' + cityData.cidade + ' - ' + cityData.estado +
+            '</div>' +
+            '<div class="hospital-distance" style="margin-top: 4px;">🚗 ' + hospital.distance + ' de distância</div>' +
+          '</div>' +
+          '<div class="hospital-check">✓</div>';
+        listEl.appendChild(div);
       });
       
-      console.log('Hospitais carregados:', cidade);
+      btnEl.style.display = 'flex';
+      btnEl.disabled = true;
     }
     
-    function selectHospital(nome) {
-      console.log('Hospital selecionado:', nome);
-      userData.hospital = nome;
+    function selectHospital(hospitalName) {
+      const items = document.querySelectorAll('.hospital-item');
+      items.forEach(function(item) {
+        item.classList.remove('selected');
+        if (item.getAttribute('data-hospital') === hospitalName) {
+          item.classList.add('selected');
+        }
+      });
       
-      // Visual
-      const items = document.querySelectorAll('#hospitalList .option-item');
-      items.forEach(function(item) { item.classList.remove('selected'); });
-      event.currentTarget.classList.add('selected');
+      // Pega cidade/estado do hospital selecionado
+      const selectedItem = document.querySelector('.hospital-item.selected');
+      const cidade = selectedItem ? selectedItem.getAttribute('data-cidade') : '';
+      const estado = selectedItem ? selectedItem.getAttribute('data-estado') : '';
       
-      // Habilita botão
-      document.getElementById('btnHospital').disabled = false;
+      // Formata nome completo: Hospital - Bairro, Cidade/UF
+      const nomeCompleto = hospitalName + (cidade ? ' - ' + cidade + '/' + estado : '');
+      
+      userData.hospital = nomeCompleto;
+      localStorage.setItem('atestado_hospital', nomeCompleto);
+      localStorage.setItem('atestado_hospital_cidade', cidade);
+      localStorage.setItem('atestado_hospital_estado', estado);
+      
+      const btn = document.getElementById('btnHospital');
+      if (btn) btn.disabled = false;
     }
-    
-    // REDIRECIONAMENTO - FUNÇÃO PRINCIPAL
-    function goToResultado() {
-      console.log('=== GERANDO ATESTADO ===');
-      console.log('Dados:', userData);
-      
+
+    function startProcessing() {
       try {
-        // 1. SALVAR NO LOCALSTORAGE
+        console.log('=== startProcessing INICIADO ===');
+        
+        // 1. SALVAR DADOS
+        console.log('Salvando dados...', userData);
+        localStorage.setItem('atestado_dias', userData.dias || 2);
         localStorage.setItem('atestado_nome', userData.nome || 'Paciente');
         localStorage.setItem('atestado_email', userData.email || '');
         localStorage.setItem('atestado_sintoma', userData.sintoma || 'Geral');
-        localStorage.setItem('atestado_dias', userData.dias || 2);
         localStorage.setItem('atestado_hospital', userData.hospital || 'Hospital Regional');
-        
-        // Assinatura
-        if (hasSigned && canvas) {
-          localStorage.setItem('atestado_assinatura', canvas.toDataURL());
-        }
-        
         console.log('Dados salvos!');
         
         // 2. ESCONDER PÁGINA
-        document.querySelector('.quiz-container').style.display = 'none';
-        document.querySelector('.progress-wrapper').style.display = 'none';
-        document.querySelector('.header').style.display = 'none';
+        console.log('Escondendo elementos...');
+        const quiz = document.querySelector('.quiz-container');
+        const progress = document.querySelector('.progress-wrapper');
+        const header = document.querySelector('.header');
+        
+        if (quiz) quiz.style.display = 'none';
+        if (progress) progress.style.display = 'none';
+        if (header) header.style.display = 'none';
+        console.log('Elementos escondidos!');
         
         // 3. MOSTRAR LOADING
+        console.log('Mostrando loading...');
         const loading = document.getElementById('loadingScreen');
+        if (!loading) {
+          console.error('ERRO: loadingScreen não encontrado!');
+          alert('Erro: tela de carregamento não encontrada');
+          return;
+        }
+        
         loading.style.display = 'flex';
+        loading.classList.add('active');
+        loading.style.flexDirection = 'column';
+        loading.style.alignItems = 'center';
+        loading.style.justifyContent = 'center';
+        console.log('Loading visível!');
         
         // 4. ANIMAÇÃO
         let pct = 0;
         const progressBar = document.getElementById('loadingProgress');
-        const percentage = document.getElementById('loadingPercentage');
         const status = document.getElementById('loadingStatus');
+        const percentage = document.getElementById('loadingPercentage');
         
-        const msgs = [
-          'Analisando sintomas...',
-          'Verificando histórico...',
-          'Calculando repouso...',
-          'Selecionando CID...',
-          'Gerando documento...',
+        if (!progressBar || !status || !percentage) {
+          console.error('ERRO: Elementos de progresso não encontrados');
+          // Redireciona mesmo assim após 2 segundos
+          setTimeout(function() {
+            window.location.href = 'resultado.html';
+          }, 2000);
+          return;
+        }
+        
+        const mensagens = [
+          'Analisando padrões de sintomas...',
+          'Verificando histórico clínico...',
+          'Calculando necessidade de repouso...',
+          'Selecionando CID mais adequado...',
+          'Gerando documento digital...',
           'Assinando digitalmente...',
-          'Finalizando...',
-          'Pronto!'
+          'Finalizando análise...',
+          'Redirecionando...'
         ];
         
+        console.log('Iniciando animação...');
+        
         const interval = setInterval(function() {
-          pct += 12;
-          if (pct > 100) pct = 100;
-          
-          progressBar.style.width = pct + '%';
-          percentage.textContent = pct + '%';
-          
-          const idx = Math.min(Math.floor((pct / 100) * msgs.length), msgs.length - 1);
-          status.textContent = msgs[idx];
-          
-          if (pct >= 100) {
-            clearInterval(interval);
-            console.log('Redirecionando...');
+          try {
+            pct += 10;
+            if (pct > 100) pct = 100;
             
-            // REDIRECIONAMENTO
-            setTimeout(function() {
-              window.location.href = 'resultado.html';
-            }, 500);
+            progressBar.style.width = pct + '%';
+            percentage.textContent = pct + '%';
+            
+            const msgIndex = Math.min(Math.floor((pct / 100) * mensagens.length), mensagens.length - 1);
+            status.textContent = mensagens[msgIndex];
+            
+            // Atualiza steps
+            for (let i = 1; i <= 5; i++) {
+              const stepEl = document.getElementById('step' + i);
+              if (stepEl && (i * 20) <= pct) {
+                stepEl.classList.add('active');
+              }
+            }
+            
+            if (pct >= 100) {
+              clearInterval(interval);
+              console.log('Animação completa! Redirecionando...');
+              setTimeout(function() {
+                window.location.href = 'resultado.html';
+              }, 1000);
+            }
+          } catch (e) {
+            console.error('Erro na animação:', e);
+            clearInterval(interval);
+            window.location.href = 'resultado.html';
           }
-        }, 350);
+        }, 400);
         
       } catch (erro) {
-        console.error('ERRO:', erro);
-        alert('Erro ao gerar atestado. Tentando redirecionar...');
+        console.error('ERRO FATAL em startProcessing:', erro);
+        alert('Ocorreu um erro. Redirecionando manualmente...');
         window.location.href = 'resultado.html';
       }
     }
+
+    function showAlert(id, message) {
+      const alert = document.getElementById(id);
+      if (alert) {
+        alert.innerHTML = '<span class="alert-icon">💡</span><div class="alert-content">' + message + '</div>';
+        alert.style.display = 'flex';
+      }
+    }
+
+    function showModal(title, text, onConfirm) {
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalText = document.getElementById('modalText');
+      const modalButtons = document.getElementById('modalButtons');
+      if (modalTitle) modalTitle.innerHTML = title;
+      if (modalText) modalText.innerHTML = text;
+      if (modalButtons) modalButtons.innerHTML = '<button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancelar</button><button class="modal-btn modal-btn-primary" onclick="handleModalConfirm()">Continuar</button>';
+      window.modalCallback = onConfirm;
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      if (modal) modal.style.display = 'none';
+      window.modalCallback = null;
+    }
+
+    function handleModalConfirm() {
+      if (window.modalCallback) window.modalCallback();
+      closeModal();
+    }
+
+    document.addEventListener('focusin', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        setTimeout(function() { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
+      }
+    });
   </script>
 </body>
 </html>
