@@ -1219,7 +1219,9 @@
           <div class="doc-main-title">ATESTADO MÉDICO</div>
           
           <div class="doc-text">
-            <!-- Conteúdo visível (nome do paciente) -->
+            <!-- === CONTEÚDO VISÍVEL (SEM BLUR) === -->
+            
+            <!-- Nome do Paciente -->
             <div class="doc-row doc-highlight">
               ATESTO PARA OS DEVIDOS FINS, A PEDIDO, QUE O(A) SR.(A) 
               <span class="doc-field-large" id="docNome">_________________________________</span>
@@ -1227,10 +1229,6 @@
             
             <!-- Conteúdo borrado -->
             <div class="doc-blur-content">
-              <div class="doc-row">
-                , CPF Nº <span class="doc-field" id="docCPF">________________</span>
-              </div>
-              
               <div class="doc-row">
                 FOI ATENDIDO(A) NO DIA <span class="doc-field" id="docData">__________</span> 
                 ÀS <span class="doc-field">_______</span> HORAS,
@@ -1245,31 +1243,41 @@
               <div class="doc-row" style="margin-top: 16px;">
                 CID: <span class="doc-field" id="docCID">__________</span>
               </div>
-              
-              <!-- Assinatura do Paciente -->
-              <div class="doc-signature-area">
-                <div class="doc-signature-title">Assinatura do Paciente</div>
-                <div class="doc-signature-line">
-                  <img id="docAssinatura" src="" alt="Assinatura" style="display: none;">
-                </div>
+            </div>
+            
+            <!-- Assinatura do Paciente (VISÍVEL) -->
+            <div class="doc-signature-area doc-highlight" style="margin-top: 24px;">
+              <div class="doc-signature-title">Assinatura do Paciente</div>
+              <div class="doc-signature-line">
+                <img id="docAssinatura" src="" alt="Assinatura" style="display: none; max-height: 40px;">
               </div>
-              
-              <!-- Assinatura do Médico (visível) -->
-              <div class="doc-doctor-signature doc-highlight">
-                <div class="doc-doctor-box">
-                  <div class="doc-signature-title">Assinatura do Médico</div>
-                  <svg class="doctor-signature-img" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10,40 Q30,10 50,35 T90,30 T130,35 T170,25" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <path d="M40,45 Q60,20 80,40 T120,35" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <div class="doc-signature-label">Local e Data</div>
+            </div>
+            
+            <!-- Assinatura do Médico (VISÍVEL) - Mais convincente -->
+            <div class="doc-doctor-signature doc-highlight" style="margin-top: 20px;">
+              <div class="doc-doctor-box">
+                <div class="doc-signature-title">Assinatura e Carimbo do Médico</div>
+                <div style="position: relative; height: 50px; margin-bottom: 4px;">
+                  <!-- Assinatura SVG mais elaborada -->
+                  <svg class="doctor-signature-img" viewBox="0 0 250 70" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
+                    <!-- Linha de assinatura fluida -->
+                    <path d="M10,45 C20,20 40,55 60,35 C80,15 100,50 120,40 C140,30 160,45 180,35 C200,25 220,40 240,30" 
+                          stroke="#1e293b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Rabiscos de caneta -->
+                    <path d="M50,50 C55,45 60,48 65,52" stroke="#1e293b" stroke-width="1.5" fill="none" opacity="0.7"/>
+                    <path d="M150,48 C155,42 160,46 165,50" stroke="#1e293b" stroke-width="1.5" fill="none" opacity="0.6"/>
+                    <path d="M200,42 C205,38 210,44 215,40" stroke="#1e293b" stroke-width="1.8" fill="none" opacity="0.8"/>
                   </svg>
-                  <div class="doctor-name">Dr. Ricardo Almeida</div>
-                  <div class="doctor-crm">CRM: 45.782-SP</div>
                 </div>
+                <div style="border-bottom: 1px solid #1e293b; margin-bottom: 4px;"></div>
+                <div class="doctor-name" style="font-size: 11px; font-weight: 700;">Dr. Ricardo Almeida</div>
+                <div class="doctor-crm" style="font-size: 10px;">CRM: 45.782-SP</div>
               </div>
             </div>
             
-            <!-- Carimbo -->
-            <div class="doc-stamp">
+            <!-- Carimbo do Médico (VISÍVEL) -->
+            <div class="doc-stamp doc-highlight" style="position: relative; bottom: auto; right: auto; margin: 20px auto 0; width: 100px; height: 100px;">
               <div class="doc-stamp-text">CLÍNICA MÉDICA<br>DR. RICARDO ALMEIDA</div>
               <div class="doc-stamp-crm">CRM: 45.782</div>
             </div>
@@ -1572,7 +1580,8 @@
     // Preenche dados
     document.getElementById('heroName').textContent = nome.split(' ')[0];
     document.getElementById('patientName').textContent = nome;
-    document.getElementById('patientCPF').textContent = 'CPF: ' + cpf;
+    // CPF removido da exibição conforme solicitação
+    document.getElementById('patientCPF').textContent = '';
     document.getElementById('patientAvatar').textContent = nome.charAt(0).toUpperCase();
     document.getElementById('reportSintoma').textContent = sintoma;
     document.getElementById('reportCID').textContent = cids[sintoma] || 'Z76.5 - Geral';
@@ -1581,7 +1590,7 @@
     
     // Preenche documento
     document.getElementById('docNome').textContent = nome;
-    document.getElementById('docCPF').textContent = cpf;
+    // CPF removido do atestado
     document.getElementById('docData').textContent = new Date().toLocaleDateString('pt-BR');
     document.getElementById('docDias').textContent = dias;
     document.getElementById('docDiasExtenso').textContent = numeroPorExtenso(dias);

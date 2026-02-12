@@ -1297,17 +1297,30 @@
     let currentCityData = null;
     let userLocationData = null;
     
-    // Busca localização por IP
+    // Busca localização por IP com dados de bairro
     async function getLocationByIP() {
       try {
         // Usa ipapi.co para geolocalização por IP (gratuito)
         const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
         
+        // Tenta pegar o bairro de várias fontes possíveis
+        let bairro = 'Centro';
+        if (data.suburb && data.suburb.trim() !== '') {
+          bairro = data.suburb;
+        } else if (data.district && data.district.trim() !== '') {
+          bairro = data.district;
+        } else if (data.neighborhood && data.neighborhood.trim() !== '') {
+          bairro = data.neighborhood;
+        } else if (data.postal) {
+          // Se tiver CEP, tenta inferir bairro da cidade
+          bairro = getBairroByCep(data.postal, data.city);
+        }
+        
         userLocationData = {
           cidade: data.city || 'Sua Cidade',
           estado: data.region_code || 'UF',
-          bairro: data.district || data.suburb || 'Centro',
+          bairro: bairro,
           cep: data.postal || '',
           latitude: data.latitude,
           longitude: data.longitude,
@@ -1318,9 +1331,36 @@
         return userLocationData;
       } catch (error) {
         console.log('Erro ao buscar IP:', error);
-        // Fallback: tenta navigator.geolocation
         return null;
       }
+    }
+    
+    // Tenta inferir bairro baseado no CEP (simplificado)
+    function getBairroByCep(cep, cidade) {
+      // Remove traço do CEP
+      cep = cep.replace('-', '');
+      const prefixo = cep.substring(0, 5);
+      
+      // São Paulo
+      if (cidade.toLowerCase().includes('sao paulo')) {
+        if (prefixo >= '01400' && prefixo <= '01499') return 'Jardins';
+        if (prefixo >= '05400' && prefixo <= '05499') return 'Pinheiros';
+        if (prefixo >= '05425' && prefixo <= '05436') return 'Vila Madalena';
+        if (prefixo >= '04500' && prefixo <= '04599') return 'Itaim Bibi';
+        if (prefixo >= '01300' && prefixo <= '01399') return 'Bela Vista';
+        if (prefixo >= '01000' && prefixo <= '01199') return 'Centro';
+        if (prefixo >= '03000' && prefixo <= '03999') return 'Leste';
+      }
+      
+      // Rio de Janeiro
+      if (cidade.toLowerCase().includes('rio de janeiro')) {
+        if (prefixo >= '22000' && prefixo <= '22099') return 'Copacabana';
+        if (prefixo >= '22200' && prefixo <= '22299') return 'Botafogo';
+        if (prefixo >= '22400' && prefixo <= '22499') return 'Ipanema';
+        if (prefixo >= '20000' && prefixo <= '20099') return 'Centro';
+      }
+      
+      return 'Centro';
     }
     
     function findNearbyHospitals() {
@@ -1389,26 +1429,45 @@
     }
     
     function generateHospitalsForCity(locationData) {
-      // Gera hospitais genéricos mas personalizados para a cidade do usuário
-      const bairros = ['Centro', 'Vila Nova', 'Jardim', 'Boa Vista', 'Santo Antônio', 'Vila Rica'];
-      const tipos = ['Hospital', 'UPA', 'Clínica', 'Posto de Saúde', 'Centro Médico'];
+      // Gera hospitais próximos ao bairro detectado
+      const bairroUsuario = locationData.bairro || 'Centro';
+      const cidade = locationData.cidade;
+      const estado = locationData.estado;
+      
+      // Bairros próximos simulados baseados no bairro do usuário
+      const bairrosProximos = [
+        bairroUsuario,
+        'Vila ' + cidade.split(' ')[0],
+        'Jardim ' + cidade.split(' ')[0],
+        bairroUsuario + ' Novo',
+        'Centro'
+      ];
+      
+      const tipos = ['Hospital Municipal', 'UPA 24h', 'Clínica Médica', 'Posto de Saúde', 'Centro de Saúde'];
+      const ruas = ['Principal', 'Brasil', 'São Paulo', 'Rio de Janeiro', 'Minas Gerais'];
       
       const hospitais = [];
       for (let i = 0; i < 5; i++) {
-        const bairro = bairros[i] || 'Centro';
-        const tipo = i === 0 ? 'Hospital Municipal' : tipos[i] + (i > 2 ? ' ' + bairro : '');
+        const bairro = bairrosProximos[i] || 'Centro';
+        const tipo = tipos[i];
+        const num = 1000 + i * 450;
+        
+        // Distância menor se for o mesmo bairro
+        let distancia = (0.5 + i * 0.6);
+        if (i === 0) distancia = 0.3; // Primeiro é no próprio bairro
+        
         hospitais.push({
-          name: tipo + ' de ' + locationData.cidade,
+          name: tipo + ' - ' + bairro,
           bairro: bairro,
-          endereco: 'Av. Principal, ' + (1000 + i * 500) + ' - ' + bairro,
-          distance: (0.8 + i * 0.7).toFixed(1) + ' km'
+          endereco: 'Av. ' + ruas[i] + ', ' + num + ' - ' + bairro,
+          distance: distancia.toFixed(1) + ' km'
         });
       }
       
       return {
-        estado: locationData.estado,
-        cidade: locationData.cidade,
-        bairro: locationData.bairro,
+        estado: estado,
+        cidade: cidade,
+        bairro: bairroUsuario,
         hospitais: hospitais
       };
     }
