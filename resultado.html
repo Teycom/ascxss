@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Atestado Médico Digital | Documento Gerado</title>
+  <title>Seu Atestado Médico está Pronto | MedDigital</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
@@ -12,10 +12,10 @@
     
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      background: #f8fafc;
       min-height: 100vh;
-      color: white;
-      padding-bottom: 140px;
+      color: #1e293b;
+      padding-bottom: 100px;
     }
     
     .container {
@@ -25,14 +25,14 @@
       padding: 0 16px;
     }
     
-    /* Sticky Header com Timer */
+    /* Sticky Header */
     .sticky-header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(15, 23, 42, 0.98);
+      background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+      border-bottom: 1px solid #e2e8f0;
       padding: 12px 0;
     }
     
@@ -42,77 +42,73 @@
       justify-content: space-between;
     }
     
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      color: #059669;
+      font-size: 18px;
+    }
+    
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+    
     .header-timer {
       display: flex;
       flex-direction: column;
+      align-items: flex-end;
     }
     
     .header-timer-label {
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #fca5a5;
+      color: #ef4444;
+      font-weight: 600;
     }
     
     .header-timer-value {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 800;
       font-family: 'Courier New', monospace;
       color: #ef4444;
     }
     
-    .header-btn {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 24px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      animation: pulse-btn 2s infinite;
-    }
-    
-    @keyframes pulse-btn {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-      50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-    }
-    
-    /* Profile ID Badge */
-    .profile-badge {
-      text-align: center;
-      padding: 16px 0;
-    }
-    
-    .profile-badge-inner {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 10px 16px;
-      border-radius: 24px;
-    }
-    
-    .profile-badge-text {
-      font-size: 12px;
-      color: #6ee7b7;
-      font-weight: 500;
-    }
-    
-    .profile-badge-score {
-      background: #10b981;
-      color: white;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-    
     /* Hero Section */
     .hero-section {
       text-align: center;
-      padding: 20px 0;
+      padding: 24px 0 16px;
+      background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .success-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #10b981;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      animation: pulse-badge 2s infinite;
+    }
+    
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
     }
     
     .hero-title {
@@ -120,187 +116,75 @@
       font-weight: 800;
       margin-bottom: 8px;
       line-height: 1.3;
+      color: #0f172a;
     }
     
     .hero-title span {
-      color: #10b981;
+      color: #059669;
     }
     
     .hero-subtitle {
       font-size: 14px;
-      color: rgba(255,255,255,0.6);
+      color: #64748b;
     }
     
-    /* Before/After Health Status */
-    .health-comparison {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+    /* Patient Info Card */
+    .patient-card {
+      background: white;
       border-radius: 16px;
       padding: 20px;
-      margin-bottom: 20px;
-    }
-    
-    .health-comparison-title {
+      margin: 20px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
       text-align: center;
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 16px;
     }
     
-    .health-comparison-title span {
-      color: #10b981;
-    }
-    
-    .health-status-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    
-    .health-status-card {
-      background: rgba(255,255,255,0.03);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      position: relative;
-    }
-    
-    .health-status-card.now {
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    
-    .health-status-card.after {
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    
-    .health-status-badge {
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 12px;
-      text-transform: uppercase;
-    }
-    
-    .health-status-card.now .health-status-badge {
-      background: #ef4444;
-      color: white;
-    }
-    
-    .health-status-card.after .health-status-badge {
-      background: #10b981;
-      color: white;
-    }
-    
-    .health-status-icon {
-      font-size: 32px;
-      margin: 8px 0;
-    }
-    
-    .health-status-text {
-      font-size: 13px;
-      font-weight: 600;
-    }
-    
-    .health-status-card.now .health-status-text {
-      color: #fca5a5;
-    }
-    
-    .health-status-card.after .health-status-text {
-      color: #6ee7b7;
-    }
-    
-    /* Health Metrics */
-    .health-metrics {
-      margin-top: 16px;
-    }
-    
-    .metric-row {
-      margin-bottom: 12px;
-    }
-    
-    .metric-header {
+    .patient-avatar {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 50%;
       display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      margin-bottom: 4px;
-    }
-    
-    .metric-label {
-      color: rgba(255,255,255,0.6);
-    }
-    
-    .metric-value {
-      font-weight: 600;
-    }
-    
-    .metric-bar {
-      height: 8px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    
-    .metric-fill {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 1s ease;
-    }
-    
-    .metric-fill.low {
-      background: linear-gradient(90deg, #ef4444, #dc2626);
-      width: 25%;
-    }
-    
-    .metric-fill.high {
-      background: linear-gradient(90deg, #10b981, #059669);
-      width: 100%;
-    }
-    
-    /* Patient Info */
-    .patient-info {
-      padding: 16px 0;
-      text-align: center;
-      background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 12px;
     }
     
     .patient-name {
       font-size: 18px;
       font-weight: 700;
+      color: #0f172a;
       margin-bottom: 4px;
     }
     
     .patient-cpf {
       font-size: 14px;
-      color: rgba(255,255,255,0.5);
+      color: #64748b;
+      font-family: 'Courier New', monospace;
     }
     
     .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(245, 158, 11, 0.15);
-      color: #fbbf24;
+      background: #fef3c7;
+      color: #92400e;
       padding: 6px 12px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: 600;
-      margin-top: 8px;
-      border: 1px solid rgba(251, 191, 36, 0.3);
+      margin-top: 12px;
     }
     
     /* AI Report */
     .ai-report {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: white;
       border-radius: 16px;
       padding: 20px;
       margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
     }
     
     .ai-header {
@@ -309,7 +193,7 @@
       gap: 12px;
       margin-bottom: 16px;
       padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid #e2e8f0;
     }
     
     .ai-icon {
@@ -321,23 +205,17 @@
       align-items: center;
       justify-content: center;
       font-size: 24px;
-      animation: pulse-glow 2s infinite;
-    }
-    
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
-      50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.5); }
     }
     
     .ai-title h3 {
       font-size: 16px;
       font-weight: 700;
-      color: #6ee7b7;
+      color: #0f172a;
     }
     
     .ai-title p {
       font-size: 12px;
-      color: rgba(255,255,255,0.5);
+      color: #64748b;
     }
     
     .report-row {
@@ -345,7 +223,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid #f1f5f9;
     }
     
     .report-row:last-child {
@@ -354,309 +232,55 @@
     
     .report-label {
       font-size: 14px;
-      color: rgba(255,255,255,0.5);
+      color: #64748b;
     }
     
     .report-value {
       font-size: 14px;
       font-weight: 600;
+      color: #0f172a;
     }
     
     .report-value.highlight {
-      color: #4ade80;
+      color: #059669;
     }
     
     .confidence-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      background: rgba(16, 185, 129, 0.2);
-      color: #4ade80;
+      background: #ecfdf5;
+      color: #059669;
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: 700;
     }
     
-    /* Transformation Table */
-    .transformation-section {
-      margin-bottom: 20px;
-    }
-    
-    .transformation-title {
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    
-    .transformation-title span {
-      color: #10b981;
-    }
-    
-    .transformation-table {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-    
-    .transformation-header {
-      display: grid;
-      grid-template-columns: 1fr 80px 80px;
-      background: rgba(255,255,255,0.05);
-      padding: 12px 16px;
-      font-size: 11px;
-      font-weight: 700;
-      text-align: center;
-    }
-    
-    .transformation-header div:first-child {
-      text-align: left;
-    }
-    
-    .transformation-header .with {
-      color: #10b981;
-    }
-    
-    .transformation-header .without {
-      color: rgba(255,255,255,0.4);
-    }
-    
-    .transformation-row {
-      display: grid;
-      grid-template-columns: 1fr 80px 80px;
-      padding: 12px 16px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      align-items: center;
-    }
-    
-    .transformation-item {
-      font-size: 12px;
-      color: rgba(255,255,255,0.8);
-    }
-    
-    .transformation-check {
-      text-align: center;
-    }
-    
-    .transformation-check.yes {
-      color: #10b981;
-      font-size: 18px;
-    }
-    
-    .transformation-check.no {
-      color: #ef4444;
-      font-size: 18px;
-    }
-    
-    /* Testimonials */
-    .testimonials-section {
-      margin-bottom: 20px;
-    }
-    
-    .testimonials-title {
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    
-    .testimonials-scroll {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      margin: 0 -16px;
-      padding: 0 16px;
-      scrollbar-width: none;
-    }
-    
-    .testimonials-scroll::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .testimonial-card {
-      flex-shrink: 0;
-      width: 280px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 16px;
-    }
-    
-    .testimonial-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    
-    .testimonial-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: 700;
-    }
-    
-    .testimonial-info h4 {
-      font-size: 14px;
-      font-weight: 700;
-    }
-    
-    .testimonial-info .stars {
-      color: #fbbf24;
-      font-size: 12px;
-    }
-    
-    .testimonial-text {
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.5;
-    }
-    
-    .testimonial-result {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: #6ee7b7;
-    }
-    
-    /* Bonuses Section */
-    .bonuses-section {
-      margin-bottom: 20px;
-    }
-    
-    .bonuses-title {
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    
-    .bonuses-title span {
-      color: #fbbf24;
-    }
-    
-    .bonus-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 10px;
-    }
-    
-    .bonus-icon {
-      font-size: 28px;
-      flex-shrink: 0;
-    }
-    
-    .bonus-content h4 {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    
-    .bonus-content p {
-      font-size: 12px;
-      color: rgba(255,255,255,0.6);
-    }
-    
-    .bonus-badge {
-      display: inline-block;
-      background: #ef4444;
-      color: white;
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 8px;
-      margin-top: 6px;
-    }
-    
-    /* FAQ Section */
-    .faq-section {
-      margin-bottom: 20px;
-    }
-    
-    .faq-title {
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    
-    .faq-item {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      margin-bottom: 8px;
-      overflow: hidden;
-    }
-    
-    .faq-question {
-      width: 100%;
-      padding: 16px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 14px;
-      font-weight: 600;
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-    }
-    
-    .faq-icon {
-      font-size: 18px;
-      transition: transform 0.3s ease;
-    }
-    
-    .faq-item.active .faq-icon {
-      transform: rotate(180deg);
-    }
-    
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
-    }
-    
-    .faq-item.active .faq-answer {
-      max-height: 200px;
-      padding: 0 16px 16px;
-    }
-    
-    .faq-answer p {
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.5;
-    }
-    
-    /* Documento Realista */
+    /* Document Section */
     .document-section {
       margin: 24px 0;
+    }
+    
+    .document-title {
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+    
+    .document-title span {
+      color: #059669;
     }
     
     .document-paper {
       background: white;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       position: relative;
+      border: 1px solid #e2e8f0;
     }
     
     /* Cabeçalho do documento */
@@ -676,15 +300,16 @@
     }
     
     .doc-logo-sus {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       background: #059669;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 24px;
+      font-size: 20px;
+      font-weight: bold;
     }
     
     .doc-title-center {
@@ -693,7 +318,7 @@
     }
     
     .doc-title-center h1 {
-      font-size: 14px;
+      font-size: 12px;
       color: #0f172a;
       font-weight: 800;
       letter-spacing: 1px;
@@ -701,7 +326,7 @@
     }
     
     .doc-title-center p {
-      font-size: 10px;
+      font-size: 9px;
       color: #64748b;
     }
     
@@ -710,7 +335,7 @@
     }
     
     .doc-logo-right p {
-      font-size: 9px;
+      font-size: 8px;
       color: #64748b;
       line-height: 1.2;
     }
@@ -719,11 +344,12 @@
     .doc-body {
       padding: 24px 20px;
       color: #1e293b;
+      position: relative;
     }
     
     .doc-main-title {
       text-align: center;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       color: #0f172a;
       margin-bottom: 20px;
@@ -733,7 +359,7 @@
     }
     
     .doc-text {
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.8;
       color: #334155;
       text-align: justify;
@@ -765,21 +391,22 @@
     }
     
     .doc-label {
-      font-size: 10px;
+      font-size: 9px;
       color: #64748b;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 4px;
     }
     
+    /* Assinatura do Paciente */
     .doc-signature-area {
-      margin-top: 30px;
-      padding-top: 20px;
+      margin-top: 24px;
+      padding-top: 16px;
       border-top: 1px dashed #cbd5e1;
     }
     
     .doc-signature-title {
-      font-size: 10px;
+      font-size: 9px;
       color: #64748b;
       text-align: center;
       text-transform: uppercase;
@@ -802,19 +429,47 @@
     }
     
     .doc-signature-label {
-      font-size: 9px;
+      font-size: 8px;
       color: #64748b;
       text-align: center;
+    }
+    
+    /* Assinatura do Médico */
+    .doc-doctor-signature {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .doc-doctor-box {
+      text-align: center;
+      width: 160px;
+    }
+    
+    .doctor-signature-img {
+      height: 35px;
+      margin-bottom: 4px;
+    }
+    
+    .doctor-name {
+      font-size: 10px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    
+    .doctor-crm {
+      font-size: 9px;
+      color: #64748b;
     }
     
     /* Carimbo do médico */
     .doc-stamp {
       position: absolute;
-      bottom: 80px;
+      bottom: 60px;
       right: 20px;
-      width: 100px;
-      height: 100px;
-      border: 3px solid #ef4444;
+      width: 80px;
+      height: 80px;
+      border: 2px solid #ef4444;
       border-radius: 50%;
       display: flex;
       flex-direction: column;
@@ -826,7 +481,7 @@
     }
     
     .doc-stamp-text {
-      font-size: 8px;
+      font-size: 7px;
       color: #ef4444;
       text-align: center;
       font-weight: 700;
@@ -834,25 +489,25 @@
     }
     
     .doc-stamp-crm {
-      font-size: 10px;
+      font-size: 8px;
       color: #dc2626;
       font-weight: 800;
-      margin-top: 4px;
+      margin-top: 2px;
     }
     
     /* QR Code */
     .doc-qr {
       position: absolute;
-      top: 80px;
+      top: 70px;
       right: 20px;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       background: white;
       border: 1px solid #e2e8f0;
       padding: 4px;
     }
     
-    .doc-qr img {
+    .doc-qr img, .doc-qr svg {
       width: 100%;
       height: 100%;
     }
@@ -861,22 +516,79 @@
     .doc-footer {
       background: #f1f5f9;
       padding: 12px 20px;
-      font-size: 8px;
+      font-size: 7px;
       color: #64748b;
       text-align: center;
       line-height: 1.4;
       border-top: 1px solid #e2e8f0;
     }
     
-    /* Pricing */
+    /* Efeito de blur no documento */
+    .doc-blur-content {
+      filter: blur(3px);
+      opacity: 0.5;
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .doc-highlight {
+      filter: none !important;
+      opacity: 1 !important;
+    }
+    
+    /* Lock Overlay */
+    .doc-lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+    }
+    
+    .lock-badge {
+      background: #ef4444;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      transform: rotate(-5deg);
+      animation: stamp-pulse 2s infinite;
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+      margin-bottom: 12px;
+    }
+    
+    @keyframes stamp-pulse {
+      0%, 100% { transform: rotate(-5deg) scale(1); }
+      50% { transform: rotate(-5deg) scale(1.05); }
+    }
+    
+    .lock-text {
+      text-align: center;
+      color: #1e293b;
+      font-weight: 600;
+      font-size: 13px;
+      background: rgba(255,255,255,0.95);
+      padding: 12px 20px;
+      border-radius: 8px;
+      max-width: 220px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    /* Pricing Card */
     .pricing-card {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
-      border: 2px solid rgba(16, 185, 129, 0.4);
-      border-radius: 24px;
+      background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+      border: 2px solid #10b981;
+      border-radius: 20px;
       padding: 24px;
-      margin-bottom: 20px;
+      margin: 24px 0;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
     }
     
     .pricing-badge {
@@ -895,12 +607,13 @@
       font-size: 20px;
       font-weight: 800;
       margin-bottom: 8px;
+      color: #0f172a;
     }
     
     .pricing-subtitle {
       text-align: center;
       font-size: 13px;
-      color: rgba(255,255,255,0.7);
+      color: #64748b;
       margin-bottom: 20px;
     }
     
@@ -911,14 +624,14 @@
     
     .price-original {
       font-size: 18px;
-      color: rgba(255,255,255,0.5);
+      color: #94a3b8;
       text-decoration: line-through;
     }
     
     .price-current {
       font-size: 48px;
       font-weight: 800;
-      color: #4ade80;
+      color: #059669;
       line-height: 1;
     }
     
@@ -928,28 +641,13 @@
     
     .price-note {
       font-size: 12px;
-      color: rgba(255,255,255,0.6);
+      color: #64748b;
       margin-top: 4px;
     }
     
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      font-size: 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .price-row:last-of-type {
-      border-bottom: none;
-      margin-top: 8px;
-      padding-top: 12px;
-    }
-    
     .savings-box {
-      background: rgba(16, 185, 129, 0.2);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
       border-radius: 12px;
       padding: 16px;
       text-align: center;
@@ -958,43 +656,13 @@
     
     .savings-text {
       font-size: 13px;
-      color: #6ee7b7;
+      color: #059669;
     }
     
     .savings-amount {
       font-size: 24px;
       font-weight: 800;
-      color: #4ade80;
-    }
-    
-    /* Guarantee Box */
-    .guarantee-box {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    
-    .guarantee-icon {
-      font-size: 40px;
-      flex-shrink: 0;
-    }
-    
-    .guarantee-content h4 {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: #6ee7b7;
-    }
-    
-    .guarantee-content p {
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.5;
+      color: #059669;
     }
     
     /* Pay Button */
@@ -1015,6 +683,7 @@
       box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
       animation: pay-pulse 2s infinite;
       transition: all 0.2s ease;
+      margin-top: 20px;
     }
     
     @keyframes pay-pulse {
@@ -1026,69 +695,256 @@
       transform: translateY(-2px);
     }
     
+    .pay-button:disabled {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      animation: none;
+    }
+    
     .pay-subtext {
       text-align: center;
       font-size: 13px;
-      color: rgba(255,255,255,0.5);
+      color: #64748b;
       margin-top: 12px;
     }
     
-    /* Live Feed */
-    .live-feed {
-      background: rgba(16, 185, 129, 0.1);
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 20px;
+    /* Guarantee Box */
+    .guarantee-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
     
-    .live-header {
+    .guarantee-icon {
+      font-size: 40px;
+      flex-shrink: 0;
+    }
+    
+    .guarantee-content h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #059669;
+    }
+    
+    .guarantee-content p {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+    
+    /* Bonuses Section */
+    .bonuses-section {
+      margin: 24px 0;
+    }
+    
+    .bonuses-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+    
+    .bonuses-title span {
+      color: #f59e0b;
+    }
+    
+    .bonus-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .bonus-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    
+    .bonus-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #0f172a;
+    }
+    
+    .bonus-content p {
+      font-size: 12px;
+      color: #64748b;
+    }
+    
+    .bonus-badge {
+      display: inline-block;
+      background: #ef4444;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 8px;
+      margin-top: 6px;
+    }
+    
+    /* Testimonials Section */
+    .testimonials-section {
+      margin: 24px 0;
+    }
+    
+    .testimonials-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+    
+    .testimonial-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    
+    .testimonial-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    
+    .testimonial-info .stars {
+      color: #fbbf24;
+      font-size: 12px;
+    }
+    
+    .testimonial-text {
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    
+    .testimonial-result {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 12px;
-      color: #6ee7b7;
+      color: #059669;
       font-weight: 600;
-      margin-bottom: 12px;
     }
     
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: #10b981;
-      border-radius: 50%;
-      animation: blink 1.5s infinite;
+    /* FAQ Section */
+    .faq-section {
+      margin: 24px 0;
     }
     
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    
-    .feed-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.7);
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .feed-item:last-child {
-      border-bottom: none;
-    }
-    
-    .feed-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
+    .faq-title {
+      text-align: center;
+      font-size: 18px;
       font-weight: 700;
-      flex-shrink: 0;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+    
+    .faq-item {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .faq-question {
+      width: 100%;
+      padding: 16px;
+      background: none;
+      border: none;
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    
+    .faq-icon {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+      color: #64748b;
+    }
+    
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 0 16px 16px;
+    }
+    
+    .faq-answer p {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+    
+    /* Social Counter */
+    .social-counter {
+      text-align: center;
+      padding: 20px 0;
+      background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+      border-radius: 16px;
+      margin: 20px 0;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .social-counter-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: #059669;
+    }
+    
+    .social-counter-text {
+      font-size: 14px;
+      color: #64748b;
     }
     
     /* Security Badges */
@@ -1105,7 +961,7 @@
       align-items: center;
       gap: 6px;
       font-size: 12px;
-      color: rgba(255,255,255,0.4);
+      color: #64748b;
     }
     
     /* Sticky Footer */
@@ -1114,21 +970,10 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(180deg, transparent 0%, #0f172a 20%);
+      background: linear-gradient(180deg, transparent 0%, #ffffff 20%);
       padding: 16px;
       z-index: 100;
-    }
-    
-    .footer-timer {
-      text-align: center;
-      font-size: 13px;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 8px;
-    }
-    
-    .footer-timer span {
-      color: #ef4444;
-      font-weight: 700;
+      border-top: 1px solid #e2e8f0;
     }
     
     .footer-btn {
@@ -1154,70 +999,90 @@
       50% { transform: scale(1.02); }
     }
     
-    /* Blur effect */
-    .doc-blur {
-      filter: blur(4px);
-      opacity: 0.6;
-      pointer-events: none;
+    .footer-btn:disabled {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      animation: none;
     }
     
-    .doc-lock-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
+    /* Transformation Section */
+    .transformation-section {
+      margin: 24px 0;
+    }
+    
+    .transformation-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+    
+    .transformation-title span {
+      color: #059669;
+    }
+    
+    .transformation-table {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .transformation-header {
+      display: grid;
+      grid-template-columns: 1fr 80px 80px;
+      background: #f8fafc;
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .transformation-header div:first-child {
+      text-align: left;
+    }
+    
+    .transformation-header .with {
+      color: #059669;
+    }
+    
+    .transformation-header .without {
+      color: #94a3b8;
+    }
+    
+    .transformation-row {
+      display: grid;
+      grid-template-columns: 1fr 80px 80px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f1f5f9;
       align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(2px);
-      z-index: 10;
     }
     
-    .lock-badge {
-      background: #ef4444;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 16px;
-      transform: rotate(-5deg);
-      animation: stamp-pulse 2s infinite;
-      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+    .transformation-row:last-child {
+      border-bottom: none;
     }
     
-    @keyframes stamp-pulse {
-      0%, 100% { transform: rotate(-5deg) scale(1); }
-      50% { transform: rotate(-5deg) scale(1.05); }
+    .transformation-item {
+      font-size: 12px;
+      color: #475569;
     }
     
-    .lock-text {
+    .transformation-check {
       text-align: center;
-      color: #1e293b;
-      font-weight: 600;
-      font-size: 14px;
-      background: rgba(255,255,255,0.95);
-      padding: 12px 20px;
-      border-radius: 8px;
-      margin-top: 12px;
-      max-width: 200px;
+      font-size: 18px;
     }
     
-    /* Social Proof Counter */
-    .social-counter {
-      text-align: center;
-      padding: 20px 0;
-    }
-    
-    .social-counter-number {
-      font-size: 32px;
-      font-weight: 800;
+    .transformation-check.yes {
       color: #10b981;
     }
     
-    .social-counter-text {
-      font-size: 14px;
-      color: rgba(255,255,255,0.7);
+    .transformation-check.no {
+      color: #ef4444;
     }
+    
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -1225,21 +1090,14 @@
   <div class="sticky-header">
     <div class="container">
       <div class="header-content">
+        <div class="brand">
+          <div class="brand-icon">🏥</div>
+          <span>MedDigital</span>
+        </div>
         <div class="header-timer">
-          <div class="header-timer-label">⏱️ Oferta expira em:</div>
+          <div class="header-timer-label">Oferta expira em:</div>
           <div class="header-timer-value" id="headerTimer">09:59</div>
         </div>
-        <button class="header-btn" onclick="processPayment()">Quero Meu Atestado</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Profile Badge -->
-  <div class="profile-badge">
-    <div class="container">
-      <div class="profile-badge-inner">
-        <span class="profile-badge-text">Baseado no seu Perfil Médico ID #<span id="profileId">89241</span></span>
-        <span class="profile-badge-score">98.4%</span>
       </div>
     </div>
   </div>
@@ -1247,64 +1105,21 @@
   <!-- Hero Section -->
   <div class="hero-section">
     <div class="container">
-      <h1 class="hero-title"><span id="heroName">Paciente</span>, seu atestado médico está <span>pronto!</span></h1>
-      <p class="hero-subtitle">Documento válido nacionalmente • Reconhecido por empresas e INSS</p>
+      <div class="success-badge">
+        <span>✓</span>
+        <span>Atestado Aprovado pela IA</span>
+      </div>
+      <h1 class="hero-title">
+        <span id="heroName">Paciente</span>, seu atestado está <span>pronto!</span>
+      </h1>
+      <p class="hero-subtitle">Documento válido nacionalmente • Reconhecido por empresas</p>
     </div>
   </div>
-  
-  <!-- Health Comparison -->
+
   <div class="container">
-    <div class="health-comparison">
-      <h3 class="health-comparison-title">Sua Saúde: <span>Agora vs Com Atestado</span></h3>
-      
-      <div class="health-status-row">
-        <div class="health-status-card now">
-          <div class="health-status-badge">Agora</div>
-          <div class="health-status-icon">😰</div>
-          <div class="health-status-text">Estresse e Incerteza</div>
-        </div>
-        <div class="health-status-card after">
-          <div class="health-status-badge">Com Atestado</div>
-          <div class="health-status-icon">😌</div>
-          <div class="health-status-text">Tranquilidade e Repouso</div>
-        </div>
-      </div>
-      
-      <div class="health-metrics">
-        <div class="metric-row">
-          <div class="metric-header">
-            <span class="metric-label">Bem-estar no trabalho</span>
-            <span class="metric-value">Baixo → Alto</span>
-          </div>
-          <div class="metric-bar">
-            <div class="metric-fill low"></div>
-          </div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-header">
-            <span class="metric-label">Segurança documental</span>
-            <span class="metric-value">0% → 100%</span>
-          </div>
-          <div class="metric-bar">
-            <div class="metric-fill high"></div>
-          </div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-header">
-            <span class="metric-label">Tempo de recuperação</span>
-            <span class="metric-value">Indefinido → Garantido</span>
-          </div>
-          <div class="metric-bar">
-            <div class="metric-fill high"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Patient Info -->
-  <div class="patient-info">
-    <div class="container">
+    <!-- Patient Card -->
+    <div class="patient-card">
+      <div class="patient-avatar" id="patientAvatar">👤</div>
       <div class="patient-name" id="patientName">Carregando...</div>
       <div class="patient-cpf" id="patientCPF">...</div>
       <div class="status-badge">
@@ -1312,9 +1127,7 @@
         <span>Aguardando Liberação</span>
       </div>
     </div>
-  </div>
 
-  <div class="container">
     <!-- AI Report -->
     <div class="ai-report">
       <div class="ai-header">
@@ -1330,7 +1143,7 @@
       </div>
       <div class="report-row">
         <span class="report-label">Diagnóstico:</span>
-        <span class="report-value highlight">Inaptidão Temporária Confirmada</span>
+        <span class="report-value highlight">Inaptidão Temporária</span>
       </div>
       <div class="report-row">
         <span class="report-label">CID-10:</span>
@@ -1344,9 +1157,261 @@
         </span>
       </div>
       <div class="report-row">
-        <span class="report-label">Assinatura Digital:</span>
-        <span class="report-value" style="color: #4ade80;">✓ ICP-Brasil</span>
+        <span class="report-label">Dias Recomendados:</span>
+        <span class="report-value" id="reportDias" style="color: #059669; font-weight: 800;">2 dias</span>
       </div>
+    </div>
+
+    <!-- Document Section (ATESTADO) -->
+    <div class="document-section">
+      <h2 class="document-title">Seu <span>Atestado Médico</span></h2>
+      
+      <div class="document-paper" id="documentPaper">
+        <!-- QR Code -->
+        <div class="doc-qr">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="25" height="25" fill="#1e293b"/>
+            <rect x="65" y="10" width="25" height="25" fill="#1e293b"/>
+            <rect x="10" y="65" width="25" height="25" fill="#1e293b"/>
+            <rect x="40" y="10" width="5" height="5" fill="#1e293b"/>
+            <rect x="50" y="10" width="5" height="5" fill="#1e293b"/>
+            <rect x="40" y="20" width="5" height="5" fill="#1e293b"/>
+            <rect x="45" y="25" width="5" height="5" fill="#1e293b"/>
+            <rect x="55" y="20" width="5" height="5" fill="#1e293b"/>
+            <rect x="40" y="40" width="20" height="20" fill="#1e293b"/>
+            <rect x="65" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="75" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="85" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="65" y="50" width="5" height="5" fill="#1e293b"/>
+            <rect x="80" y="50" width="5" height="5" fill="#1e293b"/>
+            <rect x="70" y="65" width="25" height="25" fill="#1e293b"/>
+            <rect x="40" y="65" width="5" height="5" fill="#1e293b"/>
+            <rect x="50" y="70" width="5" height="5" fill="#1e293b"/>
+            <rect x="45" y="80" width="5" height="5" fill="#1e293b"/>
+            <rect x="55" y="85" width="5" height="5" fill="#1e293b"/>
+            <rect x="10" y="40" width="5" height="5" fill="#1e293b"/>
+            <rect x="20" y="45" width="5" height="5" fill="#1e293b"/>
+            <rect x="15" y="55" width="5" height="5" fill="#1e293b"/>
+          </svg>
+        </div>
+
+        <!-- Header -->
+        <div class="doc-header">
+          <div class="doc-logo-left">
+            <div class="doc-logo-sus">✚</div>
+            <div>
+              <div style="font-size: 10px; color: #059669; font-weight: 700;">SUS</div>
+              <div style="font-size: 8px; color: #64748b;">Sistema Único</div>
+            </div>
+          </div>
+          <div class="doc-title-center">
+            <h1>MINISTÉRIO DA SAÚDE</h1>
+            <p>Secretaria de Atenção Especializada</p>
+          </div>
+          <div class="doc-logo-right">
+            <p>GOVERNO FEDERAL</p>
+            <p>Brasil - 2024</p>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="doc-body">
+          <div class="doc-main-title">ATESTADO MÉDICO</div>
+          
+          <div class="doc-text">
+            <!-- Conteúdo visível (nome do paciente) -->
+            <div class="doc-row doc-highlight">
+              ATESTO PARA OS DEVIDOS FINS, A PEDIDO, QUE O(A) SR.(A) 
+              <span class="doc-field-large" id="docNome">_________________________________</span>
+            </div>
+            
+            <!-- Conteúdo borrado -->
+            <div class="doc-blur-content">
+              <div class="doc-row">
+                , CPF Nº <span class="doc-field" id="docCPF">________________</span>
+              </div>
+              
+              <div class="doc-row">
+                FOI ATENDIDO(A) NO DIA <span class="doc-field" id="docData">__________</span> 
+                ÀS <span class="doc-field">_______</span> HORAS,
+              </div>
+              
+              <div class="doc-row">
+                NECESSITANDO DE <span class="doc-field" id="docDias">___</span> 
+                (<span class="doc-field" id="docDiasExtenso">__________</span>) 
+                DIAS DE REPOUSO POR MOTIVO DE DOENÇA.
+              </div>
+              
+              <div class="doc-row" style="margin-top: 16px;">
+                CID: <span class="doc-field" id="docCID">__________</span>
+              </div>
+              
+              <!-- Assinatura do Paciente -->
+              <div class="doc-signature-area">
+                <div class="doc-signature-title">Assinatura do Paciente</div>
+                <div class="doc-signature-line">
+                  <img id="docAssinatura" src="" alt="Assinatura" style="display: none;">
+                </div>
+              </div>
+              
+              <!-- Assinatura do Médico (visível) -->
+              <div class="doc-doctor-signature doc-highlight">
+                <div class="doc-doctor-box">
+                  <div class="doc-signature-title">Assinatura do Médico</div>
+                  <svg class="doctor-signature-img" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10,40 Q30,10 50,35 T90,30 T130,35 T170,25" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M40,45 Q60,20 80,40 T120,35" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                  </svg>
+                  <div class="doctor-name">Dr. Ricardo Almeida</div>
+                  <div class="doctor-crm">CRM: 45.782-SP</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Carimbo -->
+            <div class="doc-stamp">
+              <div class="doc-stamp-text">CLÍNICA MÉDICA<br>DR. RICARDO ALMEIDA</div>
+              <div class="doc-stamp-crm">CRM: 45.782</div>
+            </div>
+          </div>
+
+          <!-- Lock Overlay -->
+          <div class="doc-lock-overlay" id="docLock">
+            <div class="lock-badge">🔒 BLOQUEADO</div>
+            <div class="lock-text">
+              Efetue o pagamento para desbloquear seu atestado
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+          <strong>NOTA:</strong> ESTE ATESTADO É VÁLIDO PARA FINALIDADES PREVISTAS NO ARTIGO 27 DE CLIPS, 
+          APROVADO PELO DECRETO Nº 89.312 DE 23/01/84. DOCUMENTO DIGITAL COM CERTIFICAÇÃO ICP-BRASIL.
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing Card (BOTÃO DE COMPRA) -->
+    <div class="pricing-card">
+      <div class="pricing-badge">🔥 OFERTA POR TEMPO LIMITADO</div>
+      <h3 class="pricing-title">Libere seu Atestado Agora</h3>
+      <p class="pricing-subtitle">Pagamento único • Sem mensalidades • Acesso imediato</p>
+      
+      <div class="price-display">
+        <div class="price-original">R$ 200,00</div>
+        <div class="price-current"><small>R$</small>19,90</div>
+        <div class="price-note">Pagamento via PIX</div>
+      </div>
+      
+      <div class="savings-box">
+        <div class="savings-text">Você economiza</div>
+        <div class="savings-amount">R$ 180,10</div>
+        <div class="savings-text">e garante <span id="savingsDays">2 dias</span> de repouso</div>
+      </div>
+      
+      <button class="pay-button" id="payButton" onclick="processPayment()">
+        <span>💳</span>
+        <span>PAGAR R$ 19,90 VIA PIX</span>
+      </button>
+      <p class="pay-subtext">🔓 Liberar documento imediatamente • Download em segundos</p>
+    </div>
+    
+    <!-- Guarantee -->
+    <div class="guarantee-box">
+      <div class="guarantee-icon">🛡️</div>
+      <div class="guarantee-content">
+        <h4>Garantia de 7 Dias</h4>
+        <p>Se por qualquer motivo você não ficar satisfeito, devolvemos 100% do seu dinheiro. Sem perguntas.</p>
+      </div>
+    </div>
+
+    <!-- Bonuses Section -->
+    <div class="bonuses-section">
+      <h2 class="bonuses-title">🎁 Bônus Exclusivos (Hoje Apenas)</h2>
+      
+      <div class="bonus-card">
+        <div class="bonus-icon">📄</div>
+        <div class="bonus-content">
+          <h4>Receita Médica Digital</h4>
+          <p>Receita digital para medicamentos de suporte ao tratamento</p>
+          <span class="bonus-badge">GRÁTIS</span>
+        </div>
+      </div>
+      
+      <div class="bonus-card">
+        <div class="bonus-icon">📧</div>
+        <div class="bonus-content">
+          <h4>Envio Prioritário</h4>
+          <p>Seu atestado chega em segundos no e-mail cadastrado</p>
+          <span class="bonus-badge">GRÁTIS</span>
+        </div>
+      </div>
+      
+      <div class="bonus-card">
+        <div class="bonus-icon">🔒</div>
+        <div class="bonus-content">
+          <h4>Validação ICP-Brasil</h4>
+          <p>Assinatura digital com certificação oficial do governo</p>
+          <span class="bonus-badge">GRÁTIS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials Section (ABAIXO DO BOTÃO) -->
+    <div class="testimonials-section">
+      <h2 class="testimonials-title">O que dizem nossos pacientes</h2>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <img src="src/images/testimonials/woman1.png" alt="Larissa" class="testimonial-avatar">
+          <div class="testimonial-info">
+            <h4>Larissa M.</h4>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+        <p class="testimonial-text">"Precisava de um atestado urgente e não tinha tempo de ir ao médico. Em 5 minutos tudo resolvido. Meu chefe aceitou sem problemas!"</p>
+        <div class="testimonial-result">
+          <span>✓</span>
+          <span>3 dias de repouso aprovados</span>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <img src="src/images/testimonials/man1.png" alt="João" class="testimonial-avatar">
+          <div class="testimonial-info">
+            <h4>João P.</h4>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+        <p class="testimonial-text">"Já tinha ouvido falar de atestados online mas nunca confiei. Resolvi testar e agora indico para todo mundo. Documento profissional!"</p>
+        <div class="testimonial-result">
+          <span>✓</span>
+          <span>2 dias de repouso aprovados</span>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <img src="src/images/testimonials/woman2.png" alt="Maria" class="testimonial-avatar">
+          <div class="testimonial-info">
+            <h4>Maria C.</h4>
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+        <p class="testimonial-text">"O QR Code de validação deu muito mais credibilidade. RH verificou na hora e aprovou meu atestado. Super recomendo!"</p>
+        <div class="testimonial-result">
+          <span>✓</span>
+          <span>5 dias de repouso aprovados</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Social Counter -->
+    <div class="social-counter">
+      <div class="social-counter-number">47.832+</div>
+      <div class="social-counter-text">atestados emitidos com sucesso em 2024</div>
     </div>
 
     <!-- Transformation Table -->
@@ -1356,7 +1421,7 @@
         <div class="transformation-header">
           <div>Benefício</div>
           <div class="with">Com Atestado</div>
-          <div class="without">Sem Atestado</div>
+          <div class="without">Sem</div>
         </div>
         <div class="transformation-row">
           <div class="transformation-item">Repouso médico garantido</div>
@@ -1395,212 +1460,8 @@
         </div>
       </div>
     </div>
-    
-    <!-- Testimonials -->
-    <div class="testimonials-section">
-      <h2 class="testimonials-title">O que dizem nossos pacientes</h2>
-      <div class="testimonials-scroll">
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">LM</div>
-            <div class="testimonial-info">
-              <h4>Larissa M.</h4>
-              <div class="stars">⭐⭐⭐⭐⭐</div>
-            </div>
-          </div>
-          <p class="testimonial-text">"Precisava de um atestado urgente e não tinha tempo de ir ao médico. Em 5 minutos tudo resolvido. Meu chefe aceitou sem problemas!"</p>
-          <div class="testimonial-result">
-            <span>✓</span>
-            <span>3 dias de repouso aprovados</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">JP</div>
-            <div class="testimonial-info">
-              <h4>João P.</h4>
-              <div class="stars">⭐⭐⭐⭐⭐</div>
-            </div>
-          </div>
-          <p class="testimonial-text">"Já tinha ouvido falar de atestados online mas nunca confiei. Resolvi testar e agora indico para todo mundo. Documento profissional!"</p>
-          <div class="testimonial-result">
-            <span>✓</span>
-            <span>2 dias de repouso aprovados</span>
-          </div>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-header">
-            <div class="testimonial-avatar">MC</div>
-            <div class="testimonial-info">
-              <h4>Maria C.</h4>
-              <div class="stars">⭐⭐⭐⭐⭐</div>
-            </div>
-          </div>
-          <p class="testimonial-text">"O QR Code de validação deu muito mais credibilidade. RH verificou na hora e aprovou meu atestado. Super recomendo!"</p>
-          <div class="testimonial-result">
-            <span>✓</span>
-            <span>5 dias de repouso aprovados</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Social Proof Counter -->
-    <div class="social-counter">
-      <div class="social-counter-number">47.832+</div>
-      <div class="social-counter-text">atestados emitidos com sucesso em 2024</div>
-    </div>
-    
-    <!-- Bonuses Section -->
-    <div class="bonuses-section">
-      <h2 class="bonuses-title">🎁 Bônus Exclusivos (Hoje Apenas)</h2>
-      
-      <div class="bonus-card">
-        <div class="bonus-icon">📄</div>
-        <div class="bonus-content">
-          <h4>Receita Médica Digital</h4>
-          <p>Receita digital para medicamentos de suporte ao tratamento</p>
-          <span class="bonus-badge">GRÁTIS</span>
-        </div>
-      </div>
-      
-      <div class="bonus-card">
-        <div class="bonus-icon">📧</div>
-        <div class="bonus-content">
-          <h4>Envio Prioritário</h4>
-          <p>Seu atestado chega em segundos no e-mail informado</p>
-          <span class="bonus-badge">GRÁTIS</span>
-        </div>
-      </div>
-      
-      <div class="bonus-card">
-        <div class="bonus-icon">🔒</div>
-        <div class="bonus-content">
-          <h4>Validação ICP-Brasil</h4>
-          <p>Assinatura digital com certificação oficial do governo</p>
-          <span class="bonus-badge">GRÁTIS</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- Documento Realista -->
-    <div class="document-section">
-      <div class="document-paper" id="documentPaper">
-        <!-- QR Code -->
-        <div class="doc-qr">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <rect x="10" y="10" width="25" height="25" fill="#1e293b"/>
-            <rect x="65" y="10" width="25" height="25" fill="#1e293b"/>
-            <rect x="10" y="65" width="25" height="25" fill="#1e293b"/>
-            <rect x="40" y="10" width="5" height="5" fill="#1e293b"/>
-            <rect x="50" y="10" width="5" height="5" fill="#1e293b"/>
-            <rect x="40" y="20" width="5" height="5" fill="#1e293b"/>
-            <rect x="45" y="25" width="5" height="5" fill="#1e293b"/>
-            <rect x="55" y="20" width="5" height="5" fill="#1e293b"/>
-            <rect x="40" y="40" width="20" height="20" fill="#1e293b"/>
-            <rect x="65" y="40" width="5" height="5" fill="#1e293b"/>
-            <rect x="75" y="40" width="5" height="5" fill="#1e293b"/>
-            <rect x="85" y="40" width="5" height="5" fill="#1e293b"/>
-            <rect x="65" y="50" width="5" height="5" fill="#1e293b"/>
-            <rect x="80" y="50" width="5" height="5" fill="#1e293b"/>
-            <rect x="70" y="65" width="25" height="25" fill="#1e293b"/>
-            <rect x="40" y="65" width="5" height="5" fill="#1e293b"/>
-            <rect x="50" y="70" width="5" height="5" fill="#1e293b"/>
-            <rect x="45" y="80" width="5" height="5" fill="#1e293b"/>
-            <rect x="55" y="85" width="5" height="5" fill="#1e293b"/>
-            <rect x="10" y="40" width="5" height="5" fill="#1e293b"/>
-            <rect x="20" y="45" width="5" height="5" fill="#1e293b"/>
-            <rect x="15" y="55" width="5" height="5" fill="#1e293b"/>
-          </svg>
-        </div>
-
-        <!-- Header -->
-        <div class="doc-header">
-          <div class="doc-logo-left">
-            <div class="doc-logo-sus">✚</div>
-            <div>
-              <div style="font-size: 10px; color: #059669; font-weight: 700;">SUS</div>
-              <div style="font-size: 8px; color: #64748b;">Sistema Único de Saúde</div>
-            </div>
-          </div>
-          <div class="doc-title-center">
-            <h1>MINISTÉRIO DA SAÚDE</h1>
-            <p>Secretaria de Atenção Especializada</p>
-          </div>
-          <div class="doc-logo-right">
-            <p>GOVERNO FEDERAL</p>
-            <p>Brasil - 2024</p>
-          </div>
-        </div>
-
-        <!-- Body -->
-        <div class="doc-body doc-blur" id="docBody">
-          <div class="doc-main-title">ATESTADO MÉDICO</div>
-          
-          <div class="doc-text">
-            <div class="doc-row">
-              ATESTO PARA OS DEVIDOS FINS, A PEDIDO, QUE O(A) SR.(A) 
-              <span class="doc-field-large" id="docNome">_________________________________</span>
-              , CPF Nº <span class="doc-field" id="docCPF">________________</span>
-            </div>
-            
-            <div class="doc-row">
-              FOI ATENDIDO(A) NO DIA <span class="doc-field" id="docData">__________</span> 
-              ÀS <span class="doc-field">_______</span> HORAS,
-            </div>
-            
-            <div class="doc-row">
-              NECESSITANDO DE <span class="doc-field" id="docDias">___</span> 
-              (<span class="doc-field" id="docDiasExtenso">__________</span>) 
-              DIAS DE REPOUSO POR MOTIVO DE DOENÇA.
-            </div>
-            
-            <div class="doc-row" style="margin-top: 16px;">
-              CID: <span class="doc-field" id="docCID">__________</span>
-            </div>
-            
-            <!-- Assinatura do Paciente -->
-            <div class="doc-signature-area">
-              <div class="doc-signature-title">Assinatura do Paciente ou Responsável</div>
-              <div class="doc-signature-line">
-                <img id="docAssinatura" src="" alt="Assinatura" style="display: none;">
-              </div>
-              <div class="doc-signature-label">Local e Data: _________________________________</div>
-            </div>
-            
-            <!-- Assinatura do Médico -->
-            <div style="margin-top: 24px;">
-              <div class="doc-signature-title">Assinatura do Médico</div>
-              <div style="border-bottom: 1px solid #1e293b; height: 30px; margin-bottom: 4px;"></div>
-              <div class="doc-signature-label">Dr. Ricardo Almeida - CRM: 45.782-SP</div>
-            </div>
-          </div>
-          
-          <!-- Carimbo -->
-          <div class="doc-stamp">
-            <div class="doc-stamp-text">CLÍNICA MÉDICA<br>DR. RICARDO ALMEIDA</div>
-            <div class="doc-stamp-crm">CRM: 45.782</div>
-          </div>
-        </div>
-
-        <!-- Lock Overlay -->
-        <div class="doc-lock-overlay" id="docLock">
-          <div class="lock-badge">🔒 BLOQUEADO</div>
-          <div class="lock-text">
-            Aguardando confirmação de pagamento<br>para desbloquear o documento
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="doc-footer">
-          <strong>NOTA:</strong> ESTE ATESTADO É VÁLIDO PARA FINALIDADES PREVISTAS NO ARTIGO 27 DE CLIPS, 
-          APROVADO PELO DECRETO Nº 89.312 DE 23/01/84, E SERÁ EXPEDIDO PARA JUSTIFICATIVA DE 1 A 15 DIAS 
-          DE AFASTAMENTO DO TRABALHO. DOCUMENTO DIGITAL ASSINADO COM CERTIFICAÇÃO ICP-BRASIL.
-        </div>
-      </div>
-    </div>
-    
-    <!-- FAQ Section -->
+    <!-- FAQ Section (NO FINAL) -->
     <div class="faq-section">
       <h2 class="faq-title">Perguntas Frequentes</h2>
       
@@ -1645,63 +1506,6 @@
       </div>
     </div>
 
-    <!-- Pricing -->
-    <div class="pricing-card">
-      <div class="pricing-badge">🔥 OFERTA LIMITADA</div>
-      <h3 class="pricing-title">Acesso Imediato</h3>
-      <p class="pricing-subtitle">Pague uma vez, use quando precisar • Sem mensalidades</p>
-      
-      <div class="price-display">
-        <div class="price-original">R$ 200,00</div>
-        <div class="price-current"><small>R$</small>19,90</div>
-        <div class="price-note">Pagamento único via PIX</div>
-      </div>
-      
-      <div class="savings-box">
-        <div class="savings-text">Você economiza</div>
-        <div class="savings-amount">R$ 180,10</div>
-        <div class="savings-text">e ganha <span id="savingsDays">2 dias</span> de repouso</div>
-      </div>
-    </div>
-    
-    <!-- Guarantee -->
-    <div class="guarantee-box">
-      <div class="guarantee-icon">🛡️</div>
-      <div class="guarantee-content">
-        <h4>Garantia de 7 Dias</h4>
-        <p>Se por qualquer motivo você não ficar satisfeito com o atestado, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.</p>
-      </div>
-    </div>
-
-    <!-- Pay Button -->
-    <button class="pay-button" onclick="processPayment()">
-      <span>💳</span>
-      <span>PAGAR R$ 19,90 VIA PIX</span>
-    </button>
-    <p class="pay-subtext">🔓 Liberar meu atestado imediatamente • Pagamento em segundos</p>
-
-    <!-- Live Feed -->
-    <div class="live-feed">
-      <div class="live-header">
-        <div class="live-dot"></div>
-        <span>Comprovação Social em Tempo Real</span>
-      </div>
-      <div id="feedContainer">
-        <div class="feed-item">
-          <div class="feed-avatar">JM</div>
-          <span><strong>João M.</strong> acabou de pagar • PDF enviado</span>
-        </div>
-        <div class="feed-item">
-          <div class="feed-avatar">AL</div>
-          <span><strong>Ana L.</strong> liberou documento • 2 dias aprovados</span>
-        </div>
-        <div class="feed-item">
-          <div class="feed-avatar">CK</div>
-          <span><strong>Carlos K.</strong> pagou via Pix • Atestado recebido</span>
-        </div>
-      </div>
-    </div>
-
     <!-- Security Badges -->
     <div class="security-badges">
       <div class="sec-badge">
@@ -1719,23 +1523,20 @@
     </div>
 
     <!-- Legal Footer -->
-    <div style="text-align: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);">
+    <div style="text-align: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
       <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
-        <a href="termos.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px;">Termos de Uso</a>
-        <a href="privacidade.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px;">Privacidade</a>
-        <a href="disclaimer.html" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 12px;">Disclaimer</a>
+        <a href="termos.html" style="color: #64748b; text-decoration: none; font-size: 12px;">Termos de Uso</a>
+        <a href="privacidade.html" style="color: #64748b; text-decoration: none; font-size: 12px;">Privacidade</a>
+        <a href="disclaimer.html" style="color: #64748b; text-decoration: none; font-size: 12px;">Disclaimer</a>
       </div>
-      <p style="font-size: 11px; color: rgba(255,255,255,0.3);">© 2024 MedDigital • Documentos válidos conforme legislação brasileira</p>
+      <p style="font-size: 11px; color: #94a3b8;">© 2024 MedDigital • Documentos válidos conforme legislação brasileira</p>
     </div>
   </div>
 
   <!-- Sticky Footer -->
   <div class="sticky-footer">
     <div class="container">
-      <div class="footer-timer">
-        ⏱️ Oferta expira em <span id="footerTimer">09:59</span>
-      </div>
-      <button class="footer-btn" onclick="processPayment()">
+      <button class="footer-btn" id="footerBtn" onclick="processPayment()">
         <span>🔓</span>
         <span>LIBERAR MEU ATESTADO AGORA</span>
         <span>→</span>
@@ -1761,9 +1562,9 @@
       'Crise de Ansiedade': 'F41.9 - Ansiedade'
     };
 
-    // Numero por extenso
+    // Número por extenso
     function numeroPorExtenso(n) {
-      const numeros = ['zero', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez'];
+      const numeros = ['zero', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze'];
       return numeros[n] || n;
     }
 
@@ -1771,10 +1572,11 @@
     document.getElementById('heroName').textContent = nome.split(' ')[0];
     document.getElementById('patientName').textContent = nome;
     document.getElementById('patientCPF').textContent = 'CPF: ' + cpf;
+    document.getElementById('patientAvatar').textContent = nome.charAt(0).toUpperCase();
     document.getElementById('reportSintoma').textContent = sintoma;
     document.getElementById('reportCID').textContent = cids[sintoma] || 'Z76.5 - Geral';
+    document.getElementById('reportDias').textContent = dias + ' dias';
     document.getElementById('savingsDays').textContent = dias + ' dias';
-    document.getElementById('profileId').textContent = profileId;
     
     // Preenche documento
     document.getElementById('docNome').textContent = nome;
@@ -1784,7 +1586,7 @@
     document.getElementById('docDiasExtenso').textContent = numeroPorExtenso(dias);
     document.getElementById('docCID').textContent = (cids[sintoma] || 'Z76.5').split(' ')[0];
     
-    // Mostra assinatura
+    // Mostra assinatura do paciente
     if (assinatura) {
       const img = document.getElementById('docAssinatura');
       img.src = assinatura;
@@ -1799,65 +1601,45 @@
       if (min < 0) { min = 9; sec = 59; }
       const t = String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
       document.getElementById('headerTimer').textContent = t;
-      document.getElementById('footerTimer').textContent = t;
     }, 1000);
-
-    // Live feed
-    const nomes = [['MA','Maria A.','2 dias'], ['LS','Lucas S.','1 dia'], ['PO','Paula O.','2 dias'], ['JR','João R.','3 dias'], ['CF','Carla F.','1 dia']];
-    let idx = 0;
-    setInterval(() => {
-      const container = document.getElementById('feedContainer');
-      container.children[0].remove();
-      const n = nomes[idx % nomes.length];
-      const div = document.createElement('div');
-      div.className = 'feed-item';
-      div.innerHTML = '<div class="feed-avatar">' + n[0] + '</div><span><strong>' + n[1] + '</strong> acabou de pagar • ' + n[2] + '</span>';
-      container.appendChild(div);
-      idx++;
-    }, 3000);
 
     // FAQ Toggle
     function toggleFaq(button) {
       const item = button.parentElement;
       const isActive = item.classList.contains('active');
-      
-      // Close all
       document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
-      
-      // Open clicked if wasn't active
-      if (!isActive) {
-        item.classList.add('active');
-      }
+      if (!isActive) item.classList.add('active');
     }
 
     // Pagamento
     function processPayment() {
-      const btn = event.currentTarget;
-      const originalText = btn.innerHTML;
+      const btn = document.getElementById('payButton');
+      const footerBtn = document.getElementById('footerBtn');
+      
       btn.innerHTML = '<span>⏳</span><span>Processando...</span>';
       btn.disabled = true;
+      footerBtn.innerHTML = '<span>⏳</span><span>Processando...</span>';
+      footerBtn.disabled = true;
       
-      // Simula pagamento
       setTimeout(() => {
         // Remove blur
-        document.getElementById('docBody').classList.remove('doc-blur');
         document.getElementById('docLock').style.display = 'none';
+        document.querySelector('.doc-blur-content').classList.remove('doc-blur-content');
         document.getElementById('documentPaper').style.boxShadow = '0 25px 50px -12px rgba(16, 185, 129, 0.4)';
         
-        // Alerta de sucesso
+        // Atualiza status
+        document.querySelector('.status-badge').innerHTML = '<span>✓</span><span>Documento Liberado</span>';
+        document.querySelector('.status-badge').style.background = '#ecfdf5';
+        document.querySelector('.status-badge').style.color = '#059669';
+        
+        // Alerta
         alert('✅ Pagamento confirmado!\n\nSeu atestado foi liberado e enviado para seu email.\n\nVerifique sua caixa de entrada (e spam).');
         
-        // Atualiza botão
+        // Atualiza botões
         btn.innerHTML = '<span>✓</span><span>DOCUMENTO LIBERADO</span>';
         btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
-        
-        // Update header button too
-        document.querySelector('.header-btn').textContent = '✓ Liberado';
-        document.querySelector('.header-btn').disabled = true;
-        
-        // Update footer button
-        document.querySelector('.footer-btn').innerHTML = '<span>✓</span><span>DOCUMENTO LIBERADO</span><span></span>';
-        document.querySelector('.footer-btn').style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+        footerBtn.innerHTML = '<span>✓</span><span>DOCUMENTO LIBERADO</span><span></span>';
+        footerBtn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
       }, 2000);
     }
   </script>

@@ -93,27 +93,169 @@
     .loading-overlay { 
       position: fixed; 
       top: 0; left: 0; right: 0; bottom: 0;
-      background: #0f172a; 
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
       display: none; 
       flex-direction: column; 
       align-items: center; 
       justify-content: center; 
-      gap: 32px; 
       z-index: 1000; 
-      padding: 24px; 
+      padding: 20px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
     .loading-overlay.active { 
       display: flex !important; 
     }
     .loading-overlay[style*="flex"] { display: flex !important; }
-    .loading-icon { width: 80px; height: 80px; position: relative; }
-    .loading-spinner { width: 100%; height: 100%; border: 4px solid rgba(255,255,255,0.1); border-top-color: #10b981; border-radius: 50%; animation: spin 1s linear infinite; }
+    
+    .loading-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 40px 32px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      animation: fadeInUp 0.6s ease;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .loading-icon-container {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    
+    .loading-icon-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
+      animation: pulse-glow 2s infinite;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.4); }
+      50% { box-shadow: 0 0 60px rgba(16, 185, 129, 0.6); }
+    }
+    
+    .loading-spinner-ring {
+      position: absolute;
+      top: -8px; left: -8px; right: -8px; bottom: -8px;
+      border: 3px solid transparent;
+      border-top-color: rgba(16, 185, 129, 0.5);
+      border-radius: 28px;
+      animation: spin 1.5s linear infinite;
+    }
+    
     @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-icon-inner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; }
-    .loading-title { color: white; font-size: 20px; font-weight: 700; text-align: center; }
-    .loading-status { color: #94a3b8; font-size: 14px; text-align: center; }
-    .loading-bar { width: 280px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-    .loading-progress { height: 100%; background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%); border-radius: 3px; transition: width 0.5s ease; width: 0%; }
+    
+    .loading-title {
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    
+    .loading-subtitle {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    
+    .loading-progress-container {
+      margin-bottom: 16px;
+    }
+    
+    .loading-progress-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .loading-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #06b6d4 100%);
+      border-radius: 4px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .loading-progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    .loading-percentage {
+      color: #10b981;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 12px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .loading-status {
+      color: #64748b;
+      font-size: 13px;
+      margin-top: 8px;
+      min-height: 20px;
+    }
+    
+    .loading-status::after {
+      content: '...';
+      animation: dots 1.5s infinite;
+    }
+    
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+    
+    .loading-steps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+    
+    .loading-step {
+      width: 8px;
+      height: 8px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .loading-step.active {
+      background: #10b981;
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
     
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
     .modal-overlay[style*="flex"] { display: flex !important; }
@@ -565,15 +707,31 @@
   </main>
 
   <div class="loading-overlay" id="loadingScreen">
-    <div class="loading-icon">
-      <div class="loading-spinner"></div>
-      <div class="loading-icon-inner">🤖</div>
+    <div class="loading-card">
+      <div class="loading-icon-container">
+        <div class="loading-spinner-ring"></div>
+        <div class="loading-icon-bg">🏥</div>
+      </div>
+      <h2 class="loading-title">Analisando suas respostas...</h2>
+      <p class="loading-subtitle">Nossa IA médica está processando seu caso</p>
+      
+      <div class="loading-progress-container">
+        <div class="loading-progress-bar">
+          <div class="loading-progress-fill" id="loadingProgress"></div>
+        </div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+      </div>
+      
+      <div class="loading-status" id="loadingStatus">Analisando padrões de sintomas</div>
+      
+      <div class="loading-steps">
+        <div class="loading-step active" id="step1"></div>
+        <div class="loading-step" id="step2"></div>
+        <div class="loading-step" id="step3"></div>
+        <div class="loading-step" id="step4"></div>
+        <div class="loading-step" id="step5"></div>
+      </div>
     </div>
-    <div class="loading-title">IA Medica Processando...</div>
-    <div class="loading-bar">
-      <div class="loading-progress" id="loadingProgress"></div>
-    </div>
-    <div class="loading-status" id="loadingStatus">Analisando padroes de sintomas...</div>
   </div>
 
   <div class="modal-overlay" id="modal">
@@ -933,28 +1091,46 @@
         loading.classList.add('active');
         console.log('Tela de carregamento ativada');
       }
+      
+      // Novo fluxo de carregamento animado
       const steps = [
-        { pct: 15, text: 'Analisando padroes de sintomas...', delay: 700 },
-        { pct: 30, text: 'Verificando historico clinico...', delay: 600 },
-        { pct: 45, text: 'Calculando necessidade de repouso...', delay: 700 },
-        { pct: 60, text: 'Selecionando CID mais adequado...', delay: 800 },
-        { pct: 75, text: 'Gerando documento digital...', delay: 700 },
-        { pct: 90, text: 'Assinando digitalmente...', delay: 800 },
-        { pct: 100, text: 'Finalizando...', delay: 500 }
+        { pct: 10, text: 'Analisando padrões de sintomas', step: 1 },
+        { pct: 25, text: 'Verificando histórico clínico', step: 1 },
+        { pct: 40, text: 'Calculando necessidade de repouso', step: 2 },
+        { pct: 55, text: 'Selecionando CID mais adequado', step: 2 },
+        { pct: 70, text: 'Gerando documento digital', step: 3 },
+        { pct: 85, text: 'Assinando digitalmente', step: 4 },
+        { pct: 95, text: 'Finalizando análise', step: 4 },
+        { pct: 100, text: 'Redirecionando...', step: 5 }
       ];
+      
       let current = 0;
       const progress = document.getElementById('loadingProgress');
       const status = document.getElementById('loadingStatus');
+      const percentage = document.getElementById('loadingPercentage');
+      
+      function updateStepIndicators(activeStep) {
+        for (let i = 1; i <= 5; i++) {
+          const stepEl = document.getElementById('step' + i);
+          if (stepEl) {
+            if (i <= activeStep) stepEl.classList.add('active');
+            else stepEl.classList.remove('active');
+          }
+        }
+      }
+      
       function runStep() {
         if (current >= steps.length) {
-          setTimeout(function() { window.location.href = 'resultado.html'; }, 400);
+          setTimeout(function() { window.location.href = 'resultado.html'; }, 600);
           return;
         }
-        const step = steps[current];
-        if (progress) progress.style.width = step.pct + '%';
-        if (status) status.textContent = step.text;
+        const stepData = steps[current];
+        if (progress) progress.style.width = stepData.pct + '%';
+        if (status) status.textContent = stepData.text;
+        if (percentage) percentage.textContent = stepData.pct + '%';
+        updateStepIndicators(stepData.step);
         current++;
-        setTimeout(runStep, step.delay);
+        setTimeout(runStep, 600);
       }
       runStep();
     }
