@@ -643,18 +643,6 @@
       </div>
 
       <div class="step-card hidden" id="step-11">
-        <h2 class="step-title">Seu CPF para validacao digital do documento</h2>
-        <p class="step-subtitle">Obrigatorio para assinatura ICP-Brasil</p>
-        
-        <div class="input-group">
-          <input type="text" class="input-field" id="cpfInput" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)">
-          <div class="input-feedback" id="feedbackCPF"></div>
-        </div>
-        
-        <button class="btn btn-primary" onclick="submitCPF(11)" id="btnCPF" disabled>Continuar →</button>
-      </div>
-
-      <div class="step-card hidden" id="step-12">
         <h2 class="step-title">Email para envio do documento</h2>
         <p class="step-subtitle">Voce recebera o PDF em segundos apos aprovacao</p>
         
@@ -663,10 +651,10 @@
           <div class="input-feedback" id="feedbackEmail"></div>
         </div>
         
-        <button class="btn btn-primary" onclick="submitEmail(12)" id="btnEmail" disabled>Continuar →</button>
+        <button class="btn btn-primary" onclick="submitEmail(11)" id="btnEmail" disabled>Continuar →</button>
       </div>
 
-      <div class="step-card hidden" id="step-13">
+      <div class="step-card hidden" id="step-12">
         <h2 class="step-title">Confirmacao de Veracidade</h2>
         <p class="step-subtitle">Ultimo passo antes da analise medica final</p>
         
@@ -683,10 +671,10 @@
           <div class="alert-content" style="font-size: 13px;"><strong>Aviso legal:</strong> Falsidade em documento medico constitui crime previsto no art. 299 do Codigo Penal.</div>
         </div>
         
-        <button class="btn btn-primary" onclick="submitConfirm(13)" id="btnConfirm" disabled>Prosseguir para Assinatura →</button>
+        <button class="btn btn-primary" onclick="submitConfirm(12)" id="btnConfirm" disabled>Prosseguir para Assinatura →</button>
       </div>
 
-      <div class="step-card hidden" id="step-14">
+      <div class="step-card hidden" id="step-13">
         <h2 class="step-title">Assinatura Digital do Paciente</h2>
         <p class="step-subtitle">Toque e arraste para assinar no quadro abaixo</p>
         
@@ -696,10 +684,10 @@
           <button class="signature-clear" onclick="clearSignature()">Limpar assinatura</button>
         </div>
         
-        <button class="btn btn-primary" onclick="submitSignature(14)" id="btnSignature" disabled>Confirmar Assinatura →</button>
+        <button class="btn btn-primary" onclick="submitSignature(13)" id="btnSignature" disabled>Confirmar Assinatura →</button>
       </div>
 
-      <div class="step-card hidden" id="step-15">
+      <div class="step-card hidden" id="step-14">
         <h2 class="step-title">A IA recomenda repouso. Voce precisa de:</h2>
         
         <div class="options-list">
@@ -750,37 +738,51 @@
         </div>
       </div>
 
-      <div class="step-card hidden" id="step-16">
-        <h2 class="step-title">Selecione a unidade de saude</h2>
-        <p class="step-subtitle" id="locationSubtitle">Localizando hospitais proximos a voce...</p>
+      <div class="step-card hidden" id="step-15">
+        <h2 class="step-title">Selecione a unidade de saude mais proxima</h2>
+        <p class="step-subtitle" id="locationSubtitle">Localizando hospitais na sua regiao...</p>
         
-        <div id="locationInfo" style="background: #f8fafc; border-radius: 12px; padding: 16px; margin-bottom: 16px; display: none;">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
-            <span style="font-size: 20px;">📍</span>
-            <div>
-              <div style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Sua Localizacao</div>
-              <div id="userLocation" style="font-size: 15px; font-weight: 600; color: #0f172a;">Detectando...</div>
+        <!-- Card de Localização -->
+        <div id="locationInfo" style="background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%); border: 2px solid #10b981; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: none; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📍</div>
+            <div style="flex: 1;">
+              <div style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">📍 Sua Localizacao Detectada</div>
+              <div id="userLocation" style="font-size: 16px; font-weight: 700; color: #0f172a;">Detectando...</div>
             </div>
           </div>
         </div>
         
-        <div id="locationStatus" style="text-align: center; padding: 30px 20px; color: #64748b;">
-          <div style="font-size: 40px; margin-bottom: 16px; animation: bounce 1s infinite;">📍</div>
-          <p style="font-weight: 500;">Buscando hospitais proximos...</p>
-          <p style="font-size: 12px; margin-top: 8px;">Isso pode levar alguns segundos</p>
+        <!-- Mapa do Google -->
+        <div id="mapContainer" style="width: 100%; height: 200px; background: #e2e8f0; border-radius: 12px; margin-bottom: 16px; display: none; overflow: hidden; position: relative;">
+          <iframe id="googleMap" width="100%" height="100%" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            🏥 Unidades próximas
+          </div>
         </div>
         
+        <!-- Loading -->
+        <div id="locationStatus" style="text-align: center; padding: 40px 20px; color: #64748b; background: #f8fafc; border-radius: 16px; border: 2px dashed #e2e8f0;">
+          <div style="font-size: 48px; margin-bottom: 16px; animation: bounce 1s infinite;">🗺️</div>
+          <p style="font-weight: 600; color: #0f172a;">Detectando sua regiao...</p>
+          <p style="font-size: 13px; margin-top: 8px;">Buscando hospitais e postos de saude proximos</p>
+        </div>
+        
+        <!-- Lista de Hospitais -->
         <div id="hospitalsList" class="options-list" style="display: none; margin-top: 16px;">
           <!-- Hospitais serao carregados aqui -->
         </div>
         
-        <div id="hospitalError" style="display: none; text-align: center; padding: 20px;">
-          <p style="color: #ef4444; margin-bottom: 12px;">Nao foi possivel obter sua localizacao automaticamente.</p>
-          <input type="text" class="input-field" id="manualHospital" placeholder="Digite o nome do hospital" style="margin-bottom: 12px;">
-          <button class="btn btn-primary" onclick="submitManualHospital()">Confirmar Hospital</button>
+        <!-- Erro - Entrada Manual -->
+        <div id="hospitalError" style="display: none; background: #fef2f2; border: 1px solid #fecaca; border-radius: 16px; padding: 20px; text-align: center;">
+          <div style="font-size: 32px; margin-bottom: 8px;">⚠️</div>
+          <p style="color: #dc2626; margin-bottom: 12px; font-weight: 600;">Nao foi possivel detectar automaticamente</p>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Digite o nome do hospital ou clinica mais proxima da sua casa</p>
+          <input type="text" class="input-field" id="manualHospital" placeholder="Ex: Hospital Municipal, UPA, Clinica..." style="margin-bottom: 12px;">
+          <button class="btn btn-primary" onclick="submitManualHospital()">Confirmar Unidade</button>
         </div>
         
-        <button class="btn btn-primary" onclick="startProcessing()" id="btnHospital" disabled style="margin-top: 16px; display: none;">Gerar Atestado →</button>
+        <button class="btn btn-primary" onclick="startProcessing()" id="btnHospital" disabled style="margin-top: 16px; display: none;">✓ Confirmar e Gerar Atestado →</button>
       </div>
 
     </div>
@@ -833,7 +835,7 @@
     let userData = { nome: '', cpf: '', email: '', sintoma: '', dias: 2, hospital: '' };
 
     document.addEventListener('DOMContentLoaded', function() {
-      for (let i = 2; i <= 17; i++) {
+      for (let i = 2; i <= 16; i++) {
         const step = document.getElementById('step-' + i);
         if (step) step.classList.add('hidden');
       }
@@ -854,20 +856,20 @@
       updateProgress(stepNum);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Inicializa canvas de assinatura quando chegar no step 14
-      if (stepNum === 14) {
+      // Inicializa canvas de assinatura quando chegar no step 13
+      if (stepNum === 13) {
         setTimeout(initSignatureCanvas, 100);
       }
       
-      // Busca hospitais quando chegar no step 16
-      if (stepNum === 16) {
+      // Busca hospitais quando chegar no step 15
+      if (stepNum === 15) {
         setTimeout(findNearbyHospitals, 500);
       }
     }
 
     function updateProgress(step) {
-      const map = { 1: 18, 2: 26, 3: 34, 4: 42, 5: 50, 6: 58, 7: 65, 8: 72, 9: 78, 10: 83, 11: 87, 12: 90, 13: 93, 14: 95, 15: 97, 16: 98, 17: 99 };
-      const msgs = { 1: 'Analisando sintoma...', 2: 'Avaliando tempo...', 3: 'Processando intensidade...', 4: 'Verificando alertas...', 5: 'Analisando tratamento...', 6: 'Avaliando risco...', 7: 'Calculando repouso...', 8: 'Definindo data...', 9: 'Selecionando CID...', 10: 'Validando dados...', 11: 'Verificando CPF...', 12: 'Confirmando email...', 13: 'Verificando termos...', 14: 'Processando assinatura...', 15: 'Calculando periodo...', 16: 'Buscando unidades de saude...', 17: 'Finalizando...' };
+      const map = { 1: 18, 2: 26, 3: 34, 4: 42, 5: 50, 6: 58, 7: 65, 8: 72, 9: 78, 10: 83, 11: 87, 12: 90, 13: 93, 14: 95, 15: 97, 16: 99 };
+      const msgs = { 1: 'Analisando sintoma...', 2: 'Avaliando tempo...', 3: 'Processando intensidade...', 4: 'Verificando alertas...', 5: 'Analisando tratamento...', 6: 'Avaliando risco...', 7: 'Calculando repouso...', 8: 'Definindo data...', 9: 'Selecionando CID...', 10: 'Validando dados...', 11: 'Confirmando email...', 12: 'Verificando termos...', 13: 'Processando assinatura...', 14: 'Calculando periodo...', 15: 'Buscando unidades de saude...', 16: 'Finalizando...' };
       const fill = document.getElementById('progressFill');
       const text = document.getElementById('progressText');
       if (fill) fill.style.width = (map[step] || 0) + '%';
@@ -1033,7 +1035,6 @@
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (emailRegex.test(userData.email)) {
         localStorage.setItem('atestado_nome', userData.nome);
-        localStorage.setItem('atestado_cpf', userData.cpf);
         localStorage.setItem('atestado_email', userData.email);
         localStorage.setItem('atestado_sintoma', userData.sintoma);
         goToStep(step + 1);
@@ -1540,11 +1541,20 @@
       const statusEl = document.getElementById('locationStatus');
       const listEl = document.getElementById('hospitalsList');
       const btnEl = document.getElementById('btnHospital');
+      const mapContainer = document.getElementById('mapContainer');
+      const googleMap = document.getElementById('googleMap');
       
       statusEl.style.display = 'none';
       listEl.style.display = 'flex';
       listEl.style.flexDirection = 'column';
       listEl.style.gap = '12px';
+      
+      // Mostra o mapa do Google com a cidade
+      if (mapContainer && googleMap) {
+        mapContainer.style.display = 'block';
+        const cidadeQuery = encodeURIComponent(cityData.cidade + ' ' + cityData.estado + ' hospitais postos de saude');
+        googleMap.src = 'https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d50000!2d-46.6333!3d-23.5505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s' + cidadeQuery + '!5e0!3m2!1spt-BR!2sbr!4v1600000000000!5m2!1spt-BR!2sbr';
+      }
       
       listEl.innerHTML = '';
       
@@ -1564,7 +1574,7 @@
             '<div style="font-size: 11px; color: #64748b; margin-top: 2px;">' +
               '📍 ' + hospital.bairro + ', ' + cityData.cidade + ' - ' + cityData.estado +
             '</div>' +
-            '<div class="hospital-distance" style="margin-top: 4px;">' + hospital.distance + ' de distância</div>' +
+            '<div class="hospital-distance" style="margin-top: 4px;">🚗 ' + hospital.distance + ' de distância</div>' +
           '</div>' +
           '<div class="hospital-check">✓</div>';
         listEl.appendChild(div);

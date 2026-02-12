@@ -1218,68 +1218,78 @@
         <div class="doc-body">
           <div class="doc-main-title">ATESTADO MÉDICO</div>
           
-          <div class="doc-text">
-            <!-- === CONTEÚDO VISÍVEL (SEM BLUR) === -->
+          <!-- LAYOUT COM OVERLAY DE BLOQUEIO ESPECÍFICO -->
+          <div class="doc-text" style="position: relative;">
             
-            <!-- Nome do Paciente -->
-            <div class="doc-row doc-highlight">
-              ATESTO PARA OS DEVIDOS FINS, A PEDIDO, QUE O(A) SR.(A) 
-              <span class="doc-field-large" id="docNome">_________________________________</span>
-            </div>
-            
-            <!-- Conteúdo borrado -->
-            <div class="doc-blur-content">
-              <div class="doc-row">
-                FOI ATENDIDO(A) NO DIA <span class="doc-field" id="docData">__________</span> 
+            <!-- PARTE BLOQUEADA (COM BLUR) -->
+            <div class="doc-blur-content" style="filter: blur(4px); opacity: 0.4; user-select: none;">
+              <div class="doc-row" style="margin-bottom: 8px;">
+                ATESTO PARA OS DEVIDOS FINS, A PEDIDO, QUE O(A) SR.(A) 
+                <span class="doc-field-large" style="min-width: 200px;">_________________________</span>
+              </div>
+              
+              <div class="doc-row" style="margin-bottom: 8px;">
+                FOI ATENDIDO(A) NO DIA <span class="doc-field">__________</span> 
                 ÀS <span class="doc-field">_______</span> HORAS,
               </div>
               
-              <div class="doc-row">
-                NECESSITANDO DE <span class="doc-field" id="docDias">___</span> 
-                (<span class="doc-field" id="docDiasExtenso">__________</span>) 
+              <div class="doc-row" style="margin-bottom: 8px;">
+                NECESSITANDO DE <span class="doc-field">___</span> 
+                (<span class="doc-field">__________</span>) 
                 DIAS DE REPOUSO POR MOTIVO DE DOENÇA.
               </div>
               
-              <div class="doc-row" style="margin-top: 16px;">
-                CID: <span class="doc-field" id="docCID">__________</span>
+              <div class="doc-row" style="margin-top: 8px;">
+                CID: <span class="doc-field">__________</span>
               </div>
             </div>
             
-            <!-- Assinatura do Paciente (VISÍVEL) -->
-            <div class="doc-signature-area doc-highlight" style="margin-top: 24px;">
-              <div class="doc-signature-title">Assinatura do Paciente</div>
-              <div class="doc-signature-line">
-                <img id="docAssinatura" src="" alt="Assinatura" style="display: none; max-height: 40px;">
+            <!-- NOME DO PACIENTE - VISÍVEL ACIMA DO BLUR -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; background: white; padding: 4px 0; z-index: 5;">
+              <div class="doc-row" style="margin: 0; line-height: 1.8;">
+                ATESTO PARA OS DEVIDOS FINS, A PEDIDO, QUE O(A) SR.(A) 
+                <span class="doc-field-large" id="docNome" style="display: inline-block; min-width: 200px; border-bottom: 1px solid #1e293b; font-weight: 700; color: #0f172a; font-family: 'Courier New', monospace; padding: 0 4px;">_________________________________</span>
               </div>
-              <div class="doc-signature-label">Local e Data</div>
             </div>
             
-            <!-- Assinatura do Médico (VISÍVEL) - Mais convincente -->
-            <div class="doc-doctor-signature doc-highlight" style="margin-top: 20px;">
-              <div class="doc-doctor-box">
-                <div class="doc-signature-title">Assinatura e Carimbo do Médico</div>
-                <div style="position: relative; height: 50px; margin-bottom: 4px;">
-                  <!-- Assinatura SVG mais elaborada -->
-                  <svg class="doctor-signature-img" viewBox="0 0 250 70" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">
-                    <!-- Linha de assinatura fluida -->
-                    <path d="M10,45 C20,20 40,55 60,35 C80,15 100,50 120,40 C140,30 160,45 180,35 C200,25 220,40 240,30" 
-                          stroke="#1e293b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- Rabiscos de caneta -->
-                    <path d="M50,50 C55,45 60,48 65,52" stroke="#1e293b" stroke-width="1.5" fill="none" opacity="0.7"/>
-                    <path d="M150,48 C155,42 160,46 165,50" stroke="#1e293b" stroke-width="1.5" fill="none" opacity="0.6"/>
-                    <path d="M200,42 C205,38 210,44 215,40" stroke="#1e293b" stroke-width="1.8" fill="none" opacity="0.8"/>
-                  </svg>
+            <!-- ESPAÇO PARA ASSINATURAS -->
+            <div style="margin-top: 40px; position: relative; z-index: 5;">
+              
+              <!-- Assinatura do Paciente - VISÍVEL -->
+              <div class="doc-signature-area" style="margin-top: 30px; background: white; padding: 10px 0;">
+                <div class="doc-signature-title" style="font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 8px;">Assinatura do Paciente</div>
+                <div class="doc-signature-line" style="border-bottom: 1px solid #1e293b; height: 45px; display: flex; align-items: flex-end; justify-content: center; margin-bottom: 4px;">
+                  <img id="docAssinatura" src="" alt="Assinatura" style="display: none; max-height: 40px; max-width: 90%;">
                 </div>
-                <div style="border-bottom: 1px solid #1e293b; margin-bottom: 4px;"></div>
-                <div class="doctor-name" style="font-size: 11px; font-weight: 700;">Dr. Ricardo Almeida</div>
-                <div class="doctor-crm" style="font-size: 10px;">CRM: 45.782-SP</div>
+                <div class="doc-signature-label" style="font-size: 9px; color: #64748b; text-align: center;">Local e Data</div>
               </div>
-            </div>
-            
-            <!-- Carimbo do Médico (VISÍVEL) -->
-            <div class="doc-stamp doc-highlight" style="position: relative; bottom: auto; right: auto; margin: 20px auto 0; width: 100px; height: 100px;">
-              <div class="doc-stamp-text">CLÍNICA MÉDICA<br>DR. RICARDO ALMEIDA</div>
-              <div class="doc-stamp-crm">CRM: 45.782</div>
+              
+              <!-- Assinatura do Médico - VISÍVEL -->
+              <div class="doc-doctor-signature" style="margin-top: 20px; background: white; padding: 10px 0;">
+                <div style="text-align: right; max-width: 200px; margin-left: auto;">
+                  <div style="font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Assinatura e Carimbo do Médico</div>
+                  
+                  <!-- Assinatura SVG -->
+                  <div style="border-bottom: 1px solid #1e293b; height: 45px; position: relative; margin-bottom: 4px;">
+                    <svg viewBox="0 0 250 70" xmlns="http://www.w3.org/2000/svg" style="position: absolute; bottom: 0; right: 0; width: 100%; height: 100%;">
+                      <path d="M10,45 C20,20 40,55 60,35 C80,15 100,50 120,40 C140,30 160,45 180,35 C200,25 220,40 240,30" 
+                            stroke="#1e293b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M50,50 C55,45 60,48 65,52" stroke="#1e293b" stroke-width="1.5" fill="none" opacity="0.7"/>
+                      <path d="M150,48 C155,42 160,46 165,50" stroke="#1e293b" stroke-width="1.5" fill="none" opacity="0.6"/>
+                    </svg>
+                  </div>
+                  
+                  <div style="font-size: 11px; font-weight: 700; color: #0f172a;">Dr. Ricardo Almeida</div>
+                  <div style="font-size: 10px; color: #64748b;">CRM: 45.782-SP</div>
+                </div>
+              </div>
+              
+              <!-- Carimbo do Médico - VISÍVEL -->
+              <div style="margin: 20px auto 0; width: 90px; height: 90px; border: 2px solid #ef4444; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(-15deg); opacity: 0.8; background: rgba(254, 242, 242, 0.9);">
+                <div style="font-size: 7px; color: #ef4444; text-align: center; font-weight: 700; line-height: 1.2;">CLÍNICA MÉDICA<br>DR. RICARDO ALMEIDA</div>
+                <div style="font-size: 9px; color: #dc2626; font-weight: 800; margin-top: 2px;">CRM: 45.782</div>
+              </div>
+              
             </div>
           </div>
 
@@ -1323,6 +1333,53 @@
         <span>PAGAR R$ 19,90 VIA PIX</span>
       </button>
       <p class="pay-subtext">🔓 Liberar documento imediatamente • Download em segundos</p>
+      
+      <!-- Transformation Table (MOVIDO PARA ABAIXO DO BOTÃO) -->
+      <div class="transformation-section" style="margin-top: 32px;">
+        <h2 class="transformation-title">Sua Transformação com <span>Atestado Digital</span></h2>
+        <div class="transformation-table">
+          <div class="transformation-header">
+            <div>Benefício</div>
+            <div class="with">Com Atestado</div>
+            <div class="without">Sem</div>
+          </div>
+          <div class="transformation-row">
+            <div class="transformation-item">Repouso médico garantido</div>
+            <div class="transformation-check yes">✓</div>
+            <div class="transformation-check no">✗</div>
+          </div>
+          <div class="transformation-row">
+            <div class="transformation-item">Validade nacional</div>
+            <div class="transformation-check yes">✓</div>
+            <div class="transformation-check no">✗</div>
+          </div>
+          <div class="transformation-row">
+            <div class="transformation-item">Aceito pelo INSS</div>
+            <div class="transformation-check yes">✓</div>
+            <div class="transformation-check no">✗</div>
+          </div>
+          <div class="transformation-row">
+            <div class="transformation-item">Assinatura digital ICP</div>
+            <div class="transformation-check yes">✓</div>
+            <div class="transformation-check no">✗</div>
+          </div>
+          <div class="transformation-row">
+            <div class="transformation-item">QR Code de validação</div>
+            <div class="transformation-check yes">✓</div>
+            <div class="transformation-check no">✗</div>
+          </div>
+          <div class="transformation-row">
+            <div class="transformation-item">Download imediato (PDF)</div>
+            <div class="transformation-check yes">✓</div>
+            <div class="transformation-check no">✗</div>
+          </div>
+          <div class="transformation-row">
+            <div class="transformation-item">Envio por e-mail</div>
+            <div class="transformation-check yes">✓</div>
+            <div class="transformation-check no">✗</div>
+          </div>
+        </div>
+      </div>
     </div>
     
     <!-- Guarantee -->
@@ -1420,53 +1477,6 @@
     <div class="social-counter">
       <div class="social-counter-number">47.832+</div>
       <div class="social-counter-text">atestados emitidos com sucesso em 2024</div>
-    </div>
-
-    <!-- Transformation Table -->
-    <div class="transformation-section">
-      <h2 class="transformation-title">Sua Transformação com <span>Atestado Digital</span></h2>
-      <div class="transformation-table">
-        <div class="transformation-header">
-          <div>Benefício</div>
-          <div class="with">Com Atestado</div>
-          <div class="without">Sem</div>
-        </div>
-        <div class="transformation-row">
-          <div class="transformation-item">Repouso médico garantido</div>
-          <div class="transformation-check yes">✓</div>
-          <div class="transformation-check no">✗</div>
-        </div>
-        <div class="transformation-row">
-          <div class="transformation-item">Validade nacional</div>
-          <div class="transformation-check yes">✓</div>
-          <div class="transformation-check no">✗</div>
-        </div>
-        <div class="transformation-row">
-          <div class="transformation-item">Aceito pelo INSS</div>
-          <div class="transformation-check yes">✓</div>
-          <div class="transformation-check no">✗</div>
-        </div>
-        <div class="transformation-row">
-          <div class="transformation-item">Assinatura digital ICP</div>
-          <div class="transformation-check yes">✓</div>
-          <div class="transformation-check no">✗</div>
-        </div>
-        <div class="transformation-row">
-          <div class="transformation-item">QR Code de validação</div>
-          <div class="transformation-check yes">✓</div>
-          <div class="transformation-check no">✗</div>
-        </div>
-        <div class="transformation-row">
-          <div class="transformation-item">Download imediato (PDF)</div>
-          <div class="transformation-check yes">✓</div>
-          <div class="transformation-check no">✗</div>
-        </div>
-        <div class="transformation-row">
-          <div class="transformation-item">Envio por e-mail</div>
-          <div class="transformation-check yes">✓</div>
-          <div class="transformation-check no">✗</div>
-        </div>
-      </div>
     </div>
 
     <!-- FAQ Section (NO FINAL) -->
