@@ -90,7 +90,21 @@
     .alert-danger { background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; }
     .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
     
-    .loading-overlay { position: fixed; inset: 0; background: #0f172a; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 32px; z-index: 1000; padding: 24px; }
+    .loading-overlay { 
+      position: fixed; 
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #0f172a; 
+      display: none; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 32px; 
+      z-index: 1000; 
+      padding: 24px; 
+    }
+    .loading-overlay.active { 
+      display: flex !important; 
+    }
     .loading-overlay[style*="flex"] { display: flex !important; }
     .loading-icon { width: 80px; height: 80px; position: relative; }
     .loading-spinner { width: 100%; height: 100%; border: 4px solid rgba(255,255,255,0.1); border-top-color: #10b981; border-radius: 50%; animation: spin 1s linear infinite; }
@@ -601,6 +615,11 @@
       currentStep = stepNum;
       updateProgress(stepNum);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Inicializa canvas de assinatura quando chegar no step 14
+      if (stepNum === 14) {
+        setTimeout(initSignatureCanvas, 100);
+      }
     }
 
     function updateProgress(step) {
@@ -767,15 +786,36 @@
     function initSignatureCanvas() {
       canvas = document.getElementById('signatureCanvas');
       if (!canvas) return;
+      
+      // Garante que o canvas está visível antes de pegar dimensões
       const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        console.log('Canvas não está visível ainda, tentando novamente...');
+        setTimeout(initSignatureCanvas, 200);
+        return;
+      }
+      
+      // Define dimensões com alta resolução para retina
       canvas.width = rect.width * 2;
       canvas.height = rect.height * 2;
+      
       ctx = canvas.getContext('2d');
       ctx.scale(2, 2);
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
+      
+      // Remove listeners antigos para evitar duplicação
+      canvas.removeEventListener('mousedown', startDrawing);
+      canvas.removeEventListener('mousemove', draw);
+      canvas.removeEventListener('mouseup', stopDrawing);
+      canvas.removeEventListener('mouseleave', stopDrawing);
+      canvas.removeEventListener('touchstart', handleTouch);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchend', stopDrawing);
+      
+      // Adiciona listeners
       canvas.addEventListener('mousedown', startDrawing);
       canvas.addEventListener('mousemove', draw);
       canvas.addEventListener('mouseup', stopDrawing);
@@ -783,12 +823,25 @@
       canvas.addEventListener('touchstart', handleTouch, { passive: false });
       canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
       canvas.addEventListener('touchend', stopDrawing);
+      
+      console.log('Canvas de assinatura inicializado:', rect.width, 'x', rect.height);
     }
 
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
-      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-      const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+      let clientX, clientY;
+      
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
       return { x: clientX - rect.left, y: clientY - rect.top };
     }
 
@@ -858,13 +911,28 @@
     }
 
     function startProcessing() {
+      // Salva todos os dados no localStorage
       localStorage.setItem('atestado_dias', userData.dias);
+      localStorage.setItem('atestado_nome', userData.nome);
+      localStorage.setItem('atestado_cpf', userData.cpf);
+      localStorage.setItem('atestado_email', userData.email);
+      localStorage.setItem('atestado_sintoma', userData.sintoma);
+      
+      // Esconde todos os elementos da página
       const quizContainer = document.querySelector('.quiz-container');
       const progressWrapper = document.querySelector('.progress-wrapper');
-      if (quizContainer) quizContainer.classList.add('hidden');
-      if (progressWrapper) progressWrapper.classList.add('hidden');
+      const header = document.querySelector('.header');
+      if (quizContainer) quizContainer.style.display = 'none';
+      if (progressWrapper) progressWrapper.style.display = 'none';
+      if (header) header.style.display = 'none';
+      
+      // Mostra a tela de carregamento
       const loading = document.getElementById('loadingScreen');
-      if (loading) loading.classList.remove('hidden');
+      if (loading) {
+        loading.style.display = 'flex';
+        loading.classList.add('active');
+        console.log('Tela de carregamento ativada');
+      }
       const steps = [
         { pct: 15, text: 'Analisando padroes de sintomas...', delay: 700 },
         { pct: 30, text: 'Verificando historico clinico...', delay: 600 },

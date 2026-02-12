@@ -1,0 +1,176 @@
+================================================================================
+  CORREÇÕES APLICADAS - ATESTADO MÉDICO DIGITAL
+================================================================================
+
+DATA: 2026-02-12
+STATUS: ✅ PRONTO PARA DEPLOY
+
+================================================================================
+1. ASSINATURA DIGITAL (CORRIGIDO ✅)
+================================================================================
+
+PROBLEMA: 
+  - A assinatura do paciente não estava sendo salva
+  - O documento final não exibia a assinatura
+
+SOLUÇÃO APLICADA:
+  - Função submitSignature() no quiz.html atualizada
+  - Agora salva a assinatura como base64 no localStorage
+  - Chave: 'atestado_assinatura'
+
+ARQUIVOS MODIFICADOS:
+  ✓ quiz.html (linha ~877)
+  ✓ src/scripts/quiz.js (sincronizado)
+
+TESTE:
+  1. Complete o quiz até o passo 14 (Assinatura)
+  2. Desenhe uma assinatura no canvas
+  3. Clique "Confirmar Assinatura"
+  4. No resultado.html, a assinatura deve aparecer no documento
+
+================================================================================
+2. TELA DE CARREGAMENTO (CORRIGIDO ✅)
+================================================================================
+
+PROBLEMA:
+  - A tela "IA Médica Processando..." não aparecia
+  - O usuário era redirecionado sem ver o loading
+
+SOLUÇÃO APLICADA:
+  - CSS da loading-overlay corrigido para cross-browser
+  - Agora usa: top/left/right/bottom em vez de 'inset'
+  - Classe .active adicionada para garantir exibição
+  - Header agora é ocultado antes de mostrar o loading
+
+ARQUIVOS MODIFICADOS:
+  ✓ quiz.html (CSS linha ~93, JavaScript linha ~917)
+  ✓ src/scripts/quiz.js (sincronizado)
+
+TESTE:
+  1. Complete todo o quiz
+  2. No passo 15, selecione os dias de repouso
+  3. A tela de carregamento DEVE aparecer com:
+     - Spinner animado
+     - Texto "IA Medica Processando..."
+     - Barra de progresso
+     - Status atualizando
+  4. Após ~5 segundos, redireciona para resultado.html
+
+================================================================================
+3. SALVAMENTO DE DADOS (CORRIGIDO ✅)
+================================================================================
+
+PROBLEMA:
+  - Alguns dados não estavam sendo salvos no localStorage
+  - O resultado.html não recebia todos os dados
+
+SOLUÇÃO APLICADA:
+  - Função startProcessing() agora salva TODOS os dados:
+    * atestado_nome
+    * atestado_cpf
+    * atestado_email
+    * atestado_sintoma
+    * atestado_dias
+    * atestado_assinatura
+
+ARQUIVOS MODIFICADOS:
+  ✓ quiz.html (função startProcessing)
+  ✓ src/scripts/quiz.js (sincronizado)
+
+TESTE:
+  1. Complete o quiz todo
+  2. Abra o console do navegador (F12)
+  3. Digite: localStorage.getItem('atestado_nome')
+  4. Digite: localStorage.getItem('atestado_assinatura')
+  5. Todos devem retornar valores válidos
+
+================================================================================
+4. BUILD ATUALIZADO (CORRIGIDO ✅)
+================================================================================
+
+MELHORIA:
+  - build.js agora copia pastas src/ e public/ para dist/
+  - Isso garante que imagens e scripts sejam incluídos
+
+ARQUIVOS MODIFICADOS:
+  ✓ build.js
+  ✓ dist/ (reconstruído com todas as correções)
+
+================================================================================
+COMO FAZER O DEPLOY
+================================================================================
+
+OPÇÃO 1: DEPLOY AUTOMÁTICO (GitHub) ⭐ RECOMENDADO
+--------------------------------------------------
+Se seu repositório já está conectado ao Vercel:
+
+  git add .
+  git commit -m "Correções: assinatura, loading e dados"
+  git push origin main
+
+O deploy será automático via GitHub Actions!
+
+OPÇÃO 2: DEPLOY MANUAL (Vercel CLI)
+------------------------------------
+1. Faça login no Vercel:
+   
+   vercel login
+
+2. Na pasta do projeto, execute:
+   
+   cd atestado-medico
+   vercel --prod
+
+3. Siga as instruções na tela
+
+OPÇÃO 3: REDEPLOY VIA DASHBOARD
+--------------------------------
+1. Acesse: https://vercel.com/dashboard
+2. Encontre o projeto "atestado-medico-digital"
+3. Clique em "Redeploy" no último deployment
+
+================================================================================
+VERIFICAÇÃO PÓS-DEPLOY
+================================================================================
+
+Após o deploy, teste o fluxo completo:
+
+1. Acesse o site
+2. Clique "Iniciar Avaliação"
+3. Responda todas as perguntas
+4. NO PASSO 14 (Assinatura):
+   - Desenhe uma assinatura
+   - Clique "Confirmar"
+5. NO PASSO 15 (Dias):
+   - Selecione um período
+   - VERIFIQUE: A tela de loading aparece!
+6. NO RESULTADO:
+   - Verifique se seus dados aparecem
+   - Verifique se a assinatura aparece no documento
+   - O documento deve mostrar seu nome e CPF
+
+================================================================================
+ARQUIVOS ALTERADOS NESTA SESSÃO
+================================================================================
+
+MODIFICADOS:
+  • quiz.html
+  • src/scripts/quiz.js
+  • build.js
+  • DEPLOY-ATUALIZACAO.md (novo)
+  • RESUMO-CORRECOES.txt (este arquivo)
+
+PASTA DIST ATUALIZADA:
+  • dist/quiz.html (com todas as correções)
+  • dist/src/scripts/quiz.js (sincronizado)
+
+================================================================================
+PRECISA DE AJUDA?
+================================================================================
+
+1. Verifique o console do navegador (F12) por erros
+2. Confira se os dados estão no localStorage
+3. Verifique se o build foi executado: node build.js
+4. Consulte DEPLOY-ATUALIZACAO.md para mais detalhes
+
+================================================================================

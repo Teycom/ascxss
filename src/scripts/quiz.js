@@ -433,7 +433,11 @@ function clearSignature() {
 }
 
 function submitSignature(step) {
-  if (hasSigned) {
+  if (hasSigned && canvas) {
+    // Salva a assinatura como imagem base64 no localStorage
+    const signatureData = canvas.toDataURL('image/png');
+    localStorage.setItem('atestado_assinatura', signatureData);
+    console.log('Assinatura salva no localStorage');
     goToStep(step + 1);
   }
 }
@@ -465,15 +469,31 @@ function selectDays(days) {
 // PROCESSAMENTO FINAL
 // ========================================
 function startProcessing() {
+  // Salva os dados no localStorage
   localStorage.setItem('atestado_dias', userData.dias);
+  localStorage.setItem('atestado_nome', userData.nome);
+  localStorage.setItem('atestado_cpf', userData.cpf);
+  localStorage.setItem('atestado_email', userData.email);
+  localStorage.setItem('atestado_sintoma', userData.sintoma);
+  
+  console.log('Dados salvos:', userData);
 
+  // Esconde todos os elementos da página
   const quizContainer = document.querySelector('.quiz-container');
   const progressWrapper = document.querySelector('.progress-wrapper');
+  const header = document.querySelector('.header');
+  
   if (quizContainer) quizContainer.style.display = 'none';
   if (progressWrapper) progressWrapper.style.display = 'none';
+  if (header) header.style.display = 'none';
 
+  // Mostra a tela de carregamento
   const loading = document.getElementById('loadingScreen');
-  if (loading) loading.style.display = 'flex';
+  if (loading) {
+    loading.style.display = 'flex';
+    loading.classList.add('active');
+    console.log('Tela de carregamento ativada');
+  }
 
   const steps = [
     { pct: 15, text: 'Analisando padrões de sintomas...', delay: 700 },
