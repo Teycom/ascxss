@@ -782,7 +782,7 @@
           <button class="btn btn-primary" onclick="submitManualHospital()">Confirmar Unidade</button>
         </div>
         
-        <button class="btn btn-primary" onclick="startProcessing()" id="btnHospital" disabled style="margin-top: 16px; display: none;">✓ Confirmar e Gerar Atestado →</button>
+        <button class="btn btn-primary" onclick="console.log('Botão clicado!'); startProcessing();" id="btnHospital" disabled style="margin-top: 16px; display: none;">✓ Confirmar e Gerar Atestado →</button>
       </div>
 
     </div>
@@ -1611,13 +1611,21 @@
     }
 
     function startProcessing() {
+      console.log('=== startProcessing CHAMADO ===');
+      console.log('Dados:', userData);
+      
       // Salva todos os dados no localStorage
-      localStorage.setItem('atestado_dias', userData.dias);
-      localStorage.setItem('atestado_nome', userData.nome);
-      localStorage.setItem('atestado_cpf', userData.cpf);
-      localStorage.setItem('atestado_email', userData.email);
-      localStorage.setItem('atestado_sintoma', userData.sintoma);
-      localStorage.setItem('atestado_hospital', userData.hospital || 'Hospital Regional');
+      try {
+        localStorage.setItem('atestado_dias', userData.dias || 2);
+        localStorage.setItem('atestado_nome', userData.nome || 'Paciente');
+        localStorage.setItem('atestado_email', userData.email || '');
+        localStorage.setItem('atestado_sintoma', userData.sintoma || 'Geral');
+        localStorage.setItem('atestado_hospital', userData.hospital || 'Hospital Regional');
+        localStorage.setItem('atestado_assinatura', localStorage.getItem('atestado_assinatura') || '');
+        console.log('Dados salvos no localStorage com sucesso!');
+      } catch (e) {
+        console.error('Erro ao salvar no localStorage:', e);
+      }
       
       // Esconde todos os elementos da página
       const quizContainer = document.querySelector('.quiz-container');
@@ -1633,9 +1641,11 @@
         loading.style.display = 'flex';
         loading.classList.add('active');
         console.log('Tela de carregamento ativada');
+      } else {
+        console.error('Elemento loadingScreen não encontrado!');
       }
       
-      // Novo fluxo de carregamento animado
+      // Fluxo de carregamento animado
       const steps = [
         { pct: 10, text: 'Analisando padrões de sintomas', step: 1 },
         { pct: 25, text: 'Verificando histórico clínico', step: 1 },
@@ -1663,8 +1673,12 @@
       }
       
       function runStep() {
+        console.log('RunStep:', current, 'de', steps.length);
         if (current >= steps.length) {
-          setTimeout(function() { window.location.href = 'resultado.html'; }, 600);
+          console.log('=== REDIRECIONANDO PARA resultado.html ===');
+          setTimeout(function() { 
+            window.location.href = 'resultado.html'; 
+          }, 600);
           return;
         }
         const stepData = steps[current];
