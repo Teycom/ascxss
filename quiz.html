@@ -1621,75 +1621,62 @@
         localStorage.setItem('atestado_email', userData.email || '');
         localStorage.setItem('atestado_sintoma', userData.sintoma || 'Geral');
         localStorage.setItem('atestado_hospital', userData.hospital || 'Hospital Regional');
-        localStorage.setItem('atestado_assinatura', localStorage.getItem('atestado_assinatura') || '');
-        console.log('Dados salvos no localStorage com sucesso!');
+        console.log('Dados salvos com sucesso!');
       } catch (e) {
-        console.error('Erro ao salvar no localStorage:', e);
+        console.error('Erro:', e);
       }
       
-      // Esconde todos os elementos da página
-      const quizContainer = document.querySelector('.quiz-container');
-      const progressWrapper = document.querySelector('.progress-wrapper');
-      const header = document.querySelector('.header');
-      if (quizContainer) quizContainer.style.display = 'none';
-      if (progressWrapper) progressWrapper.style.display = 'none';
-      if (header) header.style.display = 'none';
+      // Esconde a página
+      document.querySelector('.quiz-container').style.display = 'none';
+      document.querySelector('.progress-wrapper').style.display = 'none';
+      document.querySelector('.header').style.display = 'none';
       
-      // Mostra a tela de carregamento
+      // Mostra loading
       const loading = document.getElementById('loadingScreen');
-      if (loading) {
-        loading.style.display = 'flex';
-        loading.classList.add('active');
-        console.log('Tela de carregamento ativada');
-      } else {
-        console.error('Elemento loadingScreen não encontrado!');
-      }
+      loading.style.display = 'flex';
+      loading.classList.add('active');
       
-      // Fluxo de carregamento animado
-      const steps = [
-        { pct: 10, text: 'Analisando padrões de sintomas', step: 1 },
-        { pct: 25, text: 'Verificando histórico clínico', step: 1 },
-        { pct: 40, text: 'Calculando necessidade de repouso', step: 2 },
-        { pct: 55, text: 'Selecionando CID mais adequado', step: 2 },
-        { pct: 70, text: 'Gerando documento digital', step: 3 },
-        { pct: 85, text: 'Assinando digitalmente', step: 4 },
-        { pct: 95, text: 'Finalizando análise', step: 4 },
-        { pct: 100, text: 'Redirecionando...', step: 5 }
-      ];
-      
-      let current = 0;
+      // Animação simples
+      let pct = 0;
       const progress = document.getElementById('loadingProgress');
       const status = document.getElementById('loadingStatus');
       const percentage = document.getElementById('loadingPercentage');
       
-      function updateStepIndicators(activeStep) {
+      const mensagens = [
+        'Analisando padrões de sintomas',
+        'Verificando histórico clínico',
+        'Calculando necessidade de repouso',
+        'Selecionando CID mais adequado',
+        'Gerando documento digital',
+        'Assinando digitalmente',
+        'Finalizando análise',
+        'Redirecionando...'
+      ];
+      
+      const interval = setInterval(function() {
+        pct += 12;
+        if (pct > 100) pct = 100;
+        
+        progress.style.width = pct + '%';
+        percentage.textContent = pct + '%';
+        
+        const msgIndex = Math.floor((pct / 100) * mensagens.length);
+        status.textContent = mensagens[Math.min(msgIndex, mensagens.length - 1)];
+        
+        // Atualiza steps visuais
         for (let i = 1; i <= 5; i++) {
           const stepEl = document.getElementById('step' + i);
-          if (stepEl) {
-            if (i <= activeStep) stepEl.classList.add('active');
-            else stepEl.classList.remove('active');
-          }
+          if (stepEl && (i * 20) <= pct) stepEl.classList.add('active');
         }
-      }
-      
-      function runStep() {
-        console.log('RunStep:', current, 'de', steps.length);
-        if (current >= steps.length) {
-          console.log('=== REDIRECIONANDO PARA resultado.html ===');
-          setTimeout(function() { 
-            window.location.href = 'resultado.html'; 
-          }, 600);
-          return;
+        
+        if (pct >= 100) {
+          clearInterval(interval);
+          console.log('Redirecionando...');
+          setTimeout(function() {
+            window.location.replace('resultado.html');
+          }, 800);
         }
-        const stepData = steps[current];
-        if (progress) progress.style.width = stepData.pct + '%';
-        if (status) status.textContent = stepData.text;
-        if (percentage) percentage.textContent = stepData.pct + '%';
-        updateStepIndicators(stepData.step);
-        current++;
-        setTimeout(runStep, 600);
-      }
-      runStep();
+      }, 400);
     }
 
     function showAlert(id, message) {
