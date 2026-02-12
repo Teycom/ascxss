@@ -90,6 +90,34 @@
     .alert-danger { background: #fef2f2; border-left: 4px solid #ef4444; color: #991b1b; }
     .alert-info { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e40af; }
     
+    .alert-with-button { flex-direction: column; align-items: stretch; }
+    .alert-with-button .alert-content-wrapper { display: flex; align-items: flex-start; gap: 12px; }
+    .alert-continue-btn { 
+      margin-top: 12px; 
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+      color: white; 
+      border: none; 
+      padding: 12px 24px; 
+      border-radius: 10px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+      transition: all 0.2s ease;
+    }
+    .alert-continue-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(16,185,129,0.4); }
+    
+    .hospital-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: white; border: 2px solid #e2e8f0; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; }
+    .hospital-item:hover { border-color: #10b981; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .hospital-item.selected { border-color: #10b981; background: #ecfdf5; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+    .hospital-icon { width: 48px; height: 48px; background: #fef2f2; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+    .hospital-content { flex: 1; }
+    .hospital-name { font-weight: 600; font-size: 15px; color: #1e293b; margin-bottom: 2px; }
+    .hospital-address { font-size: 12px; color: #64748b; }
+    .hospital-distance { font-size: 12px; color: #10b981; font-weight: 600; }
+    .hospital-check { width: 28px; height: 28px; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; opacity: 0; transform: scale(0); transition: all 0.2s ease; }
+    .hospital-item.selected .hospital-check { opacity: 1; transform: scale(1); }
+    
     .loading-overlay { 
       position: fixed; 
       top: 0; left: 0; right: 0; bottom: 0;
@@ -692,6 +720,24 @@
             <div class="option-check">✓</div>
           </div>
           
+          <div class="option-item" data-value="7" onclick="selectDays(7)">
+            <div class="option-icon" style="background: #bfdbfe;">7️⃣</div>
+            <div class="option-content">
+              <div class="option-title">7 dias (1 semana)</div>
+              <div class="option-desc">Repouso prolongado</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
+          <div class="option-item" data-value="14" onclick="selectDays(14)">
+            <div class="option-icon" style="background: #ddd6fe;">📅</div>
+            <div class="option-content">
+              <div class="option-title">14 dias (2 semanas)</div>
+              <div class="option-desc">Recuperação completa</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          
           <div class="option-item" data-value="ia" onclick="selectDays('ia')">
             <div class="option-icon" style="background: #dbeafe;">🤖</div>
             <div class="option-content">
@@ -701,6 +747,28 @@
             <div class="option-check">✓</div>
           </div>
         </div>
+      </div>
+
+      <div class="step-card hidden" id="step-16">
+        <h2 class="step-title">Selecione o hospital mais proximo de voce</h2>
+        <p class="step-subtitle">Estamos localizando unidades de saude na sua regiao</p>
+        
+        <div id="locationStatus" style="text-align: center; padding: 20px; color: #64748b;">
+          <div style="font-size: 32px; margin-bottom: 12px;">📍</div>
+          <p>Buscando sua localizacao...</p>
+        </div>
+        
+        <div id="hospitalsList" class="options-list" style="display: none; margin-top: 16px;">
+          <!-- Hospitais serao carregados aqui -->
+        </div>
+        
+        <div id="hospitalError" style="display: none; text-align: center; padding: 20px;">
+          <p style="color: #ef4444; margin-bottom: 12px;">Nao foi possivel obter sua localizacao automaticamente.</p>
+          <input type="text" class="input-field" id="manualHospital" placeholder="Digite o nome do hospital" style="margin-bottom: 12px;">
+          <button class="btn btn-primary" onclick="submitManualHospital()">Confirmar Hospital</button>
+        </div>
+        
+        <button class="btn btn-primary" onclick="goToStep(17)" id="btnHospital" disabled style="margin-top: 16px; display: none;">Continuar →</button>
       </div>
 
     </div>
@@ -750,10 +818,10 @@
     let painLevel = 5;
     let canvas, ctx, isDrawing = false;
 
-    let userData = { nome: '', cpf: '', email: '', sintoma: '', dias: 2 };
+    let userData = { nome: '', cpf: '', email: '', sintoma: '', dias: 2, hospital: '' };
 
     document.addEventListener('DOMContentLoaded', function() {
-      for (let i = 2; i <= 15; i++) {
+      for (let i = 2; i <= 17; i++) {
         const step = document.getElementById('step-' + i);
         if (step) step.classList.add('hidden');
       }
@@ -762,7 +830,7 @@
     });
 
     function goToStep(stepNum) {
-      if (stepNum < 1 || stepNum > 15) return;
+      if (stepNum < 1 || stepNum > 17) return;
       const currentEl = document.getElementById('step-' + currentStep);
       if (currentEl) currentEl.classList.add('hidden');
       const nextEl = document.getElementById('step-' + stepNum);
@@ -778,11 +846,16 @@
       if (stepNum === 14) {
         setTimeout(initSignatureCanvas, 100);
       }
+      
+      // Busca hospitais quando chegar no step 16
+      if (stepNum === 16) {
+        setTimeout(findNearbyHospitals, 500);
+      }
     }
 
     function updateProgress(step) {
-      const map = { 1: 20, 2: 30, 3: 40, 4: 48, 5: 54, 6: 60, 7: 66, 8: 72, 9: 78, 10: 82, 11: 86, 12: 90, 13: 93, 14: 96, 15: 98 };
-      const msgs = { 1: 'Analisando sintoma...', 2: 'Avaliando tempo...', 3: 'Processando intensidade...', 4: 'Verificando alertas...', 5: 'Analisando tratamento...', 6: 'Avaliando risco...', 7: 'Calculando repouso...', 8: 'Definindo data...', 9: 'Selecionando CID...', 10: 'Validando dados...', 11: 'Verificando CPF...', 12: 'Confirmando email...', 13: 'Verificando termos...', 14: 'Processando assinatura...', 15: 'Calculando periodo...' };
+      const map = { 1: 18, 2: 26, 3: 34, 4: 42, 5: 50, 6: 58, 7: 65, 8: 72, 9: 78, 10: 83, 11: 87, 12: 90, 13: 93, 14: 95, 15: 97, 16: 98, 17: 99 };
+      const msgs = { 1: 'Analisando sintoma...', 2: 'Avaliando tempo...', 3: 'Processando intensidade...', 4: 'Verificando alertas...', 5: 'Analisando tratamento...', 6: 'Avaliando risco...', 7: 'Calculando repouso...', 8: 'Definindo data...', 9: 'Selecionando CID...', 10: 'Validando dados...', 11: 'Verificando CPF...', 12: 'Confirmando email...', 13: 'Verificando termos...', 14: 'Processando assinatura...', 15: 'Calculando periodo...', 16: 'Buscando unidades de saude...', 17: 'Finalizando...' };
       const fill = document.getElementById('progressFill');
       const text = document.getElementById('progressText');
       if (fill) fill.style.width = (map[step] || 0) + '%';
@@ -791,20 +864,8 @@
 
     function selectOption(step, value, label) {
       console.log('selectOption:', step, value, label);
-      if (step === 1) {
-        userData.sintoma = label;
-        showAlert('alert-sintoma', 'Detectamos padrao de <strong>' + label + '</strong>. Iniciando protocolo...');
-      }
-      if (step === 5 && value === 'nada') {
-        showAlert('alert-remedio', '<strong>Atencao:</strong> Postergar tratamento pode aumentar o tempo de recuperacao.');
-        setTimeout(function() { goToStep(step + 1); }, 1500);
-        return;
-      }
-      if (step === 6 && value === 'maquinas') {
-        showAlert('alert-maquinas', '🚨 <strong>Risco de acidente detectado!</strong> Atestado prioritario indicado.');
-        setTimeout(function() { goToStep(step + 1); }, 1500);
-        return;
-      }
+      
+      // Seleciona visualmente a opção
       const stepEl = document.getElementById('step-' + step);
       if (stepEl) {
         const options = stepEl.querySelectorAll('.option-item');
@@ -813,7 +874,41 @@
           if (opt.getAttribute('data-value') === value) opt.classList.add('selected');
         });
       }
+      
+      // Step 1: Mostra mensagem com botão de continuar
+      if (step === 1) {
+        userData.sintoma = label;
+        showAlertWithButton('alert-sintoma', 'Detectamos padrao de <strong>' + label + '</strong>. Iniciando protocolo de analise medica.', step + 1);
+        return;
+      }
+      
+      // Step 5: Se selecionou 'nada', mostra alerta com botão
+      if (step === 5 && value === 'nada') {
+        showAlertWithButton('alert-remedio', '<strong>Atencao:</strong> Postergar tratamento pode aumentar o tempo de recuperacao e comprometer sua saude. Recomendamos iniciar o protocolo medico imediatamente.', step + 1);
+        return;
+      }
+      
+      // Step 6: Se selecionou 'maquinas', mostra alerta com botão
+      if (step === 6 && value === 'maquinas') {
+        showAlertWithButton('alert-maquinas', '🚨 <strong>Risco de acidente detectado!</strong> Operar maquinas ou veiculos com os sintomas apresentados pode colocar sua vida e a de outros em risco. Atestado prioritario indicado.', step + 1);
+        return;
+      }
+      
+      // Para outros steps, avança normalmente
       setTimeout(function() { goToStep(step + 1); }, 400);
+    }
+    
+    function showAlertWithButton(alertId, message, nextStep) {
+      const alert = document.getElementById(alertId);
+      if (alert) {
+        alert.className = 'alert alert-info alert-with-button';
+        alert.innerHTML = '<div class="alert-content-wrapper"><span class="alert-icon">💡</span><div class="alert-content">' + message + '</div></div><button class="alert-continue-btn" onclick="continueFromAlert(' + nextStep + ')">Continuar →</button>';
+        alert.style.display = 'flex';
+      }
+    }
+    
+    function continueFromAlert(nextStep) {
+      goToStep(nextStep);
     }
 
     function toggleCheckbox(element, value) {
@@ -1060,12 +1155,143 @@
         userData.dias = 2;
         showModal('🤖 IA Medica Recomenda', 'Baseado nos seus sintomas, recomendamos <strong>2 dias de repouso</strong>.', function() {
           closeModal();
-          startProcessing();
+          goToStep(16); // Vai para seleção de hospital
         });
       } else {
         userData.dias = days;
-        setTimeout(startProcessing, 400);
+        setTimeout(function() { goToStep(16); }, 400); // Vai para seleção de hospital
       }
+    }
+
+    // Dados de hospitais por região (simulados para demonstração)
+    const hospitalsDatabase = {
+      'Sao Paulo': [
+        { name: 'Hospital das Clinicas', address: 'Av. Dr. Eneas Carvalho de Aguiar, 255', distance: '2.3 km' },
+        { name: 'Hospital Sirio-Libanes', address: 'Rua Dona Adma Jafet, 91', distance: '4.1 km' },
+        { name: 'Hospital Albert Einstein', address: 'Av. Albert Einstein, 627', distance: '5.8 km' },
+        { name: 'UPA Pinheiros', address: 'Rua Teodoro Sampaio, 201', distance: '1.2 km' },
+        { name: 'Posto de Saude Vila Madalena', address: 'Rua Harmonia, 145', distance: '0.8 km' }
+      ],
+      'Rio de Janeiro': [
+        { name: 'Hospital Samaritano', address: 'Rua Bambina, 98', distance: '3.2 km' },
+        { name: 'Hospital Copa DOr', address: 'Rua Figueiredo Magalhaes, 875', distance: '2.1 km' },
+        { name: 'UPA Copacabana', address: 'Av. Nossa Senhora de Copacabana, 600', distance: '1.5 km' },
+        { name: 'Hospital Municipal Souza Aguiar', address: 'Praça dos Lavradores, 5', distance: '4.2 km' }
+      ],
+      'Belo Horizonte': [
+        { name: 'Hospital das Clinicas UFMG', address: 'Av. Alfredo Balena, 110', distance: '2.8 km' },
+        { name: 'Hospital Sofia Feldman', address: 'Av. dos Engenheiros, 1.000', distance: '3.5 km' },
+        { name: 'UPA Barreiro', address: 'Av. Afonso Vaz de Melo, 1.200', distance: '1.9 km' }
+      ],
+      'Brasilia': [
+        { name: 'Hospital de Base', address: 'Av. Contorno, 1', distance: '5.2 km' },
+        { name: 'Hospital Brasilia', address: 'SMHS, Qd. 1, Conjunto A', distance: '3.8 km' },
+        { name: 'UPA Asa Sul', address: 'SGAS 914, Conjunto F', distance: '2.1 km' }
+      ],
+      'Curitiba': [
+        { name: 'Hospital de Clinicas UFPR', address: 'Rua General Carneiro, 181', distance: '2.5 km' },
+        { name: 'Hospital Evangelico', address: 'Av. Brasil, 1.500', distance: '3.2 km' },
+        { name: 'UPA Boqueirao', address: 'Rua Marechal Deodoro, 2.300', distance: '1.8 km' }
+      ],
+      'default': [
+        { name: 'Hospital Regional Central', address: 'Av. Principal, 1.000 - Centro', distance: '2.1 km' },
+        { name: 'UPA 24h', address: 'Rua da Saude, 500', distance: '1.3 km' },
+        { name: 'Posto de Saude Municipal', address: 'Rua das Flores, 120', distance: '0.9 km' },
+        { name: 'Hospital Municipal', address: 'Av. Brasil, 2.000', distance: '3.5 km' },
+        { name: 'Clinica Medica Local', address: 'Rua do Comercio, 85', distance: '1.8 km' }
+      ]
+    };
+
+    function findNearbyHospitals() {
+      const statusEl = document.getElementById('locationStatus');
+      const listEl = document.getElementById('hospitalsList');
+      const errorEl = document.getElementById('hospitalError');
+      
+      if (!navigator.geolocation) {
+        showManualEntry();
+        return;
+      }
+      
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          // Simula busca por cidade baseada nas coordenadas
+          // Na prática real, usaria uma API de geocodificação reversa
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          
+          // Determina cidade aproximada (simulado)
+          let city = 'default';
+          if (lat > -23.8 && lat < -23.3 && lng > -47.0 && lng < -46.3) city = 'Sao Paulo';
+          else if (lat > -23.1 && lat < -22.7 && lng > -43.8 && lng < -43.1) city = 'Rio de Janeiro';
+          else if (lat > -19.9 && lat < -19.7 && lng > -44.1 && lng < -43.8) city = 'Belo Horizonte';
+          else if (lat > -15.9 && lat < -15.5 && lng > -48.0 && lng < -47.5) city = 'Brasilia';
+          else if (lat > -25.6 && lat < -25.3 && lng > -49.4 && lng < -49.1) city = 'Curitiba';
+          
+          const hospitals = hospitalsDatabase[city] || hospitalsDatabase['default'];
+          displayHospitals(hospitals);
+        },
+        function(error) {
+          console.log('Erro ao obter localização:', error);
+          showManualEntry();
+        },
+        { timeout: 10000, enableHighAccuracy: false }
+      );
+    }
+    
+    function showManualEntry() {
+      document.getElementById('locationStatus').style.display = 'none';
+      document.getElementById('hospitalsList').style.display = 'none';
+      document.getElementById('hospitalError').style.display = 'block';
+    }
+    
+    function submitManualHospital() {
+      const input = document.getElementById('manualHospital');
+      if (input && input.value.trim().length >= 3) {
+        userData.hospital = input.value.trim();
+        localStorage.setItem('atestado_hospital', userData.hospital);
+        goToStep(17);
+      }
+    }
+    
+    function displayHospitals(hospitals) {
+      const statusEl = document.getElementById('locationStatus');
+      const listEl = document.getElementById('hospitalsList');
+      const btnEl = document.getElementById('btnHospital');
+      
+      statusEl.style.display = 'none';
+      listEl.style.display = 'flex';
+      listEl.style.flexDirection = 'column';
+      listEl.style.gap = '12px';
+      
+      listEl.innerHTML = '';
+      
+      hospitals.forEach(function(hospital, index) {
+        const div = document.createElement('div');
+        div.className = 'hospital-item';
+        div.setAttribute('data-hospital', hospital.name);
+        div.onclick = function() { selectHospital(hospital.name); };
+        div.innerHTML = '<div class="hospital-icon">🏥</div><div class="hospital-content"><div class="hospital-name">' + hospital.name + '</div><div class="hospital-address">' + hospital.address + '</div><div class="hospital-distance">📍 ' + hospital.distance + '</div></div><div class="hospital-check">✓</div>';
+        listEl.appendChild(div);
+      });
+      
+      btnEl.style.display = 'flex';
+      btnEl.disabled = true;
+    }
+    
+    function selectHospital(hospitalName) {
+      const items = document.querySelectorAll('.hospital-item');
+      items.forEach(function(item) {
+        item.classList.remove('selected');
+        if (item.getAttribute('data-hospital') === hospitalName) {
+          item.classList.add('selected');
+        }
+      });
+      
+      userData.hospital = hospitalName;
+      localStorage.setItem('atestado_hospital', hospitalName);
+      
+      const btn = document.getElementById('btnHospital');
+      if (btn) btn.disabled = false;
     }
 
     function startProcessing() {
@@ -1075,6 +1301,7 @@
       localStorage.setItem('atestado_cpf', userData.cpf);
       localStorage.setItem('atestado_email', userData.email);
       localStorage.setItem('atestado_sintoma', userData.sintoma);
+      localStorage.setItem('atestado_hospital', userData.hospital || 'Hospital Regional');
       
       // Esconde todos os elementos da página
       const quizContainer = document.querySelector('.quiz-container');

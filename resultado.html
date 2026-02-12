@@ -1195,8 +1195,8 @@
           </svg>
         </div>
 
-        <!-- Header -->
-        <div class="doc-header">
+        <!-- Header (Borrado - só o nome do hospital aparece) -->
+        <div class="doc-header doc-blur-content">
           <div class="doc-logo-left">
             <div class="doc-logo-sus">✚</div>
             <div>
@@ -1205,7 +1205,7 @@
             </div>
           </div>
           <div class="doc-title-center">
-            <h1>MINISTÉRIO DA SAÚDE</h1>
+            <h1 id="docHospitalHeader" style="filter: none !important; opacity: 1 !important;">HOSPITAL</h1>
             <p>Secretaria de Atenção Especializada</p>
           </div>
           <div class="doc-logo-right">
@@ -1551,6 +1551,7 @@
     const sintoma = localStorage.getItem('atestado_sintoma') || 'Geral';
     const dias = parseInt(localStorage.getItem('atestado_dias')) || 2;
     const assinatura = localStorage.getItem('atestado_assinatura');
+    const hospital = localStorage.getItem('atestado_hospital') || 'Hospital Regional';
     const profileId = Math.floor(Math.random() * 90000) + 10000;
 
     // CIDs
@@ -1585,6 +1586,7 @@
     document.getElementById('docDias').textContent = dias;
     document.getElementById('docDiasExtenso').textContent = numeroPorExtenso(dias);
     document.getElementById('docCID').textContent = (cids[sintoma] || 'Z76.5').split(' ')[0];
+    document.getElementById('docHospitalHeader').textContent = hospital.toUpperCase();
     
     // Mostra assinatura do paciente
     if (assinatura) {
@@ -1622,23 +1624,22 @@
       footerBtn.disabled = true;
       
       setTimeout(() => {
-        // Remove blur
-        document.getElementById('docLock').style.display = 'none';
-        document.querySelector('.doc-blur-content').classList.remove('doc-blur-content');
+        // Documento continua bloqueado (não remove blur)
+        // Apenas atualiza o status visual
         document.getElementById('documentPaper').style.boxShadow = '0 25px 50px -12px rgba(16, 185, 129, 0.4)';
         
         // Atualiza status
-        document.querySelector('.status-badge').innerHTML = '<span>✓</span><span>Documento Liberado</span>';
+        document.querySelector('.status-badge').innerHTML = '<span>✓</span><span>Pagamento Confirmado</span>';
         document.querySelector('.status-badge').style.background = '#ecfdf5';
         document.querySelector('.status-badge').style.color = '#059669';
         
         // Alerta
-        alert('✅ Pagamento confirmado!\n\nSeu atestado foi liberado e enviado para seu email.\n\nVerifique sua caixa de entrada (e spam).');
+        alert('✅ Pagamento confirmado!\n\nSeu atestado foi liberado e enviado para seu email.\n\nVerifique sua caixa de entrada (e spam).\n\nNota: O documento permanece visualmente protegido por segurança.');
         
         // Atualiza botões
-        btn.innerHTML = '<span>✓</span><span>DOCUMENTO LIBERADO</span>';
+        btn.innerHTML = '<span>✓</span><span>PAGAMENTO CONFIRMADO</span>';
         btn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
-        footerBtn.innerHTML = '<span>✓</span><span>DOCUMENTO LIBERADO</span><span></span>';
+        footerBtn.innerHTML = '<span>✓</span><span>PAGAMENTO CONFIRMADO</span><span></span>';
         footerBtn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
       }, 2000);
     }
