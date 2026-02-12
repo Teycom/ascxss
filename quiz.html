@@ -742,47 +742,62 @@
         <h2 class="step-title">Selecione a unidade de saude mais proxima</h2>
         <p class="step-subtitle" id="locationSubtitle">Localizando hospitais na sua regiao...</p>
         
-        <!-- Card de Localização -->
-        <div id="locationInfo" style="background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%); border: 2px solid #10b981; border-radius: 16px; padding: 16px; margin-bottom: 16px; display: none; box-shadow: 0 4px 12px rgba(16,185,129,0.15);">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📍</div>
-            <div style="flex: 1;">
-              <div style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">📍 Sua Localizacao Detectada</div>
-              <div id="userLocation" style="font-size: 16px; font-weight: 700; color: #0f172a;">Detectando...</div>
+        <!-- Mapa Interativo -->
+        <div id="mapaSection" style="margin-bottom: 20px;">
+          
+          <!-- Status de Localização -->
+          <div id="localizacaoStatus" style="background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%); border: 2px solid #10b981; border-radius: 16px; padding: 16px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px;">📍</div>
+              <div style="flex: 1;">
+                <div style="font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Sua Região</div>
+                <div id="cidadeDetectada" style="font-size: 16px; font-weight: 700; color: #0f172a;">Detectando...</div>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <!-- Mapa do Google -->
-        <div id="mapContainer" style="width: 100%; height: 200px; background: #e2e8f0; border-radius: 12px; margin-bottom: 16px; display: none; overflow: hidden; position: relative;">
-          <iframe id="googleMap" width="100%" height="100%" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          <div style="position: absolute; bottom: 8px; left: 8px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            🏥 Unidades próximas
+          
+          <!-- Iframe do Google Maps -->
+          <div style="width: 100%; height: 250px; background: #e2e8f0; border-radius: 12px; overflow: hidden; position: relative; margin-bottom: 16px; border: 2px solid #e2e8f0;">
+            <iframe 
+              id="mapFrame"
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d3657.075!2d-46.6539!3d-23.5654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1shospitais+upa+posto+de+saude!5e0!3m2!1spt-BR!2sbr"
+              allowfullscreen="" 
+              loading="lazy">
+            </iframe>
+            <div style="position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              🏥 Arraste para explorar
+            </div>
           </div>
+          
+          <!-- Botão para atualizar mapa -->
+          <button onclick="atualizarMapa()" class="btn btn-primary" style="margin-bottom: 20px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+            🔄 Atualizar Mapa na Minha Região
+          </button>
+          
+          <!-- Seleção de Hospital -->
+          <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #0f172a;">Selecione a unidade mais próxima:</h3>
+          
+          <div id="listaHospitais" class="options-list">
+            <!-- Hospitais serão carregados via JS -->
+          </div>
+          
+          <!-- Opção de digitar manual -->
+          <div style="margin-top: 16px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Não encontrou sua unidade? Digite manualmente:</p>
+            <input type="text" class="input-field" id="hospitalManual" placeholder="Nome do hospital/clínica" style="margin-bottom: 8px;">
+            <button onclick="selecionarHospitalManual()" class="btn btn-primary" style="background: linear-gradient(135deg, #64748b 0%, #475569 100%);">
+              Usar Este Nome
+            </button>
+          </div>
+          
         </div>
         
-        <!-- Loading -->
-        <div id="locationStatus" style="text-align: center; padding: 40px 20px; color: #64748b; background: #f8fafc; border-radius: 16px; border: 2px dashed #e2e8f0;">
-          <div style="font-size: 48px; margin-bottom: 16px; animation: bounce 1s infinite;">🗺️</div>
-          <p style="font-weight: 600; color: #0f172a;">Detectando sua regiao...</p>
-          <p style="font-size: 13px; margin-top: 8px;">Buscando hospitais e postos de saude proximos</p>
-        </div>
-        
-        <!-- Lista de Hospitais -->
-        <div id="hospitalsList" class="options-list" style="display: none; margin-top: 16px;">
-          <!-- Hospitais serao carregados aqui -->
-        </div>
-        
-        <!-- Erro - Entrada Manual -->
-        <div id="hospitalError" style="display: none; background: #fef2f2; border: 1px solid #fecaca; border-radius: 16px; padding: 20px; text-align: center;">
-          <div style="font-size: 32px; margin-bottom: 8px;">⚠️</div>
-          <p style="color: #dc2626; margin-bottom: 12px; font-weight: 600;">Nao foi possivel detectar automaticamente</p>
-          <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Digite o nome do hospital ou clinica mais proxima da sua casa</p>
-          <input type="text" class="input-field" id="manualHospital" placeholder="Ex: Hospital Municipal, UPA, Clinica..." style="margin-bottom: 12px;">
-          <button class="btn btn-primary" onclick="submitManualHospital()">Confirmar Unidade</button>
-        </div>
-        
-        <button class="btn btn-primary" onclick="console.log('Botão clicado!'); startProcessing();" id="btnHospital" disabled style="margin-top: 16px; display: none;">✓ Confirmar e Gerar Atestado →</button>
+        <button class="btn btn-primary" onclick="gerarAtestado()" id="btnGerar" disabled style="margin-top: 16px;">
+          ✓ Confirmar e Gerar Atestado →
+        </button>
       </div>
 
     </div>
@@ -1295,319 +1310,183 @@
       }
     };
 
-    let currentCityData = null;
-    let userLocationData = null;
+    // ===== SISTEMA SIMPLIFICADO DE MAPA E HOSPITAIS =====
     
-    // Busca localização por IP com dados de bairro
-    async function getLocationByIP() {
-      try {
-        // Usa ipapi.co para geolocalização por IP (gratuito)
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-        
-        // Tenta pegar o bairro de várias fontes possíveis
-        let bairro = 'Centro';
-        if (data.suburb && data.suburb.trim() !== '') {
-          bairro = data.suburb;
-        } else if (data.district && data.district.trim() !== '') {
-          bairro = data.district;
-        } else if (data.neighborhood && data.neighborhood.trim() !== '') {
-          bairro = data.neighborhood;
-        } else if (data.postal) {
-          // Se tiver CEP, tenta inferir bairro da cidade
-          bairro = getBairroByCep(data.postal, data.city);
-        }
-        
-        userLocationData = {
-          cidade: data.city || 'Sua Cidade',
-          estado: data.region_code || 'UF',
-          bairro: bairro,
-          cep: data.postal || '',
-          latitude: data.latitude,
-          longitude: data.longitude,
-          ip: data.ip
-        };
-        
-        console.log('Localização detectada:', userLocationData);
-        return userLocationData;
-      } catch (error) {
-        console.log('Erro ao buscar IP:', error);
-        return null;
-      }
-    }
+    const hospitaisPorCidade = {
+      'Sao Paulo': [
+        {nome: 'Hospital das Clínicas', end: 'Av. Dr. Enéas C. Aguiar, 255 - Cerqueira César'},
+        {nome: 'Hospital Sírio-Libanês', end: 'Rua D. Adma Jafet, 91 - Bela Vista'},
+        {nome: 'UPA Pinheiros', end: 'R. Teodoro Sampaio, 201 - Pinheiros'},
+        {nome: 'Posto Saúde Vila Madalena', end: 'Rua Harmonia, 145 - Vila Madalena'},
+        {nome: 'Hospital Albert Einstein', end: 'Av. Albert Einstein, 627 - Morumbi'}
+      ],
+      'Rio de Janeiro': [
+        {nome: 'Hospital Samaritano', end: 'Rua Bambina, 98 - Botafogo'},
+        {nome: 'Hospital Copa DOr', end: 'R. Figueiredo Magalhães, 875 - Copacabana'},
+        {nome: 'UPA Copacabana', end: 'Av. N.S. Copacabana, 600 - Copacabana'},
+        {nome: 'Hospital Souza Aguiar', end: 'Praça Lavradores, 5 - Centro'}
+      ],
+      'Belo Horizonte': [
+        {nome: 'Hospital Clínicas UFMG', end: 'Av. Alfredo Balena, 110 - Santa Efigênia'},
+        {nome: 'Hospital Sofia Feldman', end: 'Av. dos Engenheiros, 1000 - Calafate'},
+        {nome: 'UPA Barreiro', end: 'Av. Afonso Vaz Melo, 1200 - Barreiro'}
+      ],
+      'Brasilia': [
+        {nome: 'Hospital de Base', end: 'Av. Contorno, 1 - Setor Militar'},
+        {nome: 'Hospital Brasília', end: 'SMHS, Qd. 1 - Asa Sul'},
+        {nome: 'UPA Asa Sul', end: 'SGAS 914 - Asa Sul'}
+      ],
+      'Curitiba': [
+        {nome: 'Hospital Clínicas UFPR', end: 'R. General Carneiro, 181 - Alto da Glória'},
+        {nome: 'Hospital Evangélico', end: 'Av. Brasil, 1500 - Cabral'},
+        {nome: 'UPA Boqueirão', end: 'R. Marechal Deodoro, 2300 - Boqueirão'}
+      ],
+      'default': [
+        {nome: 'Hospital Regional Central', end: 'Av. Principal, 1000 - Centro'},
+        {nome: 'UPA 24h', end: 'Rua da Saúde, 500 - Centro'},
+        {nome: 'Posto de Saúde Municipal', end: 'Rua das Flores, 120 - Centro'},
+        {nome: 'Clínica Médica Local', end: 'Av. Brasil, 2000 - Centro'}
+      ]
+    };
     
-    // Tenta inferir bairro baseado no CEP (simplificado)
-    function getBairroByCep(cep, cidade) {
-      // Remove traço do CEP
-      cep = cep.replace('-', '');
-      const prefixo = cep.substring(0, 5);
-      
-      // São Paulo
-      if (cidade.toLowerCase().includes('sao paulo')) {
-        if (prefixo >= '01400' && prefixo <= '01499') return 'Jardins';
-        if (prefixo >= '05400' && prefixo <= '05499') return 'Pinheiros';
-        if (prefixo >= '05425' && prefixo <= '05436') return 'Vila Madalena';
-        if (prefixo >= '04500' && prefixo <= '04599') return 'Itaim Bibi';
-        if (prefixo >= '01300' && prefixo <= '01399') return 'Bela Vista';
-        if (prefixo >= '01000' && prefixo <= '01199') return 'Centro';
-        if (prefixo >= '03000' && prefixo <= '03999') return 'Leste';
-      }
-      
-      // Rio de Janeiro
-      if (cidade.toLowerCase().includes('rio de janeiro')) {
-        if (prefixo >= '22000' && prefixo <= '22099') return 'Copacabana';
-        if (prefixo >= '22200' && prefixo <= '22299') return 'Botafogo';
-        if (prefixo >= '22400' && prefixo <= '22499') return 'Ipanema';
-        if (prefixo >= '20000' && prefixo <= '20099') return 'Centro';
-      }
-      
-      return 'Centro';
-    }
+    let cidadeAtual = 'Sao Paulo';
+    let hospitalSelecionado = '';
     
     function findNearbyHospitals() {
-      const statusEl = document.getElementById('locationStatus');
-      const listEl = document.getElementById('hospitalsList');
-      const errorEl = document.getElementById('hospitalError');
-      const locationInfo = document.getElementById('locationInfo');
-      const userLocation = document.getElementById('userLocation');
-      const subtitle = document.getElementById('locationSubtitle');
+      console.log('Buscando hospitais...');
       
-      // Primeiro tenta por IP
-      getLocationByIP().then(function(locationData) {
-        if (locationData) {
-          // Encontra hospitais próximos baseado na cidade
-          const cityKey = findCityKey(locationData.cidade, locationData.estado);
-          currentCityData = hospitalsDatabase[cityKey] || generateHospitalsForCity(locationData);
-          
-          // Atualiza informações de localização
-          if (locationInfo) locationInfo.style.display = 'block';
-          if (userLocation) {
-            userLocation.textContent = locationData.bairro + ', ' + locationData.cidade + ' - ' + locationData.estado;
-          }
-          if (subtitle) {
-            subtitle.textContent = 'Selecione uma unidade de saúde em ' + locationData.cidade + '/' + locationData.estado;
-          }
-          
-          displayHospitals(currentCityData);
-        } else {
-          // Fallback para geolocalização do navegador
-          tryGeolocationFallback();
-        }
-      }).catch(function() {
-        tryGeolocationFallback();
+      // Tenta geolocalização do navegador
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            detectarCidadePorCoords(pos.coords.latitude, pos.coords.longitude);
+          },
+          function() {
+            carregarHospitais('Sao Paulo');
+          },
+          {timeout: 5000}
+        );
+      } else {
+        carregarHospitais('Sao Paulo');
+      }
+    }
+    
+    function detectarCidadePorCoords(lat, lng) {
+      if (lat > -23.8 && lat < -23.3 && lng > -47.0 && lng < -46.3) cidadeAtual = 'Sao Paulo';
+      else if (lat > -23.1 && lat < -22.7 && lng > -43.8 && lng < -43.1) cidadeAtual = 'Rio de Janeiro';
+      else if (lat > -19.9 && lat < -19.7 && lng > -44.1 && lng < -43.8) cidadeAtual = 'Belo Horizonte';
+      else if (lat > -15.9 && lat < -15.5 && lng > -48.0 && lng < -47.5) cidadeAtual = 'Brasilia';
+      else if (lat > -25.6 && lat < -25.3 && lng > -49.4 && lng < -49.1) cidadeAtual = 'Curitiba';
+      else cidadeAtual = 'Sao Paulo';
+      
+      carregarHospitais(cidadeAtual);
+    }
+    
+    function carregarHospitais(cidade) {
+      console.log('Carregando:', cidade);
+      cidadeAtual = cidade;
+      
+      document.getElementById('cidadeDetectada').textContent = cidade.replace(/([A-Z])/g, ' $1').trim();
+      
+      const mapFrame = document.getElementById('mapFrame');
+      const query = encodeURIComponent('hospitais+upa+' + cidade);
+      mapFrame.src = 'https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d50000!2d-46.6539!3d-23.5654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s' + query + '!5e0!3m2!1spt-BR!2sbr';
+      
+      const lista = document.getElementById('listaHospitais');
+      lista.innerHTML = '';
+      
+      const hospitais = hospitaisPorCidade[cidade] || hospitaisPorCidade['default'];
+      
+      hospitais.forEach(function(h) {
+        const div = document.createElement('div');
+        div.className = 'option-item';
+        div.style.marginBottom = '12px';
+        div.onclick = function() { selecionarHospital(h.nome, div); };
+        div.innerHTML = 
+          '<div class="option-icon" style="background: #fee2e2;">🏥</div>' +
+          '<div class="option-content">' +
+            '<div class="option-title">' + h.nome + '</div>' +
+            '<div style="font-size: 12px; color: #64748b;">' + h.end + '</div>' +
+          '</div>' +
+          '<div class="option-check">✓</div>';
+        lista.appendChild(div);
       });
     }
     
-    function findCityKey(cidade, estado) {
-      const cidadeLower = cidade.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      const estadoUpper = estado.toUpperCase();
-      
-      // Mapeamento por cidade
-      if (cidadeLower.includes('sao paulo')) return 'Sao Paulo';
-      if (cidadeLower.includes('rio de janeiro')) return 'Rio de Janeiro';
-      if (cidadeLower.includes('belo horizonte')) return 'Belo Horizonte';
-      if (cidadeLower.includes('brasilia')) return 'Brasilia';
-      if (cidadeLower.includes('curitiba')) return 'Curitiba';
-      if (cidadeLower.includes('salvador')) return 'Salvador';
-      if (cidadeLower.includes('fortaleza')) return 'Fortaleza';
-      if (cidadeLower.includes('recife')) return 'Recife';
-      if (cidadeLower.includes('porto alegre')) return 'Porto Alegre';
-      if (cidadeLower.includes('manaus')) return 'Manaus';
-      
-      // Mapeamento por estado (fallback)
-      if (estadoUpper === 'SP') return 'Sao Paulo';
-      if (estadoUpper === 'RJ') return 'Rio de Janeiro';
-      if (estadoUpper === 'MG') return 'Belo Horizonte';
-      if (estadoUpper === 'DF') return 'Brasilia';
-      if (estadoUpper === 'PR') return 'Curitiba';
-      if (estadoUpper === 'BA') return 'Salvador';
-      if (estadoUpper === 'CE') return 'Fortaleza';
-      if (estadoUpper === 'PE') return 'Recife';
-      if (estadoUpper === 'RS') return 'Porto Alegre';
-      if (estadoUpper === 'AM') return 'Manaus';
-      
-      return 'default';
-    }
-    
-    function generateHospitalsForCity(locationData) {
-      // Gera hospitais próximos ao bairro detectado
-      const bairroUsuario = locationData.bairro || 'Centro';
-      const cidade = locationData.cidade;
-      const estado = locationData.estado;
-      
-      // Bairros próximos simulados baseados no bairro do usuário
-      const bairrosProximos = [
-        bairroUsuario,
-        'Vila ' + cidade.split(' ')[0],
-        'Jardim ' + cidade.split(' ')[0],
-        bairroUsuario + ' Novo',
-        'Centro'
-      ];
-      
-      const tipos = ['Hospital Municipal', 'UPA 24h', 'Clínica Médica', 'Posto de Saúde', 'Centro de Saúde'];
-      const ruas = ['Principal', 'Brasil', 'São Paulo', 'Rio de Janeiro', 'Minas Gerais'];
-      
-      const hospitais = [];
-      for (let i = 0; i < 5; i++) {
-        const bairro = bairrosProximos[i] || 'Centro';
-        const tipo = tipos[i];
-        const num = 1000 + i * 450;
-        
-        // Distância menor se for o mesmo bairro
-        let distancia = (0.5 + i * 0.6);
-        if (i === 0) distancia = 0.3; // Primeiro é no próprio bairro
-        
-        hospitais.push({
-          name: tipo + ' - ' + bairro,
-          bairro: bairro,
-          endereco: 'Av. ' + ruas[i] + ', ' + num + ' - ' + bairro,
-          distance: distancia.toFixed(1) + ' km'
-        });
+    function atualizarMapa() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            detectarCidadePorCoords(pos.coords.latitude, pos.coords.longitude);
+            alert('Mapa atualizado!');
+          },
+          function() {
+            alert('Não foi possível detectar localização.');
+          }
+        );
       }
-      
-      return {
-        estado: estado,
-        cidade: cidade,
-        bairro: bairroUsuario,
-        hospitais: hospitais
-      };
     }
     
-    function tryGeolocationFallback() {
-      if (!navigator.geolocation) {
-        showManualEntry();
+    function selecionarHospital(nome, elemento) {
+      hospitalSelecionado = nome + ' - ' + cidadeAtual;
+      userData.hospital = hospitalSelecionado;
+      
+      document.querySelectorAll('#listaHospitais .option-item').forEach(function(el) { 
+        el.classList.remove('selected'); 
+      });
+      elemento.classList.add('selected');
+      
+      document.getElementById('btnGerar').disabled = false;
+    }
+    
+    function selecionarHospitalManual() {
+      const nome = document.getElementById('hospitalManual').value.trim();
+      if (nome.length < 3) {
+        alert('Digite um nome válido');
+        return;
+      }
+      hospitalSelecionado = nome + ' - ' + cidadeAtual;
+      userData.hospital = hospitalSelecionado;
+      document.getElementById('btnGerar').disabled = false;
+      alert('Hospital "' + nome + '" selecionado!');
+    }
+    
+    function gerarAtestado() {
+      console.log('Gerando atestado...');
+      
+      if (!hospitalSelecionado) {
+        alert('Selecione um hospital');
         return;
       }
       
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          
-          // Determina cidade aproximada pelas coordenadas
-          let city = 'default';
-          if (lat > -23.8 && lat < -23.3 && lng > -47.0 && lng < -46.3) city = 'Sao Paulo';
-          else if (lat > -23.1 && lat < -22.7 && lng > -43.8 && lng < -43.1) city = 'Rio de Janeiro';
-          else if (lat > -19.9 && lat < -19.7 && lng > -44.1 && lng < -43.8) city = 'Belo Horizonte';
-          else if (lat > -15.9 && lat < -15.5 && lng > -48.0 && lng < -47.5) city = 'Brasilia';
-          else if (lat > -25.6 && lat < -25.3 && lng > -49.4 && lng < -49.1) city = 'Curitiba';
-          
-          currentCityData = hospitalsDatabase[city] || hospitalsDatabase['default'];
-          
-          // Atualiza UI
-          const locationInfo = document.getElementById('locationInfo');
-          const userLocation = document.getElementById('userLocation');
-          const subtitle = document.getElementById('locationSubtitle');
-          
-          if (locationInfo) locationInfo.style.display = 'block';
-          if (userLocation) {
-            userLocation.textContent = currentCityData.bairro + ', ' + currentCityData.cidade + ' - ' + currentCityData.estado;
-          }
-          if (subtitle) {
-            subtitle.textContent = 'Selecione uma unidade de saúde em ' + currentCityData.cidade + '/' + currentCityData.estado;
-          }
-          
-          displayHospitals(currentCityData);
-        },
-        function(error) {
-          console.log('Erro na geolocalização:', error);
-          showManualEntry();
-        },
-        { timeout: 8000, enableHighAccuracy: false }
-      );
-    }
-    
-    function showManualEntry() {
-      document.getElementById('locationStatus').style.display = 'none';
-      document.getElementById('hospitalsList').style.display = 'none';
-      document.getElementById('hospitalError').style.display = 'block';
-    }
-    
-    function submitManualHospital() {
-      const input = document.getElementById('manualHospital');
-      if (input && input.value.trim().length >= 3) {
-        const hospitalNome = input.value.trim();
-        const cidade = currentCityData ? currentCityData.cidade : 'Cidade';
-        const estado = currentCityData ? currentCityData.estado : 'UF';
-        userData.hospital = hospitalNome + ' - ' + cidade + '/' + estado;
-        localStorage.setItem('atestado_hospital', userData.hospital);
-        localStorage.setItem('atestado_hospital_cidade', cidade);
-        localStorage.setItem('atestado_hospital_estado', estado);
-        startProcessing();
-      }
-    }
-    
-    function displayHospitals(cityData) {
-      const statusEl = document.getElementById('locationStatus');
-      const listEl = document.getElementById('hospitalsList');
-      const btnEl = document.getElementById('btnHospital');
-      const mapContainer = document.getElementById('mapContainer');
-      const googleMap = document.getElementById('googleMap');
+      localStorage.setItem('atestado_nome', userData.nome || 'Paciente');
+      localStorage.setItem('atestado_email', userData.email || '');
+      localStorage.setItem('atestado_sintoma', userData.sintoma || 'Geral');
+      localStorage.setItem('atestado_dias', userData.dias || 2);
+      localStorage.setItem('atestado_hospital', hospitalSelecionado);
       
-      statusEl.style.display = 'none';
-      listEl.style.display = 'flex';
-      listEl.style.flexDirection = 'column';
-      listEl.style.gap = '12px';
-      
-      // Mostra o mapa do Google com a cidade
-      if (mapContainer && googleMap) {
-        mapContainer.style.display = 'block';
-        const cidadeQuery = encodeURIComponent(cityData.cidade + ' ' + cityData.estado + ' hospitais postos de saude');
-        googleMap.src = 'https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d50000!2d-46.6333!3d-23.5505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1s' + cidadeQuery + '!5e0!3m2!1spt-BR!2sbr!4v1600000000000!5m2!1spt-BR!2sbr';
+      if (hasSigned && canvas) {
+        localStorage.setItem('atestado_assinatura', canvas.toDataURL());
       }
       
-      listEl.innerHTML = '';
+      document.querySelector('.quiz-container').style.display = 'none';
+      document.querySelector('.progress-wrapper').style.display = 'none';
+      document.querySelector('.header').style.display = 'none';
       
-      cityData.hospitais.forEach(function(hospital, index) {
-        const div = document.createElement('div');
-        div.className = 'hospital-item';
-        div.setAttribute('data-hospital', hospital.name);
-        div.setAttribute('data-cidade', cityData.cidade);
-        div.setAttribute('data-estado', cityData.estado);
-        div.setAttribute('data-bairro', hospital.bairro);
-        div.onclick = function() { selectHospital(hospital.name); };
-        div.innerHTML = 
-          '<div class="hospital-icon">🏥</div>' +
-          '<div class="hospital-content">' +
-            '<div class="hospital-name">' + hospital.name + '</div>' +
-            '<div class="hospital-address">' + hospital.endereco + '</div>' +
-            '<div style="font-size: 11px; color: #64748b; margin-top: 2px;">' +
-              '📍 ' + hospital.bairro + ', ' + cityData.cidade + ' - ' + cityData.estado +
-            '</div>' +
-            '<div class="hospital-distance" style="margin-top: 4px;">🚗 ' + hospital.distance + ' de distância</div>' +
-          '</div>' +
-          '<div class="hospital-check">✓</div>';
-        listEl.appendChild(div);
-      });
+      const loading = document.getElementById('loadingScreen');
+      loading.style.display = 'flex';
+      loading.classList.add('active');
       
-      btnEl.style.display = 'flex';
-      btnEl.disabled = true;
-    }
-    
-    function selectHospital(hospitalName) {
-      const items = document.querySelectorAll('.hospital-item');
-      items.forEach(function(item) {
-        item.classList.remove('selected');
-        if (item.getAttribute('data-hospital') === hospitalName) {
-          item.classList.add('selected');
+      let pct = 0;
+      setInterval(function() {
+        pct += 15;
+        if (pct > 100) pct = 100;
+        document.getElementById('loadingProgress').style.width = pct + '%';
+        document.getElementById('loadingPercentage').textContent = pct + '%';
+        if (pct >= 100) {
+          window.location.href = 'resultado.html';
         }
-      });
-      
-      // Pega cidade/estado do hospital selecionado
-      const selectedItem = document.querySelector('.hospital-item.selected');
-      const cidade = selectedItem ? selectedItem.getAttribute('data-cidade') : '';
-      const estado = selectedItem ? selectedItem.getAttribute('data-estado') : '';
-      
-      // Formata nome completo: Hospital - Bairro, Cidade/UF
-      const nomeCompleto = hospitalName + (cidade ? ' - ' + cidade + '/' + estado : '');
-      
-      userData.hospital = nomeCompleto;
-      localStorage.setItem('atestado_hospital', nomeCompleto);
-      localStorage.setItem('atestado_hospital_cidade', cidade);
-      localStorage.setItem('atestado_hospital_estado', estado);
-      
-      const btn = document.getElementById('btnHospital');
-      if (btn) btn.disabled = false;
+      }, 300);
     }
 
     function startProcessing() {
